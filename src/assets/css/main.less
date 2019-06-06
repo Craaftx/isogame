@@ -2,34 +2,144 @@
 
 @color-primary: #4CAF50;
 
+// Grid Sizes
+@tile-size: 48;
+@tile-number: 10;
+@max-size: @grid-tile-size * @tile-number;
+@grid-size: unit(@max-size, px);
+@grid-tile-size: unit(@tile-size, px);
+
 html {
   font-size: 10px;
+  color: #ccc;
+  background: #262626;
 }
 
 body {
   padding: 0; margin: 0; 
   font-family: 'Roboto', sans-serif;
-  font-size: 1.4rem;
+  font-family: monospace;
+  font-size: 13pt;
   color: #333333;
   width: 100vw;
+  min-height: 100vh;
 }
 
-.gamegrid {
+.wrapper {
   position: absolute;
-  top: 50%; left: 50%;
+  width: @grid-size;
+  height: @grid-size;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  &__row {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
-  }
-  &__item {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    margin-left: -50px;
-    img {
-      width: 100px;
-    }
-  }
 }
+
+.floor {
+  transform: rotateX(55deg) rotateZ(45deg);
+  transform-style: preserve-3d;
+  font-size: 0;
+}
+
+.floor .gamegrid__item {
+  box-sizing: border-box;
+  color: #ccc;
+  display: inline-block;
+  background: #111;
+  width: @grid-tile-size;
+  height: @grid-tile-size;
+  margin: 0;
+  box-shadow: 0 0 0 .1em hsla(0, 0%, 0%, .2);
+  border: solid 1px gray;
+  line-height: @grid-tile-size;
+  text-align: center;
+  position: relative;
+  vertical-align: top;
+}
+
+#gamegrid__item-0-9 {
+  transform: rotateX(0) rotateZ(-45deg);
+  transform-style: preserve-3d;
+}
+
+.gamegrid__item--block {
+    position: absolute;
+    top: 0; left: 0;
+    transform: rotateX(-55deg) rotateZ(-45deg);
+    transform-style: preserve-3d;
+    width: 150px;
+  }
+
+.floor .player {
+  position: absolute;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  border-radius: 3px;
+  transform-style: preserve-3d;
+  transition: all 250ms;
+  opacity: 1;
+}
+
+.floor .player.die{
+animation: fallanddie 0.5s;
+animation-fill-mode: forwards;
+}
+
+.floor .player div {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: 3px;
+  transform-style: preserve-3d;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.floor .player .front {
+  transform-origin: 50% 100%;
+  transform: rotateX(-90deg);
+}
+
+.floor .player .top {
+  transform-origin: 50% 0%;
+  transform: rotateX(-90deg);
+}
+
+.floor .player .right {
+  transform-origin: 100% 50%;
+  transform: rotateY(90deg);
+}
+
+
+.floor .player.red div{
+  background: rgba(255, 0, 0, 0.5);
+}
+
+.floor .player.blue div{
+ /* I know it's not blue */
+  background: rgba(255, 255, 255, 1);
+}
+
+.floor .player.green div{
+  background: rgba(0, 255, 0, 0.5);
+}
+
+@keyframes fallanddie {
+from {
+  z-index: -1;
+  opacity: 1;
+  transform: translateZ(0);
+}
+to {
+  opacity: 0;
+  transform: translateZ(-150px);
+}
+}
+
+.warning{
+ position: absolute;
+ top: 5px;
+ left: 5px;
+ font-size: 13px;
+ color: rgba(150,50,50,1);
+}
+
