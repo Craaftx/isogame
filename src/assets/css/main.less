@@ -4,7 +4,7 @@
 
 // Grid Sizes
 @tile-size: 48;
-@tile-number: 10;
+@tile-number: 12;
 @tile-spacing: 12;
 @max-size: @grid-tile-size * @tile-number;
 @grid-size: unit(@max-size, px);
@@ -38,7 +38,6 @@ body {
 }
 
 .floor {
-  //transform: rotateX(55deg) rotateZ(45deg);
   transform: rotateX(55deg) rotateZ(45deg);
   font-size: 0;
 }
@@ -81,11 +80,6 @@ body {
   box-sizing: border-box;
 }
 
-.floor .player.die{
-animation: fallanddie 0.5s;
-animation-fill-mode: forwards;
-}
-
 .floor .player div {
   position: absolute;
   width: 48px;
@@ -94,37 +88,3 @@ animation-fill-mode: forwards;
   background: rgba(255, 255, 255, 0.5);
   z-index: 100;
 }
-
-.floor .player.red div{
-  background: rgba(255, 0, 0, 0.5);
-}
-
-.floor .player.blue div{
- /* I know it's not blue */
-  background: rgba(255, 255, 255, 1);
-}
-
-.floor .player.green div{
-  background: rgba(0, 255, 0, 0.5);
-}
-
-@keyframes fallanddie {
-from {
-  z-index: -1;
-  opacity: 1;
-  transform: translateZ(0);
-}
-to {
-  opacity: 0;
-  transform: translateZ(-150px);
-}
-}
-
-.warning{
- position: absolute;
- top: 5px;
- left: 5px;
- font-size: 13px;
- color: rgba(150,50,50,1);
-}
-
