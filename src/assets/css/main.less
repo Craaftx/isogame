@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Leckerli+One|Montserrat:500|Roboto');
+
+@color-primary: #4CAF50;
+
+html {
+  font-size: 10px;
+}
+
+body {
+  padding: 0; margin: 0; 
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.4rem;
+  color: #333333;
+  width: 100vw;
+}
+
+.gamegrid {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  &__row {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+  }
+  &__item {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-left: -50px;
+    img {
+      width: 100px;
+    }
+  }
+}

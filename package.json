@@ -1,0 +1,29 @@
+{
+    "name": "concours-plus",
+    "version": "1.0.0",
+    "description": "Site d'apprentissage",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Elementium",
+    "license": "ISC",
+    "devDependencies": {
+        "gulp": "^3.9.1",
+        "gulp-load-plugins": "latest",
+        "gulp-less": "latest",
+        "gulp-autoprefixer": "latest",
+        "gulp-clean-css": "latest",
+        "gulp-rename": "latest",
+        "gulp-uglify": "latest",
+        "gulp-imagemin": "latest",
+        "gulp-html-extend": "latest",
+        "gulp-sync": "latest",
+        "gulp-concat": "latest",
+        "gulp-inject": "latest",
+        "gulp-clean": "latest"
+    },
+    "dependencies": {
+        "natives": "^1.1.6"
+    }
+}
