@@ -28,7 +28,7 @@ function createVirtualGrid(size) {
 }
 
 
-function randomBlocks(blocks, virtualGrid) {
+function randomBlocks(virtualGrid, blocks) {
   for (var i = 0; i < virtualGrid.length; i++) {
     for (var x = 0; x < virtualGrid.length; x++) {
       var currentItem = document.getElementById("gamegrid__item-" + i + "-" + x);
@@ -46,105 +46,32 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-let size = 10;
-createGrid("gamegrid", size);
-let virtualGrid = createVirtualGrid(size);
-let blocks = ['grass-block-4','grass-block-5','stone-block-1'];
-randomBlocks(blocks, virtualGrid);
-
-// Add monster for testing
-var gridItem = document.getElementById("gamegrid__item-9-9");
-
-
-
-
-var KEY = {
-  W: 119,
-  A: 97,
-  S: 115,
-  D: 100
+function environnementComposition(composition) {
+   environnement = [];
+   for (var block in composition) {
+      for (var i = 0; i < composition[block]; i++) {
+         environnement.push(block);
+      }
+    }
+   return environnement;
 }
 
-var map = {};
-map.height = 480;
-map.width = 480;
+let size = 12;
+createGrid("gamegrid", size);
+let virtualGrid = createVirtualGrid(size);
 
-var user = {};
-user.deaths = 0;
-user.moved = false;
-user.element = $("*[data-name=joe]");
-user.pos = {
-  left: 0,
-  top: 0,
-};
-
-setInterval(function() {
-  if (user.deaths) $(".youdied").text("Suicides: " + user.deaths);
-  $(user.element).css({
-     "top": user.pos.top + "px",
-     "left": user.pos.left + "px"
-  });
-  user.moved = false;
-}, 100);
-
-user.isDead = false;
-
-user.die = function() {
-  user.isDead = true;
-  setTimeout(function() {
-     $(user.element).addClass('die');
-     setTimeout(function() {
-        user.pos = {
-           left: 48,
-           top: 48
-        };
-        setTimeout(function() {
-           user.deaths++;
-           $(user.element).removeClass('die');
-           user.isDead = false;
-        }, 250);
-     }, 350);
-  }, 250);
-};
-
-/* Listeners */
-document.body.addEventListener("keypress", function(e) {
-  if (user.isDead) return;
-  var c = e.keyCode;
-
-  if (user.moved) return;
-
-  if (c == KEY.W) {
-     if (user.pos.top != 0) {
-        user.pos.top -= 48;
-        user.moved = true;
-     } else {
-        user.pos.top -= 48;
-        user.die();
-     }
-  } else if (c == KEY.A) {
-     if (user.pos.left != 0) {
-        user.pos.left -= 48;
-        user.moved = true;
-     } else {
-        user.pos.left -= 48;
-        user.die();
-     }
-  } else if (c == KEY.S) {
-     if (user.pos.top < map.height) {
-        user.pos.top += 48;
-        user.moved = true;
-     } else {
-        user.pos.top += 48;
-        user.die();
-     }
-  } else if (c == KEY.D) {
-     if (user.pos.left < map.width) {
-        user.pos.left += 48;
-        user.moved = true;
-     } else {
-        user.pos.left += 48;
-        user.die();
-     }
-  }
-});
+randomBlocks(virtualGrid, environnementComposition({
+   grass_block_1: 2,
+   grass_block_2: 1,
+   grass_block_3: 0,
+   grass_block_4: 0,
+   grass_block_5: 0,
+   grass_block_6: 0,
+   stone_block_1: 2,
+   stone_block_2: 1,
+   stone_block_3: 0,
+   stone_block_4: 0,
+   stone_block_5: 0,
+   stone_block_6: 0,
+   air_block_1: 1,
+}));
