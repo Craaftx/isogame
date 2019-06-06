@@ -27,15 +27,17 @@ function createVirtualGrid(size) {
   return virtualGrid;
 }
 
-/*
+
 function randomBlocks(blocks, virtualGrid) {
   for (var i = 0; i < virtualGrid.length; i++) {
     for (var x = 0; x < virtualGrid.length; x++) {
       var currentItem = document.getElementById("gamegrid__item-" + i + "-" + x);
+      var newDiv = document.createElement("div");
+      newDiv.setAttribute("class", "gamegrid__item--block");
       var newBlock = document.createElement("img");
       newBlock.setAttribute("src", "../game_assets/ground-blocks/" + blocks[getRandomInt(blocks.length)] + ".png");
-      newBlock.style.marginTop = '-' + x + '0px';
-      currentItem.appendChild(newBlock);
+      newDiv.appendChild(newBlock);
+      currentItem.appendChild(newDiv);
     }
   }
 }
@@ -43,20 +45,17 @@ function randomBlocks(blocks, virtualGrid) {
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
-*/
+
 let size = 10;
 createGrid("gamegrid", size);
 let virtualGrid = createVirtualGrid(size);
+let blocks = ['grass-block-4','grass-block-5','stone-block-1'];
+randomBlocks(blocks, virtualGrid);
 
 // Add monster for testing
 var gridItem = document.getElementById("gamegrid__item-9-9");
-var newBlock = document.createElement("img");
-newBlock.setAttribute("src", "../game_assets/ground-blocks/grass-block-2.png");
-newBlock.setAttribute("class", "gamegrid__item--block");
-gridItem.appendChild(newBlock);
 
-// let blocks = ['grass-block-4','grass-block-5','stone-block-3'];
-// randomBlocks(blocks, virtualGrid);
+
 
 
 var KEY = {

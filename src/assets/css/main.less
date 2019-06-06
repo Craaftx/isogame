@@ -5,9 +5,11 @@
 // Grid Sizes
 @tile-size: 48;
 @tile-number: 10;
+@tile-spacing: 12;
 @max-size: @grid-tile-size * @tile-number;
 @grid-size: unit(@max-size, px);
 @grid-tile-size: unit(@tile-size, px);
+@grid-tile-block-size: unit((@tile-size * 2) + @tile-spacing, px);
 
 html {
   font-size: 10px;
@@ -22,7 +24,8 @@ body {
   font-size: 13pt;
   color: #333333;
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .wrapper {
@@ -35,38 +38,33 @@ body {
 }
 
 .floor {
+  //transform: rotateX(55deg) rotateZ(45deg);
   transform: rotateX(55deg) rotateZ(45deg);
-  transform-style: preserve-3d;
   font-size: 0;
 }
 
 .floor .gamegrid__item {
+  position: relative;
   box-sizing: border-box;
-  color: #ccc;
   display: inline-block;
-  background: #111;
   width: @grid-tile-size;
   height: @grid-tile-size;
-  margin: 0;
-  box-shadow: 0 0 0 .1em hsla(0, 0%, 0%, .2);
-  border: solid 1px gray;
   line-height: @grid-tile-size;
   text-align: center;
-  position: relative;
   vertical-align: top;
-}
-
-#gamegrid__item-0-9 {
-  transform: rotateX(0) rotateZ(-45deg);
-  transform-style: preserve-3d;
+  margin: 0;
 }
 
 .gamegrid__item--block {
-    position: absolute;
-    top: 0; left: 0;
-    transform: rotateX(-55deg) rotateZ(-45deg);
-    transform-style: preserve-3d;
-    width: 150px;
+    transform: rotateZ(-45deg) rotateX(0deg) scaleX(0.6);
+    width: 48px;
+    height: 48px;
+    img {
+      position: absolute;
+      top: -10px; left: 50%;
+      transform: translateX(-50%);
+      width: @grid-tile-block-size;
+    }
   }
 
 .floor .player {
@@ -78,6 +76,9 @@ body {
   transform-style: preserve-3d;
   transition: all 250ms;
   opacity: 1;
+  transform-style: flat;
+  border-radius: 3px;
+  box-sizing: border-box;
 }
 
 .floor .player.die{
@@ -89,26 +90,10 @@ animation-fill-mode: forwards;
   position: absolute;
   width: 48px;
   height: 48px;
-  border-radius: 3px;
   transform-style: preserve-3d;
   background: rgba(255, 255, 255, 0.5);
+  z-index: 100;
 }
-
-.floor .player .front {
-  transform-origin: 50% 100%;
-  transform: rotateX(-90deg);
-}
-
-.floor .player .top {
-  transform-origin: 50% 0%;
-  transform: rotateX(-90deg);
-}
-
-.floor .player .right {
-  transform-origin: 100% 50%;
-  transform: rotateY(90deg);
-}
-
 
 .floor .player.red div{
   background: rgba(255, 0, 0, 0.5);
