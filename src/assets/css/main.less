@@ -10,6 +10,7 @@
 @grid-size: unit(@max-size, px);
 @grid-tile-size: unit(@tile-size, px);
 @grid-tile-block-size: unit((@tile-size * 2) + @tile-spacing, px);
+@grid-tile-gameitem-size: unit((@tile-size * 1) + @tile-spacing, px);
 
 html {
   font-size: 10px;
@@ -54,15 +55,21 @@ body {
   margin: 0;
 }
 
-.gamegrid__item--block {
+.gamegrid__item__content {
     transform: rotateZ(-45deg) rotateX(0deg) scaleX(0.6);
     width: 48px;
     height: 48px;
-    img {
+    &--block {
       position: absolute;
       top: -10px; left: 50%;
       transform: translateX(-50%);
       width: @grid-tile-block-size;
+    }
+    &--gameitem {
+      position: absolute;
+      top: -20px; left: 50%;
+      transform: translateX(-50%);
+      width: @grid-tile-gameitem-size;
     }
   }
 
