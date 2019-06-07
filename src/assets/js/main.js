@@ -38,7 +38,11 @@ function randomBlocks(virtualGrid, blocks) {
       var newDiv = document.createElement("div");
       newDiv.setAttribute("class", "gamegrid__item__content");
       var newBlock = document.createElement("img");
-      newBlock.setAttribute("src", "../game_assets/ground-blocks/" + blocks[getRandomInt(blocks.length)] + ".png");
+      var randomBlock = blocks[getRandomInt(blocks.length)];
+      if(randomBlock == "air_block_1") {
+        currentItem.classList.add("air_block");
+      }
+      newBlock.setAttribute("src", "../game_assets/ground-blocks/" + randomBlock + ".png");
       newBlock.setAttribute("class", "gamegrid__item__content--block");
       newDiv.appendChild(newBlock);
       currentItem.appendChild(newDiv);
@@ -46,39 +50,45 @@ function randomBlocks(virtualGrid, blocks) {
   }
 }
 
+// TODO : Change Generation Placement
 function randomItems(virtualGrid, maxNumber, variation, gameItems) {
    var currentGameItems = 0;
    for (var i = 0; i < virtualGrid.length; i++) {
       for (var x = 0; x < virtualGrid.length; x++) {
-         console.log(getRandomInt(variation));
-         if(currentGameItems < maxNumber && (variation - 1) == getRandomInt(variation)) {
-            var currentItem = document.getElementById("gamegrid__item-" + i + "-" + x).getElementsByClassName("gamegrid__item__content")[0];
+        var currentBlock = document.getElementById("gamegrid__item-" + i + "-" + x);
+         if(currentGameItems < maxNumber && (variation - 1) == getRandomInt(variation) && !isAirBlock(currentBlock)) {
+            var currentItem = currentBlock.getElementsByClassName("gamegrid__item__content")[0];
             var newBlock = document.createElement("img");
             newBlock.setAttribute("src", "../game_assets/ground-items/" + gameItems[getRandomInt(gameItems.length)] + ".png");
             newBlock.setAttribute("class", "gamegrid__item__content--gameitem");
             currentItem.appendChild(newBlock);
-            console.log(gameItems[getRandomInt(gameItems.length)]);
             currentGameItems++;
          }
       }
    }
 }
 
-function environnementComposition(composition) {
-   environnement = [];
+function isAirBlock(block) {
+  if(block == null) 
+    return true;
+  return block.classList.contains("air_block");
+}
+
+function arrayComposition(composition) {
+  newArray = [];
    for (var block in composition) {
       for (var i = 0; i < composition[block]; i++) {
-         environnement.push(block);
+        newArray.push(block);
       }
     }
-   return environnement;
+   return newArray;
 }
 
 let size = 12;
 createGrid("gamegrid", size);
 let virtualGrid = createVirtualGrid(size);
 
-randomBlocks(virtualGrid, environnementComposition({
+randomBlocks(virtualGrid, arrayComposition({
    grass_block_1: 2,
    grass_block_2: 1,
    grass_block_3: 0,
@@ -91,7 +101,18 @@ randomBlocks(virtualGrid, environnementComposition({
    stone_block_4: 0,
    stone_block_5: 0,
    stone_block_6: 0,
-   air_block_1: 1,
+   air_block_1: 2,
 }));
 
-randomItems(virtualGrid, 4, 20, ['backpack', 'belt', 'bomb', 'book', 'bronze_coin', 'ring', 'scroll', 'sword']);
+randomItems(virtualGrid, 4, 30, arrayComposition({
+  backpack: 0, 
+  belt: 1, 
+  bomb: 1, 
+  book: 1, 
+  bronze_coin: 0, 
+  ring: 1, 
+  scroll: 0, 
+  sword: 0
+}));
+
+findIsolatedBlocks(virtualGrid);
