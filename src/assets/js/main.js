@@ -101,7 +101,7 @@ randomBlocks(virtualGrid, arrayComposition({
    stone_block_4: 0,
    stone_block_5: 0,
    stone_block_6: 0,
-   air_block_1: 2,
+   air_block_1: 3,
 }));
 
 randomItems(virtualGrid, 4, 30, arrayComposition({

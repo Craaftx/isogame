@@ -6,14 +6,19 @@
 // Grid Sizes
 @tile-size: 48;
 @tile-number: 12;
-@tile-spacing: 12;
+@tile-spacing: 8;
 @max-size: @grid-tile-size * @tile-number;
 @grid-size: unit(@max-size, px);
 @grid-tile-size: unit(@tile-size, px);
 @grid-tile-block-size: unit((@tile-size * 2) + @tile-spacing, px);
 @grid-tile-gameitem-size: unit((@tile-size * 1) + @tile-spacing, px);
-@grid-table-size: 1100px;
-@grid-table-top: 0px;
+@grid-table-size: unit(((@max-size * 2) - @tile-size), px);
+@grid-table-top: unit((-@tile-size + 10), px);
+@grid-table-left: unit((-@tile-size), px);
+@grid-table-rotation: -1deg;
+@grid-table-mask-spacing: unit((@tile-size), px);
+@grid-table-mask-width: unit((@max-size - @tile-size) + 10, px);
+@grid-table-mask-border-width: unit((@tile-size - 10), px);
 
 html {
   font-size: 10px;
@@ -35,9 +40,9 @@ body {
   position: absolute;
   width: @grid-size;
   height: @grid-size;
-  top: 50%;
+  top: 40%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -40%);
 }
 
 .isometric_table {
@@ -45,13 +50,49 @@ body {
   width: @grid-table-size;
   height: @grid-table-size;
   top: @grid-table-top;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 48%;
+  transform: rotate(@grid-table-rotation) translateX(-50%);
 }
 
 .floor {
+  position: relative;
   transform: rotateX(55deg) rotateZ(45deg);
   font-size: 0;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -@grid-table-mask-spacing; left: 50%;
+    transform: translateX(-50%);
+    width: 120%; height: @grid-tile-size;
+    background-color: #856445;
+    z-index: 10;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%; right: -@grid-table-mask-spacing; 
+    transform: translateY(-50%);
+    width: @grid-tile-size; height: 120%;
+    background-color: #856445;
+    z-index: 10;
+  }
+  .gamegrid-table-mask {
+    position: absolute;
+    bottom: 0%; right: 0%;
+    width: @grid-table-mask-width; height: @grid-table-mask-width;
+    background-color: #563217;
+    border-top: @grid-table-mask-border-width solid #6f4829;
+    border-left: @grid-table-mask-border-width solid #6f4829;
+    outline: 2px solid #333333;
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0%; right: 0%;
+      width: @grid-table-mask-width; height: @grid-table-mask-width;
+      border-top: 2px solid #111111;
+      border-left: 2px solid #111111;
+    }
+  }
 }
 
 .floor .gamegrid__item {
