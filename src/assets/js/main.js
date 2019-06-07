@@ -5,14 +5,27 @@ function createGrid(parentId, size) {
     newRowDiv.setAttribute("id", "gamegrid__row-" + i);
     newRowDiv.setAttribute("class", "gamegrid__row");
     var currentDiv = document.getElementById(parentId);
-    currentDiv.appendChild(newRowDiv);
     for (var x = 0; x < size; x++) {
         var newColDiv = document.createElement("div");
         newColDiv.setAttribute("id", "gamegrid__item-" + i + "-" + x);
         newColDiv.setAttribute("class", "gamegrid__item");
-        var currentRowDiv = document.getElementById("gamegrid__row-" + i);
-        currentRowDiv.appendChild(newColDiv);
+        newRowDiv.appendChild(newColDiv);
     }
+    currentDiv.appendChild(newRowDiv);
+  }
+}
+
+function createEmptyGrid(parentId, size) {
+  for (var i = 0; i < size; i++) {
+    var newRowDiv = document.createElement("div");
+    newRowDiv.setAttribute("class", "gamegrid__row");
+    var currentDiv = document.getElementById(parentId);
+    for (var x = 0; x < size; x++) {
+        var newColDiv = document.createElement("div");
+        newColDiv.setAttribute("class", "gamegrid__item");
+        newRowDiv.appendChild(newColDiv);
+    }
+    currentDiv.appendChild(newRowDiv);
   }
 }
 
@@ -85,6 +98,7 @@ function arrayComposition(composition) {
 }
 
 let size = 12;
+createEmptyGrid("gamegrid_table", size);
 createGrid("gamegrid", size);
 let virtualGrid = createVirtualGrid(size);
 
