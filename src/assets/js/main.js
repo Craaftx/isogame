@@ -114,5 +114,3 @@ randomItems(virtualGrid, 4, 30, arrayComposition({
   scroll: 0, 
   sword: 0
 }));
-
-findIsolatedBlocks(virtualGrid);
