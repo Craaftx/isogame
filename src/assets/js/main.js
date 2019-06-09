@@ -44,7 +44,10 @@ function getRandomInt(max) {
    return Math.floor(Math.random() * Math.floor(max));
 }
 
+var globalBlockGenerationTime = 0;
+
 function randomBlocks(virtualGrid, blocks) {
+  var animationDelay = 0;
   for (var i = 0; i < virtualGrid.length; i++) {
     for (var x = 0; x < virtualGrid.length; x++) {
       var currentItem = document.getElementById("gamegrid__item-" + i + "-" + x);
@@ -57,10 +60,13 @@ function randomBlocks(virtualGrid, blocks) {
       }
       newBlock.setAttribute("src", "../game_assets/ground-blocks/" + randomBlock + ".png");
       newBlock.setAttribute("class", "gamegrid__item__content--block");
+      newBlock.setAttribute("style", "animation-delay:" + (getRandomInt(400) + animationDelay ) + "ms");
       newDiv.appendChild(newBlock);
       currentItem.appendChild(newDiv);
+      animationDelay += 20;
     }
   }
+  globalBlockGenerationTime = animationDelay;
 }
 
 // TODO : Change Generation Placement
@@ -74,6 +80,7 @@ function randomItems(virtualGrid, maxNumber, variation, gameItems) {
             var newBlock = document.createElement("img");
             newBlock.setAttribute("src", "../game_assets/ground-items/" + gameItems[getRandomInt(gameItems.length)] + ".png");
             newBlock.setAttribute("class", "gamegrid__item__content--gameitem");
+            newBlock.setAttribute("style", "animation-delay:" + (globalBlockGenerationTime + 40) + "ms");
             currentItem.appendChild(newBlock);
             currentGameItems++;
          }
@@ -103,22 +110,22 @@ createGrid("gamegrid", size);
 let virtualGrid = createVirtualGrid(size);
 
 randomBlocks(virtualGrid, arrayComposition({
-   grass_block_1: 2,
-   grass_block_2: 1,
+   grass_block_1: 4,
+   grass_block_2: 2,
    grass_block_3: 0,
    grass_block_4: 0,
    grass_block_5: 0,
    grass_block_6: 0,
    stone_block_1: 2,
-   stone_block_2: 1,
+   stone_block_2: 0,
    stone_block_3: 0,
    stone_block_4: 0,
-   stone_block_5: 0,
+   stone_block_5: 1,
    stone_block_6: 0,
-   air_block_1: 3,
+   air_block_1: 1,
 }));
 
-randomItems(virtualGrid, 4, 30, arrayComposition({
+/*randomItems(virtualGrid, 4, 30, arrayComposition({
   backpack: 0, 
   belt: 1, 
   bomb: 1, 
@@ -127,4 +134,4 @@ randomItems(virtualGrid, 4, 30, arrayComposition({
   ring: 1, 
   scroll: 0, 
   sword: 0
-}));
+}));*/
