@@ -1,37 +1,37 @@
 @import url('https://fonts.googleapis.com/css?family=Leckerli+One|Montserrat:500|Roboto');
 
-@color-primary: #4CAF50;
-@color-back: #f5f5f5;
+$color-primary: #4CAF50;
+$color-back: #f5f5f5;
 
-@color-table: #9D7552;
-@color-table-inside: #563217;
-@color-table-inside-border: #6f4829;
-@color-table-stroke: #333333;
+$color-table: #9D7552;
+$color-table-inside: #563217;
+$color-table-inside-border: #6f4829;
+$color-table-stroke: #333333;
 
 // Grid Sizes
-@tile-size: 48;
-@tile-number: 12;
-@tile-spacing: 10;
+$tile-size: 48;
+$tile-number: 12;
+$tile-spacing: 10;
 
-@max-size: @grid-tile-size * @tile-number;
-@grid-size: unit(@max-size, px);
+$max-size: $tile-size * $tile-number;
+$grid-size: $max-size + 0px;
 
-@grid-tile-size: unit(@tile-size, px);
-@grid-tile-block-size: unit((@tile-size * 2) + @tile-spacing, px);
-@grid-tile-gameitem-size: unit((@tile-size * 1) + @tile-spacing, px);
+$grid-tile-size: $tile-size + 0px;
+$grid-tile-block-size: (($tile-size * 2) + $tile-spacing) + 0px;
+$grid-tile-gameitem-size: (($tile-size * 1) + $tile-spacing) + 0px;
 
-@grid-table-size: unit(((@max-size * 2) - @tile-size), px);
-@grid-table-top: unit((-@tile-size / 2), px);
-@grid-table-left: unit((-@tile-size), px);
-@grid-table-rotation: 0deg;
-@grid-table-mask-spacing: unit((@tile-size), px);
-@grid-table-mask-width: unit((@max-size - @tile-size) + 12, px);
-@grid-table-mask-border-width: unit((@tile-size - 14), px);
+$grid-table-size: (($max-size * 2) - $tile-size) + 0px;
+$grid-table-top: ((-$tile-size / 2)) + 0px;
+$grid-table-left: ((-$tile-size)) + 0px;
+$grid-table-rotation: 0deg;
+$grid-table-mask-spacing: $tile-size + 0px;
+$grid-table-mask-width: (($max-size - $tile-size) + 12) + 0px;
+$grid-table-mask-border-width: ($tile-size - 14) + 0px;
 
 html {
   font-size: 10px;
   color: #ccc;
-  background: @color-back;
+  background: $color-back;
 }
 
 body {
@@ -46,8 +46,8 @@ body {
 
 .wrapper {
   position: absolute;
-  width: @grid-size;
-  height: @grid-size;
+  width: $grid-size;
+  height: $grid-size;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -40%);
@@ -55,11 +55,11 @@ body {
 
 .isometric_table {
   position: absolute;
-  width: @grid-table-size;
-  height: @grid-table-size;
-  top: @grid-table-top;
+  width: $grid-table-size;
+  height: $grid-table-size;
+  top: $grid-table-top;
   left: 50%;
-  transform: rotate(@grid-table-rotation) translateX(-50%);
+  transform: rotate($grid-table-rotation) translateX(-50%);
 }
 
 .floor {
@@ -69,34 +69,34 @@ body {
   &::after {
     content: "";
     position: absolute;
-    bottom: -@grid-table-mask-spacing; left: 50%;
+    bottom: -$grid-table-mask-spacing; left: 50%;
     transform: translateX(-50%);
-    width: 120%; height: @grid-tile-size;
-    background-color: @color-table;
+    width: 120%; height: $grid-tile-size;
+    background-color: $color-table;
     z-index: 10;
   }
   &::before {
     content: "";
     position: absolute;
-    top: 50%; right: -@grid-table-mask-spacing; 
+    top: 50%; right: -$grid-table-mask-spacing; 
     transform: translateY(-50%);
-    width: @grid-tile-size; height: 120%;
-    background-color: @color-table;
+    width: $grid-tile-size; height: 120%;
+    background-color: $color-table;
     z-index: 10;
   }
   .gamegrid-table-mask {
     position: absolute;
     bottom: 0%; right: 0%;
-    width: @grid-table-mask-width; height: @grid-table-mask-width;
-    background-color: @color-table-inside;
-    border-top: @grid-table-mask-border-width solid @color-table-inside-border;
-    border-left: @grid-table-mask-border-width solid @color-table-inside-border;
-    outline: 2px solid @color-table-stroke;
+    width: $grid-table-mask-width; height: $grid-table-mask-width;
+    background-color: $color-table-inside;
+    border-top: $grid-table-mask-border-width solid $color-table-inside-border;
+    border-left: $grid-table-mask-border-width solid $color-table-inside-border;
+    outline: 2px solid $color-table-stroke;
     &::after {
       content: "";
       position: absolute;
       bottom: 0%; right: 0%;
-      width: @grid-table-mask-width; height: @grid-table-mask-width;
+      width: $grid-table-mask-width; height: $grid-table-mask-width;
       border-top: 2px solid #111111;
       border-left: 2px solid #111111;
     }
@@ -107,9 +107,9 @@ body {
   position: relative;
   box-sizing: border-box;
   display: inline-block;
-  width: @grid-tile-size;
-  height: @grid-tile-size;
-  line-height: @grid-tile-size;
+  width: $grid-tile-size;
+  height: $grid-tile-size;
+  line-height: $grid-tile-size;
   text-align: center;
   vertical-align: top;
   margin: 0;
@@ -117,7 +117,7 @@ body {
 
 #gamegrid_table {
   position: absolute;
-  top: @grid-table-mask-border-width; left: @grid-table-mask-border-width;
+  top: $grid-table-mask-border-width; left: $grid-table-mask-border-width;
   width: 100%; height: 100%;
   .gamegrid__item {  
     box-shadow: inset 0px 0px 10px rgba(133, 100, 69, 0.5);
@@ -132,7 +132,7 @@ body {
     position: absolute;
     top: -10px; left: 50%;
     transform: translateX(-50%);
-    width: @grid-tile-block-size;
+    width: $grid-tile-block-size;
     opacity: 0;
     animation: block_placement 1.4s ease-out forwards;
   }
@@ -140,7 +140,7 @@ body {
     position: absolute;
     top: -20px; left: 50%;
     transform: translateX(-50%);
-    width: @grid-tile-gameitem-size;
+    width: $grid-tile-gameitem-size;
     opacity: 0;
     animation: item_placement 1s 1s ease-out forwards;
   }
@@ -196,7 +196,7 @@ body {
 
 @keyframes block_placement {
   0% {
-    transform: translateY(-@grid-size) translateX(-50%);
+    transform: translateY(-$grid-size) translateX(-50%);
     opacity: 0;
   }
   10% {
@@ -210,7 +210,7 @@ body {
 
 @keyframes item_placement {
   0% {
-    transform: translateY(-@grid-size) translateX(-50%);
+    transform: translateY(-$grid-size) translateX(-50%);
     opacity: 0;
   }
   100% {
