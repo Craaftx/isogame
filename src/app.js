@@ -1,5 +1,7 @@
 import "./main.scss";
 import { Block } from "./classes/Block.js";
+import { Item } from "./classes/Item.js";
+import { Properties } from "./classes/Properties.js";
 import { Map } from "./classes/Map.js";
 import { MapPattern } from "./classes/MapPattern.js";
 import { Environnement } from "./classes/Environnement.js";
@@ -55,24 +57,32 @@ let blocks = [
   new Block("stone_block_6"),
 ];
 
+let items = [
+  new Item("spell_mystic_superior", "Livre de sort supérieur", "A utiliser avec précaution !", new Properties(10, 0, 3)),
+  new Item("spell_sword_major", "Livre d'arme majeur", "A utiliser avec précaution !", new Properties(5, 5, 2)),
+  new Item("spell_fire_superior", "Livre de pyromancie supérieur", "A utiliser avec précaution !", new Properties(15, -5, 3)),
+  new Item("spell_bones_minor", "Livre de nécromancie mineur", "A utiliser avec précaution !", new Properties(0, 10, 1)),
+]
+
 let pattern = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0],
-  [0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0],
-  [0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0],
-  [0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0],
-  [0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
-  [0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0],
-  [0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0],
-  [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0],
-  [0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+  [0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
+  [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 0],
+  [0, 1, 1, 1, 2, 2, 2, 2, 1, 1, 0, 0],
+  [0, 1, 1, 2, 2, 2, 2, 2, 1, 1, 0, 0],
+  [0, 1, 1, 1, 2, 2, 2, 1, 1, 0, 0, 0],
+  [0, 0, 1, 1, 1, 2, 1, 1, 1, 0, 0, 0],
+  [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+  [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ]
 
 let patternBlocks = [
   blocks[0],
-  blocks[1]
+  blocks[1],
+  blocks[11]
 ]
 
 let size = 12;
