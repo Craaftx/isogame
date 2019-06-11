@@ -1,10 +1,20 @@
 export class Environnement {
-  constructor(mapObject, blocks) {
-    this.map = mapObject;
+    /**
+     * Represents the map environnement.
+     * @constructor
+     * @param {object} size - The size of the map.
+     * @param {integer} size - The size of the map.
+     */
+  constructor(map, blocks) {
+    this.map = map;
     this.blocks = blocks;
     this.composition = [];
   }
 
+  /**
+   * Create the map block's composition.
+   * @param {array} composition - Array with block associated of spawn chance.
+   */
   createComposition(composition) {
     this.composition = [];
     for (var wantedBlock in composition) {
@@ -17,6 +27,11 @@ export class Environnement {
     this.composition = this.composition.flat();
   }
 
+  /**
+   * Populate the grid with blocks and add to virtual grid the block properties.
+   * @param {integer} [mapPattern=null] - The pattern used for the map.
+   * @param {bool} [time=500] - Max time for generate the map, used by animation.
+   */
   buildMap(mapPattern = null, time = 500) {
     let usableBlocks = this.composition.length == 0 ? this.blocks : this.composition;
     let animationDelay = 0;
@@ -37,10 +52,10 @@ export class Environnement {
               Math.floor(Math.random() * Math.floor(usableBlocks.length))
             ];
         } else {
-            block = mapPattern.getCell(row,col);
+            block = mapPattern.getBlockInCell(row,col);
         }
 
-        this.map.setCell(row, col, block);
+        this.map.addBlockToCell(row, col, block);
         let newBlock = document.createElement("img");
         newBlock.setAttribute(
           "src",
