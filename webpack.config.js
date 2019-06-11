@@ -14,21 +14,15 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist")
   },
-  devtool: isDevelopment && "source-map",
-  devServer: {
-    port: 3000,
-    open: true,
-    contentBase: path.join(__dirname, "src")
-  },
   module: {
     rules: [
       {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env']
+            presets: ["@babel/preset-env"]
           }
         }
       },
@@ -37,16 +31,12 @@ module.exports = {
         loader: "handlebars-loader"
       },
       {
-        test: /\.(scss|css)$/,
+        test: /\.(sa|sc|c)ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader",
-            options: {
-              sourceMap: isDevelopment,
-              minimize: !isDevelopment
-            }
+            loader: isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
           },
+          'css-loader',
           {
             loader: "postcss-loader",
             options: {
@@ -57,13 +47,8 @@ module.exports = {
               plugins: () => [autoprefixer]
             }
           },
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: isDevelopment
-            }
-          }
-        ]
+          'sass-loader',
+        ],
       },
       {
         test: /\.(jpg|png|gif)$/,
@@ -122,12 +107,12 @@ module.exports = {
       }
     }),
     new MiniCssExtractPlugin({
-      filename: "[name]-styles.css",
-      chunkFilename: "[id].css"
+      filename: isDevelopment ? '[name].css' : '[name].[hash].css',
+      chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css',
     }),
     new CopyWebpackPlugin([
-      {from:'src/game_assets',to:'game_assets'},
-      {from:'src/static',to:'static'},
+      { from: "src/game_assets", to: "game_assets" },
+      { from: "src/static", to: "static" }
     ]),
     new HtmlWebpackPlugin({
       title: "IsoGame",
@@ -140,5 +125,14 @@ module.exports = {
         removeEmptyElements: true
       }
     })
-  ]
+  ],
+  devtool: isDevelopment && "source-map",
+  devServer: {
+    port: 3000,
+    contentBase: path.join(__dirname, "src"),
+    historyApiFallback: true,
+    inline: true,
+    open: true,
+    hot: true,
+  },
 };
