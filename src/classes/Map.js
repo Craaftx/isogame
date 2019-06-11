@@ -5,10 +5,7 @@ export class Map {
     for (let i = 0; i < size; i++) {
       this.virtualMap[i] = [];
       for (let x = 0; x < size; x++) {
-        this.virtualMap[i][x] = {
-          reachable: null,
-          blockType: null
-        };
+        this.virtualMap[i][x] = [];
       }
     }
   }
@@ -43,5 +40,9 @@ export class Map {
 
   getCell(row, col) {
     return this.virtualMap[row][col];
+  }
+
+  isReachable(row, col) {
+    return this.virtualMap[row][col].reachable;
   }
 }

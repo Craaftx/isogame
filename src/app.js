@@ -1,46 +1,9 @@
 import "./main.scss";
 import { Block } from "./classes/Block.js";
 import { Map } from "./classes/Map.js";
+import { MapPattern } from "./classes/MapPattern.js";
 import { Environnement } from "./classes/Environnement.js";
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
-var globalBlockGenerationTime = 0;
-
-function randomBlocks(virtualGrid, blocks) {
-  var animationDelay = 0;
-  for (var i = 0; i < virtualGrid.length; i++) {
-    for (var x = 0; x < virtualGrid.length; x++) {
-      var currentItem = document.getElementById(
-        "gamegrid__item-" + i + "-" + x
-      );
-      var newDiv = document.createElement("div");
-      newDiv.setAttribute("class", "gamegrid__item__content");
-      var newBlock = document.createElement("img");
-      var randomBlock = blocks[getRandomInt(blocks.length)];
-      if (randomBlock == "air_block_1") {
-        currentItem.classList.add("air_block");
-      }
-      newBlock.setAttribute(
-        "src",
-        "../game_assets/ground-blocks/" + randomBlock + ".png"
-      );
-      newBlock.setAttribute("class", "gamegrid__item__content--block");
-      newBlock.setAttribute(
-        "style",
-        "animation-delay:" + (getRandomInt(400) + animationDelay) + "ms"
-      );
-      newDiv.appendChild(newBlock);
-      currentItem.appendChild(newDiv);
-      animationDelay += 20;
-    }
-  }
-  globalBlockGenerationTime = animationDelay;
-}
-
-// TODO : Change Generation Placement
+/*
 function randomItems(virtualGrid, maxNumber, variation, gameItems) {
   var currentGameItems = 0;
   for (var i = 0; i < virtualGrid.length; i++) {
@@ -74,29 +37,52 @@ function randomItems(virtualGrid, maxNumber, variation, gameItems) {
     }
   }
 }
+*/
 
-function isAirBlock(block) {
-  if (block == null) return true;
-  return block.classList.contains("air_block");
-}
+let blocks = [
+  new Block("air_block_1", false),
+  new Block("grass_block_1", true),
+  new Block("grass_block_2", true),
+  new Block("grass_block_3", true),
+  new Block("grass_block_4", true),
+  new Block("grass_block_5", true),
+  new Block("grass_block_6", true),
+  new Block("stone_block_1", true),
+  new Block("stone_block_2", true),
+  new Block("stone_block_3", true),
+  new Block("stone_block_4", true),
+  new Block("stone_block_5", true),
+  new Block("stone_block_6", true),
+];
 
-function arrayComposition(composition) {
-  let newArray = [];
-  for (var block in composition) {
-    for (var i = 0; i < composition[block]; i++) {
-      newArray.push(block);
-    }
-  }
-  return newArray;
-}
+let pattern = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+  [0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0],
+  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+  [0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0],
+  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+]
+
+let patternBlocks = [
+  blocks[0],
+  blocks[1]
+]
 
 let size = 12;
 
 let map = new Map(size);
+let mapPattern = new MapPattern(map, pattern, patternBlocks);
 map.generateGrid("gamegrid");
 map.generateGrid("gamegrid_table", true);
 
-let composition = arrayComposition({
+let composition = {
   grass_block_1: 4,
   grass_block_2: 2,
   grass_block_3: 0,
@@ -109,12 +95,14 @@ let composition = arrayComposition({
   stone_block_4: 0,
   stone_block_5: 1,
   stone_block_6: 0,
-  air_block_1: 1
-});
+  air_block_1: 8
+};
 
-let environnement = new Environnement(map, composition);
+let environnement = new Environnement(map, blocks);
+environnement.createComposition(composition);
+environnement.buildMap(mapPattern);
 
-environnement.generateBlock();
+console.log(map.isReachable(0,0));
 
 /*randomItems(virtualGrid, 4, 30, arrayComposition({
   backpack: 0, 
