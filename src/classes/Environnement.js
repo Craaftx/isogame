@@ -36,11 +36,11 @@ export class Environnement {
             usableBlocks[
               Math.floor(Math.random() * Math.floor(usableBlocks.length))
             ];
-          this.map.setCell(row, col, block);
         } else {
             block = mapPattern.getCell(row,col);
         }
 
+        this.map.setCell(row, col, block);
         let newBlock = document.createElement("img");
         newBlock.setAttribute(
           "src",
