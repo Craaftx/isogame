@@ -12,6 +12,7 @@ export class Map {
       for (let x = 0; x < size; x++) {
         this.virtualMap[i][x] = {
           block: null,
+          item: null,
           reachable: null,
         };
       }
@@ -55,11 +56,21 @@ export class Map {
    * Add a block to a cell present in the virtual map.
    * @param {integer} row - The row of the cell.
    * @param {integer} col - The column of the cell.
-   * @param {object} element - The block present in this cell.
+   * @param {object} block - The block present in this cell.
    */
   addBlockToCell(row, col, block) {
     this.virtualMap[row][col].block = block;
     this.virtualMap[row][col].reachable = block.reachable;
+  }
+
+  /**
+   * Add an item to a cell present in the virtual map.
+   * @param {integer} row - The row of the cell.
+   * @param {integer} col - The column of the cell.
+   * @param {object} item - The item present in this cell.
+   */
+  addItem(row, col, item) {
+    this.virtualMap[row][col].item = item;
   }
 
   /**
