@@ -97,25 +97,22 @@ map.generateGrid("gamegrid");
 map.generateGrid("gamegrid_table", true);
 
 let composition = arrayComposition({
-    grass_block_1: 4,
-    grass_block_2: 2,
-    grass_block_3: 0,
-    grass_block_4: 0,
-    grass_block_5: 0,
-    grass_block_6: 0,
-    stone_block_1: 2,
-    stone_block_2: 0,
-    stone_block_3: 0,
-    stone_block_4: 0,
-    stone_block_5: 1,
-    stone_block_6: 0,
-    air_block_1: 1
-  });
+  grass_block_1: 4,
+  grass_block_2: 2,
+  grass_block_3: 0,
+  grass_block_4: 0,
+  grass_block_5: 0,
+  grass_block_6: 0,
+  stone_block_1: 2,
+  stone_block_2: 0,
+  stone_block_3: 0,
+  stone_block_4: 0,
+  stone_block_5: 1,
+  stone_block_6: 0,
+  air_block_1: 1
+});
 
-let environnement = new Environnement(
-  map,
-  composition
-);
+let environnement = new Environnement(map, composition);
 
 environnement.generateBlock();
 

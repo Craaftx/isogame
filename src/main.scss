@@ -21,8 +21,8 @@ $grid-tile-block-size: (($tile-size * 2) + $tile-spacing) + 0px;
 $grid-tile-gameitem-size: (($tile-size * 1) + $tile-spacing) + 0px;
 
 $grid-table-size: (($max-size * 2) - $tile-size) + 0px;
-$grid-table-top: ((-$tile-size / 2)) + 0px;
-$grid-table-left: ((-$tile-size)) + 0px;
+$grid-table-top: (-($tile-size / 2 - 12)) + 0px;
+$grid-table-left: (-$tile-size) + 0px;
 $grid-table-rotation: 0deg;
 $grid-table-mask-spacing: $tile-size + 0px;
 $grid-table-mask-width: (($max-size - $tile-size) + 12) + 0px;
