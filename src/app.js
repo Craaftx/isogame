@@ -43,6 +43,9 @@ function randomItems(virtualGrid, maxNumber, variation, gameItems) {
 
 let blocks = [
   new Block("air_block_1", false),
+  new Block("water_block_1", false),
+  new Block("water_block_2", false),
+  new Block("water_block_3", false),
   new Block("grass_block_1"),
   new Block("grass_block_2"),
   new Block("grass_block_3"),
@@ -80,8 +83,8 @@ let pattern = [
 ]
 
 let patternBlocks = [
-  blocks[0],
   blocks[1],
+  blocks[2],
   blocks[11]
 ]
 
@@ -90,7 +93,6 @@ let size = 12;
 let map = new Map(size);
 let mapPattern = new MapPattern(map, pattern, patternBlocks);
 map.generateGrid("gamegrid");
-map.generateGrid("gamegrid_table", true);
 
 let composition = {
   grass_block_1: 4,
@@ -105,12 +107,12 @@ let composition = {
   stone_block_4: 0,
   stone_block_5: 1,
   stone_block_6: 0,
-  air_block_1: 8
+  water_block_1: 3
 };
 
 let environnement = new Environnement(map, blocks);
 environnement.createComposition(composition);
-environnement.buildMap(mapPattern);
+environnement.buildMap();
 
 console.log(map.isReachable(0,0));
 

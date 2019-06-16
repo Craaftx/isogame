@@ -84,12 +84,22 @@ export class Map {
   }
 
   /**
-   * Define if a cell is reachable (Is not an air_block).
+   * Define if a cell is reachable (Is not an air_block or water-block).
    * @param {integer} row - The row of the cell.
    * @param {integer} col - The column of the cell.
    * @return {bool} If is reachable return true instead return false.
    */
   isReachable(row, col) {
     return this.virtualMap[row][col].reachable;
+  }
+
+  /**
+   * Define if a cell is an air block
+   * @param {integer} row - The row of the cell.
+   * @param {integer} col - The column of the cell.
+   * @return {bool} If is an air block return true instead return false.
+   */
+  isAirBlock(row, col) {
+    return this.virtualMap[row][col].block.name === "air_block_1";
   }
 }

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Leckerli+One|Montserrat:500|Roboto');
 
 $color-primary: #4CAF50;
-$color-back: #f5f5f5;
+$color-back: #dfdbe5;
 
 $color-table: #9D7552;
 $color-table-inside: #563217;
@@ -11,7 +11,7 @@ $color-table-stroke: #333333;
 // Grid Sizes
 $tile-size: 48;
 $tile-number: 12;
-$tile-spacing: 12;
+$tile-spacing: 14;
 
 $max-size: $tile-size * $tile-number;
 $grid-size: $max-size + 0px;
@@ -20,13 +20,10 @@ $grid-tile-size: $tile-size + 0px;
 $grid-tile-block-size: (($tile-size * 2) + $tile-spacing) + 0px;
 $grid-tile-gameitem-size: (($tile-size * 1) + $tile-spacing) + 0px;
 
-$grid-table-size: (($max-size * 2) - $tile-size) + 0px;
-$grid-table-top: (-($tile-size / 2 - 12)) + 0px;
-$grid-table-left: (-$tile-size) + 0px;
-$grid-table-rotation: 0deg;
-$grid-table-mask-spacing: $tile-size + 0px;
-$grid-table-mask-width: (($max-size - $tile-size) + 12) + 0px;
-$grid-table-mask-border-width: ($tile-size - 14) + 0px;
+$grid-shadow-size: ($max-size * 1.1) + 0px;
+$grid-shadow-position: ($max-size / 3.5) + 0px;
+$grid-shadow-length: (($max-size / 2) / 4) + 0px;
+$grid-shadow-blur: (($max-size / 2) / 6) + 0px;
 
 html {
   font-size: 10px;
@@ -53,54 +50,10 @@ body {
   transform: translate(-50%, -40%);
 }
 
-.isometric_table {
-  position: absolute;
-  width: $grid-table-size;
-  height: $grid-table-size;
-  top: $grid-table-top;
-  left: 50%;
-  transform: rotate($grid-table-rotation) translateX(-50%);
-}
-
 .floor {
   position: relative;
   transform: rotateX(55deg) rotateZ(45deg);
   font-size: 0;
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: -$grid-table-mask-spacing; left: 50%;
-    transform: translateX(-50%);
-    width: 120%; height: $grid-tile-size;
-    background-color: $color-table;
-    z-index: 10;
-  }
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%; right: -$grid-table-mask-spacing; 
-    transform: translateY(-50%);
-    width: $grid-tile-size; height: 120%;
-    background-color: $color-table;
-    z-index: 10;
-  }
-  .gamegrid-table-mask {
-    position: absolute;
-    bottom: 0%; right: 0%;
-    width: $grid-table-mask-width; height: $grid-table-mask-width;
-    background-color: $color-table-inside;
-    border-top: $grid-table-mask-border-width solid $color-table-inside-border;
-    border-left: $grid-table-mask-border-width solid $color-table-inside-border;
-    outline: 2px solid $color-table-stroke;
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: 0%; right: 0%;
-      width: $grid-table-mask-width; height: $grid-table-mask-width;
-      border-top: 2px solid #111111;
-      border-left: 2px solid #111111;
-    }
-  }
 }
 
 .floor .gamegrid__item {
@@ -115,13 +68,30 @@ body {
   margin: 0;
 }
 
-#gamegrid_table {
+#gamegrid_shadow {
   position: absolute;
-  top: $grid-table-mask-border-width; left: $grid-table-mask-border-width;
-  width: 100%; height: 100%;
-  .gamegrid__item {  
-    box-shadow: inset 0px 0px 10px rgba(133, 100, 69, 0.5);
+  top: $grid-shadow-position; left: $grid-shadow-position;
+  background: rgba(102, 102, 102, 0.6);
+  height: $grid-shadow-size;
+  width: $grid-shadow-size;
+  border: 10px solid $color-back;
+  box-shadow: inset 0 0 $grid-shadow-blur $grid-shadow-length $color-back;
+  opacity: 0;
+  animation: shadow_placement 2s ease-out forwards;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 98%;
+    height: 98%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border: 10px solid $color-back;
   }
+}
+
+#gamegrid {
+  opacity: 0;
+  animation: grid_placement 2s ease-out forwards;
 }
 
 .gamegrid__item__content {
@@ -133,8 +103,6 @@ body {
     top: -10px; left: 50%;
     transform: translateX(-50%);
     width: $grid-tile-block-size;
-    opacity: 0;
-    animation: block_placement 1.4s ease-out forwards;
   }
   &--gameitem {
     position: absolute;
@@ -146,30 +114,6 @@ body {
   }
 }
 
-.environnement {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  .ground {
-    position: absolute;
-    top: 50%; left: 0%;
-    transform: translate(-0%, -50%) rotateX(55deg) rotateZ(45deg);
-    width: 100vw; height: 1000vh;
-    background-color: #835e4a;
-    background-image: linear-gradient(transparent 50%, rgba(255,255,255,.05) 50%);
-    background-size: 300px 300px;
-    border: 50px solid #644230;
-  }
-  .wall {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100vw; height: 100vh;
-    background: #333333;
-    background-image: linear-gradient(90deg, transparent 50%, rgba(255,255,255,.1) 50%);    
-    background-size: 300px 300px;
-  }
-}
 .floor .player {
   position: absolute;
   z-index: 1;
@@ -215,6 +159,34 @@ body {
   }
   100% {
     transform: translateY(0) translateX(-50%);
+    opacity: 1;
+  }
+}
+
+@keyframes grid_placement {
+  0% {
+    transform: translateY(-100%) translateX(-100%);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes shadow_placement {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
     opacity: 1;
   }
 }
