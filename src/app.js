@@ -3,7 +3,7 @@ import { Block } from "./classes/Block.js";
 import { Item } from "./classes/Item.js";
 import { Properties } from "./classes/Properties.js";
 import { Map } from "./classes/Map.js";
-import { MapPattern } from "./classes/MapPattern.js";
+import { Pattern } from "./classes/Pattern.js";
 import { Environnement } from "./classes/Environnement.js";
 /*
 function randomItems(virtualGrid, maxNumber, variation, gameItems) {
@@ -41,24 +41,36 @@ function randomItems(virtualGrid, maxNumber, variation, gameItems) {
 }
 */
 
-let blocks = [
-  new Block("air_block_1", false),
-  new Block("water_block_1", false),
-  new Block("water_block_2", false),
-  new Block("water_block_3", false),
-  new Block("grass_block_1"),
-  new Block("grass_block_2"),
-  new Block("grass_block_3"),
-  new Block("grass_block_4"),
-  new Block("grass_block_5"),
-  new Block("grass_block_6"),
-  new Block("stone_block_1"),
-  new Block("stone_block_2"),
-  new Block("stone_block_3"),
-  new Block("stone_block_4"),
-  new Block("stone_block_5"),
-  new Block("stone_block_6"),
-];
+let blocks = {
+  air: [
+    new Block("air_block_1", false),
+  ],
+  water: [
+    new Block("water_block_1", false),
+    new Block("water_block_2", false),
+    new Block("water_block_3", false),
+  ],
+  wood: [
+    new Block("wood_block_1"),
+    new Block("wood_block_2"),
+  ],
+  grass: [
+    new Block("grass_block_1"),
+    new Block("grass_block_2"),
+    new Block("grass_block_3"),
+    new Block("grass_block_4"),
+    new Block("grass_block_5"),
+    new Block("grass_block_6"),
+  ],
+  stone: [
+    new Block("stone_block_1"),
+    new Block("stone_block_2"),
+    new Block("stone_block_3"),
+    new Block("stone_block_4"),
+    new Block("stone_block_5"),
+    new Block("stone_block_6"),
+  ],
+};
 
 let items = [
   new Item("spell_mystic_superior", "Livre de sort supérieur", "A utiliser avec précaution !", new Properties(10, 0, 3)),
@@ -82,16 +94,9 @@ let pattern = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ]
 
-let patternBlocks = [
-  blocks[1],
-  blocks[2],
-  blocks[11]
-]
-
 let size = 12;
 
 let map = new Map(size);
-let mapPattern = new MapPattern(map, pattern, patternBlocks);
 map.generateGrid("gamegrid");
 
 let composition = {
@@ -101,20 +106,52 @@ let composition = {
   grass_block_4: 0,
   grass_block_5: 0,
   grass_block_6: 0,
-  stone_block_1: 2,
+  stone_block_1: 0,
   stone_block_2: 0,
   stone_block_3: 0,
   stone_block_4: 0,
-  stone_block_5: 1,
+  stone_block_5: 0,
   stone_block_6: 0,
-  water_block_1: 3
+  water_block_1: 0
 };
 
 let environnement = new Environnement(map, blocks);
 environnement.createComposition(composition);
 environnement.buildMap();
 
-console.log(map.isReachable(0,0));
+let lack = [
+  [0, 1, 1, 1, 0],
+  [0, 1, 1, 1, 1],
+  [0, 1, 1, 1, 1],
+  [0, 0, 1, 1, 1],
+  [0, 0, 1, 1, 0],
+];
+
+let river = [
+  [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+  [0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 1, 1, 1, 1, 2, 1, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+];
+
+let lackBlocks = [
+  null,
+  blocks.water[0],
+];
+
+let riverBlocks = [
+  null,
+  blocks.water[0],
+  blocks.wood[0]
+];
+
+let lackPattern = new Pattern(lack, lackBlocks);
+let riverPattern = new Pattern(river, riverBlocks);
+
+environnement.placeBlockPattern(map.getRandomRow(), map.getRandomCol(), lackPattern);
+environnement.placeBlockPattern(map.getRandomRow(), 0, riverPattern);
 
 /*randomItems(virtualGrid, 4, 30, arrayComposition({
   backpack: 0, 

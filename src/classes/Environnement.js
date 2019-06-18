@@ -3,7 +3,7 @@ export class Environnement {
    * Represents the map environnement.
    * @constructor
    * @param {object} map - The map object.
-   * @param {array} block - The game blocks.
+   * @param {array} blocks - The game blocks.
    * @param {array} items - The game items.
    */
   constructor(map, blocks, items) {
@@ -17,21 +17,57 @@ export class Environnement {
    * Create the map block's composition.
    * @param {array} composition - Array with block associated of spawn chance.
    */
+
+  //TODO parcourir le tableau de blocks
   createComposition(composition) {
     this.composition = [];
     for (var wantedBlock in composition) {
-      for (var i = 0; i < composition[wantedBlock]; i++) {
-        this.composition.push(
-          this.blocks.filter(block => block.name == wantedBlock)
-        );
+      for (let x = 0; x < this.blocks.length; x++) {
+        console.log(this.blocks[x]);
       }
     }
     this.composition = this.composition.flat();
   }
 
   /**
+   * Place some blocks pattern on the map.
+   * @param {integer} row - The row of the cell.
+   * @param {integer} col - The column of the cell.
+   * @param {object} pattern - The pattern.
+   * @param {object} block - The block used.
+   */
+  placeBlockPattern(row, col, pattern, block) {
+      for (let x = 0; x < pattern.length; x++) {
+        for (let y = 0; y < pattern[0].length; y++) {
+          if(pattern[x][y] === 1) {
+            if(this.map.cellExist((row + x), (col + y))) {
+              this.addBlockToCell((row + x), (col + y), block);
+            }
+          }
+        }
+      }
+  }
+
+  /**
+   * Add a block to a cell present in the virtual map.
+   * @param {integer} row - The row of the cell.
+   * @param {integer} col - The column of the cell.
+   * @param {object} block - The block present in this cell.
+   */
+  addBlockToCell(row, col, block) {
+    let currentItem = document.querySelector(
+      "#gamegrid__item-" + row + "-" + col + " img"
+    );
+    currentItem.setAttribute(
+      "src",
+      "game_assets/ground-blocks/" + block.name + ".png"
+    );
+    this.map.addBlockToCell(row, col, block);
+  }
+
+  /**
    * Populate the grid with blocks and add to virtual grid the block properties.
-   * @param {integer} [mapPattern=null] - The pattern used for the map.
+   * @param {object} [mapPattern=null] - The pattern used for the map.
    * @param {bool} [time=500] - Max time for generate the map, used by animation.
    */
   buildMap(mapPattern = null, time = 500) {

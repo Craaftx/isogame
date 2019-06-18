@@ -84,6 +84,40 @@ export class Map {
   }
 
   /**
+   * Return a random row of the map.
+   * @return {integer} The row index.
+   */
+  getRandomRow() {
+    return Math.floor(Math.random() * Math.floor(this.size));
+  }
+
+  /**
+   * Return a random col of the map.
+   * @return {integer} The col index.
+   */
+  getRandomCol() {
+    return Math.floor(Math.random() * Math.floor(this.size));
+  }
+
+  /**
+   * Check if a cell exist.
+   * @param {integer} row - The row of the cell.
+   * @param {integer} col - The column of the cell.
+   * @return {bool} If exist return true instead return false.
+   */
+  cellExist(row, col) {
+    if(typeof this.virtualMap[row] == 'undefined') {
+      return false;
+    } else {
+      if(typeof this.virtualMap[row][col] == 'undefined') {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
+
+  /**
    * Define if a cell is reachable (Is not an air_block or water-block).
    * @param {integer} row - The row of the cell.
    * @param {integer} col - The column of the cell.
