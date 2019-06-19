@@ -7,9 +7,11 @@ export class Pattern {
    */
   constructor(pattern, blocks) {
     this.virtualMap = [];
-    for (let i = 0; i < pattern.length; i++) {
+    this.xSize = pattern.length;
+    this.ySize = pattern[0].length;
+    for (let i = 0; i < this.xSize; i++) {
       this.virtualMap[i] = [];
-      for (let x = 0; x < pattern[0].length; x++) {
+      for (let x = 0; x < this.ySize; x++) {
         if(pattern[i][x]) {
           this.virtualMap[i][x] = blocks[pattern[i][x]];
         }

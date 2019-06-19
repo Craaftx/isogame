@@ -150,7 +150,7 @@ let riverBlocks = [
 let lackPattern = new Pattern(lack, lackBlocks);
 let riverPattern = new Pattern(river, riverBlocks);
 
-environnement.placeBlockPattern(map.getRandomRow(), map.getRandomCol(), lackPattern);
+
 environnement.placeBlockPattern(map.getRandomRow(), 0, riverPattern);
 
 /*randomItems(virtualGrid, 4, 30, arrayComposition({

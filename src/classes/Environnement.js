@@ -18,12 +18,16 @@ export class Environnement {
    * @param {array} composition - Array with block associated of spawn chance.
    */
 
-  //TODO parcourir le tableau de blocks
+  //TODO refactor this
   createComposition(composition) {
-    this.composition = [];
-    for (var wantedBlock in composition) {
-      for (let x = 0; x < this.blocks.length; x++) {
-        console.log(this.blocks[x]);
+    let keys = Object.keys(this.blocks);
+    for (let wantedBlock in composition) {
+      for (let i = 0; i < keys.length; i++) {
+        for (let x = 0; x < composition[wantedBlock]; x++) {
+          this.composition.push(
+            this.blocks[keys[i]].filter(block => block.name == wantedBlock)
+          );
+        }
       }
     }
     this.composition = this.composition.flat();
@@ -34,14 +38,13 @@ export class Environnement {
    * @param {integer} row - The row of the cell.
    * @param {integer} col - The column of the cell.
    * @param {object} pattern - The pattern.
-   * @param {object} block - The block used.
    */
-  placeBlockPattern(row, col, pattern, block) {
-      for (let x = 0; x < pattern.length; x++) {
-        for (let y = 0; y < pattern[0].length; y++) {
-          if(pattern[x][y] === 1) {
+  placeBlockPattern(row, col, pattern) {
+      for (let x = 0; x < pattern.xSize; x++) {
+        for (let y = 0; y < pattern.ySize; y++) {
+          if(pattern.getBlockInCell(x, y)) {
             if(this.map.cellExist((row + x), (col + y))) {
-              this.addBlockToCell((row + x), (col + y), block);
+              this.addBlockToCell((row + x), (col + y), pattern.getBlockInCell(x, y));
             }
           }
         }
