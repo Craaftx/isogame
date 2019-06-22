@@ -7,8 +7,8 @@ export class Properties {
      * @param {integer} level - Level power.
      */
     constructor(attack, defense, level) {
-        this.attack = attack;
-        this.defense = defense;
-        this.level = level;
+        this._attack = attack;
+        this._defense = defense;
+        this._level = level;
     }
 }

@@ -6,14 +6,14 @@ export class Pattern {
    * @param {array} blocks - Blocks used in the pattern.
    */
   constructor(pattern, blocks) {
-    this.virtualMap = [];
-    this.xSize = pattern.length;
-    this.ySize = pattern[0].length;
-    for (let i = 0; i < this.xSize; i++) {
-      this.virtualMap[i] = [];
-      for (let x = 0; x < this.ySize; x++) {
+    this._virtualMap = [];
+    this._xSize = pattern.length;
+    this._ySize = pattern[0].length;
+    for (let i = 0; i < this._xSize; i++) {
+      this._virtualMap[i] = [];
+      for (let x = 0; x < this._ySize; x++) {
         if(pattern[i][x]) {
-          this.virtualMap[i][x] = blocks[pattern[i][x]];
+          this._virtualMap[i][x] = blocks[pattern[i][x]];
         }
       }
     }
@@ -26,6 +26,6 @@ export class Pattern {
    * @return {object} The block present in this cell.
    */
   getBlockInCell(row, col) {
-    return this.virtualMap[row][col];
+    return this._virtualMap[row][col];
   }
 }

@@ -7,10 +7,10 @@ export class Environnement {
    * @param {array} items - The game items.
    */
   constructor(map, blocks, items) {
-    this.map = map;
-    this.blocks = blocks;
-    this.items = items;
-    this.composition = [];
+    this._map = map;
+    this._blocks = blocks;
+    this._items = items;
+    this._composition = [];
   }
 
   /**
@@ -20,17 +20,17 @@ export class Environnement {
 
   //TODO refactor this
   createComposition(composition) {
-    let keys = Object.keys(this.blocks);
+    let keys = Object.keys(this._blocks);
     for (let wantedBlock in composition) {
       for (let i = 0; i < keys.length; i++) {
         for (let x = 0; x < composition[wantedBlock]; x++) {
-          this.composition.push(
-            this.blocks[keys[i]].filter(block => block.name == wantedBlock)
+          this._composition.push(
+            this._blocks[keys[i]].filter(block => block.name == wantedBlock)
           );
         }
       }
     }
-    this.composition = this.composition.flat();
+    this._composition = this._composition.flat();
   }
 
   /**
@@ -43,7 +43,7 @@ export class Environnement {
       for (let x = 0; x < pattern.xSize; x++) {
         for (let y = 0; y < pattern.ySize; y++) {
           if(pattern.getBlockInCell(x, y)) {
-            if(this.map.cellExist((row + x), (col + y))) {
+            if(this._map.cellExist((row + x), (col + y))) {
               this.addBlockToCell((row + x), (col + y), pattern.getBlockInCell(x, y));
             }
           }
@@ -65,7 +65,7 @@ export class Environnement {
       "src",
       "game_assets/ground-blocks/" + block.name + ".png"
     );
-    this.map.addBlockToCell(row, col, block);
+    this._map.addBlockToCell(row, col, block);
   }
 
   /**
@@ -75,11 +75,11 @@ export class Environnement {
    */
   buildMap(mapPattern = null, time = 500) {
     let usableBlocks =
-      this.composition.length == 0 ? this.blocks : this.composition;
+      this._composition.length == 0 ? this._blocks : this._composition;
     let animationDelay = 0;
-    let animationIncrement = time / this.map.size;
-    for (let row = 0; row < this.map.size; row++) {
-      for (let col = 0; col < this.map.size; col++) {
+    let animationIncrement = time / this._map.size;
+    for (let row = 0; row < this._map.size; row++) {
+      for (let col = 0; col < this._map.size; col++) {
         let currentItem = document.getElementById(
           "gamegrid__item-" + row + "-" + col
         );
@@ -97,7 +97,7 @@ export class Environnement {
           block = mapPattern.getBlockInCell(row, col);
         }
 
-        this.map.addBlockToCell(row, col, block);
+        this._map.addBlockToCell(row, col, block);
         let newBlock = document.createElement("img");
         newBlock.setAttribute(
           "src",

@@ -8,9 +8,9 @@ export class Item {
      * @param {object} properties - The item properties.
      */
     constructor(name, displayName, description, properties) {
-        this.name = name;
-        this.displayName = displayName;
-        this.description = description;
-        this.properties = properties;
+        this._name = name;
+        this._displayName = displayName;
+        this._description = description;
+        this._properties = properties;
     }
 }

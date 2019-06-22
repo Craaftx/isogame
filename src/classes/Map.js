@@ -5,12 +5,12 @@ export class Map {
    * @param {integer} size - The size of the map.
    */
   constructor(size) {
-    this.size = size;
-    this.virtualMap = [];
+    this._size = size;
+    this._virtualMap = [];
     for (let i = 0; i < size; i++) {
-      this.virtualMap[i] = [];
+      this._virtualMap[i] = [];
       for (let x = 0; x < size; x++) {
-        this.virtualMap[i][x] = {
+        this._virtualMap[i][x] = {
           block: null,
           item: null,
           reachable: null,
@@ -24,7 +24,7 @@ export class Map {
    * @return {array} Map Array with rows and columns.
    */
   getVirtualMap() {
-    return this.virtualMap;
+    return this._virtualMap;
   }
 
   /**
@@ -33,14 +33,14 @@ export class Map {
    * @param {bool} [empty=false] - Generate a map without html id.
    */
   generateGrid(parentId, empty = false) {
-    for (let i = 0; i < this.size; i++) {
+    for (let i = 0; i < this._size; i++) {
       let newRowDiv = document.createElement("div");
       if (!empty) {
         newRowDiv.setAttribute("id", "gamegrid__row-" + i);
       }
       newRowDiv.setAttribute("class", "gamegrid__row");
       let currentDiv = document.getElementById(parentId);
-      for (let x = 0; x < this.size; x++) {
+      for (let x = 0; x < this._size; x++) {
         let newColDiv = document.createElement("div");
         if (!empty) {
           newColDiv.setAttribute("id", "gamegrid__item-" + i + "-" + x);
@@ -59,8 +59,8 @@ export class Map {
    * @param {object} block - The block present in this cell.
    */
   addBlockToCell(row, col, block) {
-    this.virtualMap[row][col].block = block;
-    this.virtualMap[row][col].reachable = block.reachable;
+    this._virtualMap[row][col].block = block;
+    this._virtualMap[row][col].reachable = block.reachable;
   }
 
   /**
@@ -70,7 +70,7 @@ export class Map {
    * @param {object} item - The item present in this cell.
    */
   addItem(row, col, item) {
-    this.virtualMap[row][col].item = item;
+    this._virtualMap[row][col].item = item;
   }
 
   /**
@@ -80,7 +80,7 @@ export class Map {
    * @return {object} The params of this this cell.
    */
   getCell(row, col) {
-    return this.virtualMap[row][col];
+    return this._virtualMap[row][col];
   }
 
   /**
@@ -88,7 +88,7 @@ export class Map {
    * @return {integer} The row index.
    */
   getRandomRow() {
-    return Math.floor(Math.random() * Math.floor(this.size));
+    return Math.floor(Math.random() * Math.floor(this._size));
   }
 
   /**
@@ -96,7 +96,7 @@ export class Map {
    * @return {integer} The col index.
    */
   getRandomCol() {
-    return Math.floor(Math.random() * Math.floor(this.size));
+    return Math.floor(Math.random() * Math.floor(this._size));
   }
 
   /**
@@ -106,10 +106,10 @@ export class Map {
    * @return {bool} If exist return true instead return false.
    */
   cellExist(row, col) {
-    if(typeof this.virtualMap[row] == 'undefined') {
+    if(typeof this._virtualMap[row] == 'undefined') {
       return false;
     } else {
-      if(typeof this.virtualMap[row][col] == 'undefined') {
+      if(typeof this._virtualMap[row][col] == 'undefined') {
         return false;
       } else {
         return true;
@@ -124,7 +124,7 @@ export class Map {
    * @return {bool} If is reachable return true instead return false.
    */
   isReachable(row, col) {
-    return this.virtualMap[row][col].reachable;
+    return this._virtualMap[row][col].reachable;
   }
 
   /**
@@ -134,6 +134,6 @@ export class Map {
    * @return {bool} If is an air block return true instead return false.
    */
   isAirBlock(row, col) {
-    return this.virtualMap[row][col].block.name === "air_block_1";
+    return this._virtualMap[row][col].block.name === "air_block_1";
   }
 }
