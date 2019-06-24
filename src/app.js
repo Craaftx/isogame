@@ -5,41 +5,6 @@ import { Properties } from "./classes/Properties.js";
 import { Map } from "./classes/Map.js";
 import { Pattern } from "./classes/Pattern.js";
 import { Environnement } from "./classes/Environnement.js";
-/*
-function randomItems(virtualGrid, maxNumber, variation, gameItems) {
-  var currentGameItems = 0;
-  for (var i = 0; i < virtualGrid.length; i++) {
-    for (var x = 0; x < virtualGrid.length; x++) {
-      var currentBlock = document.getElementById(
-        "gamegrid__item-" + i + "-" + x
-      );
-      if (
-        currentGameItems < maxNumber &&
-        variation - 1 == getRandomInt(variation) &&
-        !isAirBlock(currentBlock)
-      ) {
-        var currentItem = currentBlock.getElementsByClassName(
-          "gamegrid__item__content"
-        )[0];
-        var newBlock = document.createElement("img");
-        newBlock.setAttribute(
-          "src",
-          "../game_assets/ground-items/" +
-            gameItems[getRandomInt(gameItems.length)] +
-            ".png"
-        );
-        newBlock.setAttribute("class", "gamegrid__item__content--gameitem");
-        newBlock.setAttribute(
-          "style",
-          "animation-delay:" + (globalBlockGenerationTime + 40) + "ms"
-        );
-        currentItem.appendChild(newBlock);
-        currentGameItems++;
-      }
-    }
-  }
-}
-*/
 
 let blocks = {
   air: [
@@ -83,26 +48,6 @@ let items = {
   ],
 }
 
-let pattern = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
-  [0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
-  [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-  [0, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 0],
-  [0, 1, 1, 1, 2, 2, 2, 2, 1, 1, 0, 0],
-  [0, 1, 1, 2, 2, 2, 2, 2, 1, 1, 0, 0],
-  [0, 1, 1, 1, 2, 2, 2, 1, 1, 0, 0, 0],
-  [0, 0, 1, 1, 1, 2, 1, 1, 1, 0, 0, 0],
-  [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-  [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-]
-
-let size = 12;
-
-let map = new Map(size);
-map.generateGrid("gamegrid");
-
 let composition = {
   grass_block_1: 4,
   grass_block_2: 2,
@@ -119,10 +64,20 @@ let composition = {
   water_block_1: 0
 };
 
-let environnement = new Environnement(map, blocks, items);
-environnement.createComposition(composition);
-// environnement.chooseItems(number, list);
-environnement.buildMap();
+let pattern = [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1],
+  [1, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1],
+  [1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+  [1, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 1],
+  [1, 2, 2, 2, 3, 3, 3, 3, 2, 2, 1, 1],
+  [1, 2, 2, 3, 3, 3, 3, 3, 2, 2, 1, 1],
+  [1, 2, 2, 2, 3, 3, 3, 2, 2, 1, 1, 1],
+  [1, 1, 2, 2, 2, 3, 2, 2, 2, 1, 1, 1],
+  [1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1],
+  [1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+]
 
 let lack = [
   [0, 1, 1, 1, 0],
@@ -141,9 +96,16 @@ let river = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
 ];
 
-let lackBlocks = [
+let patternBlocks = [
   null,
   blocks.water[0],
+  blocks.grass[0],
+  blocks.grass[1],
+];
+
+let lackBlocks = [
+  null,
+  blocks.water[1],
 ];
 
 let riverBlocks = [
@@ -152,10 +114,21 @@ let riverBlocks = [
   blocks.wood[0]
 ];
 
+let size = 12;
+
+let map = new Map(size);
+console.table(map.getVirtualMap());
+map.generateGrid("gamegrid");
+
 let lackPattern = new Pattern(lack, lackBlocks);
 let riverPattern = new Pattern(river, riverBlocks);
+let mapPattern = new Pattern(pattern, patternBlocks);
 
-environnement.placeBlockPattern(map.getRandomRow(1, (map._size - 7)), 0, riverPattern);
+let environnement = new Environnement(map, blocks, items);
+environnement.createComposition(composition);
+environnement.buildMap();
+environnement.placeBlockPattern(0, 0, mapPattern);
+
+
+// environnement.placeBlockPattern(map.getRandomRow(1, (map._size - 7)), 0, riverPattern);
 environnement.placeItems(5);
-
-console.table(map.getVirtualMap());

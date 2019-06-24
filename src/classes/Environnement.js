@@ -91,10 +91,9 @@ export class Environnement {
 
   /**
    * Populate the grid with blocks and add to virtual grid the block properties.
-   * @param {object} [mapPattern=null] - The pattern used for the map.
    * @param {bool} [time=500] - Max time for generate the map, used by animation.
    */
-  buildMap(mapPattern = null, time = 500) {
+  buildMap(time = 500) {
     let usableBlocks =
       this._composition.length == 0 ? this._blocks : this._composition;
     for (let row = 0; row < this._map._size; row++) {
@@ -106,15 +105,10 @@ export class Environnement {
         let newDiv = document.createElement("div");
         newDiv.setAttribute("class", "gamegrid__item__content");
 
-        let block;
-        if (mapPattern === null) {
-          block =
-            usableBlocks[
-              Math.floor(Math.random() * Math.floor(usableBlocks.length))
-            ];
-        } else {
-          block = mapPattern.getBlockInCell(row, col);
-        }
+        let block =
+          usableBlocks[
+            Math.floor(Math.random() * Math.floor(usableBlocks.length))
+          ];
 
         this._map.addBlockToCell(row, col, block);
         let newBlock = document.createElement("img");
@@ -138,20 +132,18 @@ export class Environnement {
     const mapSize = this._map._size - 1;
     const halfSize = this._map._size / 2 - 1;
     const mapParts = [
-      [ [0, halfSize], [0, halfSize] ],
-      [ [halfSize, mapSize], [0, halfSize] ],
-      [ [halfSize, 0], [halfSize, mapSize] ],
-      [ [halfSize, mapSize], [halfSize, mapSize] ]
+      [[0, halfSize], [0, halfSize]],
+      [[halfSize, mapSize], [0, halfSize]],
+      [[halfSize, 0], [halfSize, mapSize]],
+      [[halfSize, mapSize], [halfSize, mapSize]]
     ];
-    const mapCenter = [
-      [halfSize - 1, halfSize + 1], [0, mapSize]
-    ];
+    const mapCenter = [[halfSize - 1, halfSize + 1], [0, mapSize]];
 
     this.shuffleItems();
 
     let numberCount = number;
     while (numberCount > 0) {
-      if ((numberCount - 4) >= 0) {
+      if (numberCount - 4 >= 0) {
         for (var x = 0; x < 4; x++) {
           let cell;
           do {
@@ -159,8 +151,10 @@ export class Environnement {
               this._map.getRandomRow(mapParts[x][0][0], mapParts[x][0][1]),
               this._map.getRandomCol(mapParts[x][1][0], mapParts[x][1][1])
             ];
-          } while (!this._map.isReachable(cell[0], cell[1]) || this._map.containItem(cell[0], cell[1]));
-          console.log('Place Item | number - 4 | From number :' + numberCount + " To map part : " + mapParts[x]);
+          } while (
+            !this._map.isReachable(cell[0], cell[1]) ||
+            this._map.containItem(cell[0], cell[1])
+          );
           this.generateItem(this._itemsFlatten[numberCount], cell[0], cell[1]);
           numberCount--;
         }
@@ -169,14 +163,26 @@ export class Environnement {
           for (var x = 0; x < 2; x++) {
             let cell;
             do {
-              let newIndex = (x == 2 ? x = 1 : x);
+              let newIndex = x == 2 ? (x = 1) : x;
               cell = [
-                this._map.getRandomRow(mapParts[newIndex][0][0], mapParts[newIndex][0][1]),
-                this._map.getRandomCol(mapParts[newIndex][1][0], mapParts[newIndex][1][1])
+                this._map.getRandomRow(
+                  mapParts[newIndex][0][0],
+                  mapParts[newIndex][0][1]
+                ),
+                this._map.getRandomCol(
+                  mapParts[newIndex][1][0],
+                  mapParts[newIndex][1][1]
+                )
               ];
-            } while (!this._map.isReachable(cell[0], cell[1]) || this._map.containItem(cell[0], cell[1]));
-            console.log('Place Item | number - 2 | From number :' + numberCount + " To map part : " + mapParts[x]);
-            this.generateItem(this._itemsFlatten[numberCount], cell[0], cell[1]);
+            } while (
+              !this._map.isReachable(cell[0], cell[1]) ||
+              this._map.containItem(cell[0], cell[1])
+            );
+            this.generateItem(
+              this._itemsFlatten[numberCount],
+              cell[0],
+              cell[1]
+            );
             numberCount--;
           }
         } else {
@@ -187,9 +193,15 @@ export class Environnement {
                 this._map.getRandomRow(mapCenter[0][0], mapCenter[0][1]),
                 this._map.getRandomCol(mapCenter[1][0], mapCenter[1][1])
               ];
-            } while (!this._map.isReachable(cell[0], cell[1]) || this._map.containItem(cell[0], cell[1]));
-            console.log('Place Item | Center | From number :' + numberCount + " To : " + cell[0] + " " + cell[1]);
-            this.generateItem(this._itemsFlatten[numberCount], cell[0], cell[1]);
+            } while (
+              !this._map.isReachable(cell[0], cell[1]) ||
+              this._map.containItem(cell[0], cell[1])
+            );
+            this.generateItem(
+              this._itemsFlatten[numberCount],
+              cell[0],
+              cell[1]
+            );
             numberCount--;
           }
         }
@@ -206,9 +218,9 @@ export class Environnement {
    * @param {object} item - The item.
    * @param {integer} row - The row of the item.
    * @param {integer} col - The col of the item.
-   * @param {bool} [delay=200] - Delay for generate the items, used by animation.
+   * @param {bool} [delay=2000] - Delay for generate the items, used by animation.
    */
-  generateItem(item, row, col, delay = 400) {
+  generateItem(item, row, col, delay = 2000) {
     let currentBlock = document.getElementById(
       "gamegrid__item-" + row + "-" + col
     );
@@ -224,7 +236,7 @@ export class Environnement {
     newItem.setAttribute(
       "style",
       "animation-delay:" +
-        (Math.floor(Math.random() * Math.floor(400)) + delay) +
+        (Math.floor(Math.random() * Math.floor(1000)) + delay) +
         "ms"
     );
     currentContent.appendChild(newItem);

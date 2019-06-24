@@ -11,7 +11,7 @@ $color-table-stroke: #333333;
 // Grid Sizes
 $tile-size: 48;
 $tile-number: 12;
-$tile-spacing: 14;
+$tile-spacing: 12;
 
 $max-size: $tile-size * $tile-number;
 $grid-size: $max-size + 0px;
@@ -110,7 +110,7 @@ body {
     transform: translateX(-50%);
     width: $grid-tile-gameitem-size;
     opacity: 0;
-    animation: item_placement 1s 1s ease-out forwards;
+    animation: item_placement 1.4s ease-out forwards;
   }
 }
 
