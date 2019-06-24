@@ -60,7 +60,7 @@ export class Map {
    */
   addBlockToCell(row, col, block) {
     this._virtualMap[row][col].block = block;
-    this._virtualMap[row][col].reachable = block.reachable;
+    this._virtualMap[row][col].reachable = block._reachable;
   }
 
   /**
@@ -134,6 +134,6 @@ export class Map {
    * @return {bool} If is an air block return true instead return false.
    */
   isAirBlock(row, col) {
-    return this._virtualMap[row][col].block.name === "air_block_1";
+    return this._virtualMap[row][col].block._name === "air_block_1";
   }
 }

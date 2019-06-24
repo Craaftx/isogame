@@ -17,15 +17,13 @@ export class Environnement {
    * Create the map block's composition.
    * @param {array} composition - Array with block associated of spawn chance.
    */
-
-  //TODO refactor this
   createComposition(composition) {
     let keys = Object.keys(this._blocks);
     for (let wantedBlock in composition) {
       for (let i = 0; i < keys.length; i++) {
         for (let x = 0; x < composition[wantedBlock]; x++) {
           this._composition.push(
-            this._blocks[keys[i]].filter(block => block.name == wantedBlock)
+            this._blocks[keys[i]].filter(block => block._name == wantedBlock)
           );
         }
       }
@@ -40,15 +38,15 @@ export class Environnement {
    * @param {object} pattern - The pattern.
    */
   placeBlockPattern(row, col, pattern) {
-      for (let x = 0; x < pattern.xSize; x++) {
-        for (let y = 0; y < pattern.ySize; y++) {
-          if(pattern.getBlockInCell(x, y)) {
-            if(this._map.cellExist((row + x), (col + y))) {
-              this.addBlockToCell((row + x), (col + y), pattern.getBlockInCell(x, y));
-            }
+    for (let x = 0; x < pattern._xSize; x++) {
+      for (let y = 0; y < pattern._ySize; y++) {
+        if(pattern.getBlockInCell(x, y)) {
+          if(this._map.cellExist((row + x), (col + y))) {
+            this.addBlockToCell((row + x), (col + y), pattern.getBlockInCell(x, y));
           }
         }
       }
+    }
   }
 
   /**
@@ -59,11 +57,11 @@ export class Environnement {
    */
   addBlockToCell(row, col, block) {
     let currentItem = document.querySelector(
-      "#gamegrid__item-" + row + "-" + col + " img"
+      "#gamegrid__item-" + row + "-" + col + " .gamegrid__item__content--block"
     );
     currentItem.setAttribute(
       "src",
-      "game_assets/ground-blocks/" + block.name + ".png"
+      "game_assets/ground-blocks/" + block._name + ".png"
     );
     this._map.addBlockToCell(row, col, block);
   }
@@ -77,9 +75,9 @@ export class Environnement {
     let usableBlocks =
       this._composition.length == 0 ? this._blocks : this._composition;
     let animationDelay = 0;
-    let animationIncrement = time / this._map.size;
-    for (let row = 0; row < this._map.size; row++) {
-      for (let col = 0; col < this._map.size; col++) {
+    let animationIncrement = time / this._map._size;
+    for (let row = 0; row < this._map._size; row++) {
+      for (let col = 0; col < this._map._size; col++) {
         let currentItem = document.getElementById(
           "gamegrid__item-" + row + "-" + col
         );
@@ -97,11 +95,12 @@ export class Environnement {
           block = mapPattern.getBlockInCell(row, col);
         }
 
+
         this._map.addBlockToCell(row, col, block);
         let newBlock = document.createElement("img");
         newBlock.setAttribute(
           "src",
-          "game_assets/ground-blocks/" + block.name + ".png"
+          "game_assets/ground-blocks/" + block._name + ".png"
         );
         newBlock.setAttribute("class", "gamegrid__item__content--block");
         newBlock.setAttribute(
