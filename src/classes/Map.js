@@ -69,7 +69,7 @@ export class Map {
    * @param {integer} col - The column of the cell.
    * @param {object} item - The item present in this cell.
    */
-  addItem(row, col, item) {
+  addItemToCell(row, col, item) {
     this._virtualMap[row][col].item = item;
   }
 
@@ -85,18 +85,28 @@ export class Map {
 
   /**
    * Return a random row of the map.
+   * @param {integer} [min=0] - Min value.
+   * @param {integer} [max=mapSize] - Max value.
    * @return {integer} The row index.
    */
-  getRandomRow() {
-    return Math.floor(Math.random() * Math.floor(this._size));
+  getRandomRow(min = 0, max = this._size - 1) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      const res = Math.floor(Math.random() * (max - min + 1)) + min;
+      return res > this._size || res < 0 ? this._size - 1 : res;
   }
 
   /**
    * Return a random col of the map.
+   * @param {integer} [min=0] - Min value.
+   * @param {integer} [max=mapSize] - Max value.
    * @return {integer} The col index.
    */
-  getRandomCol() {
-    return Math.floor(Math.random() * Math.floor(this._size));
+  getRandomCol(min = 0, max = this._size - 1) { 
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      const res = Math.floor(Math.random() * (max - min + 1)) + min;
+      return res > this._size || res < 0 ? this._size - 1 : res;
   }
 
   /**
@@ -125,6 +135,16 @@ export class Map {
    */
   isReachable(row, col) {
     return this._virtualMap[row][col].reachable;
+  }
+
+  /**
+   * Define if a cell contain an item.
+   * @param {integer} row - The row of the cell.
+   * @param {integer} col - The column of the cell.
+   * @return {bool} If contain an item return true instead return false.
+   */
+  containItem(row, col) {
+    return this._virtualMap[row][col].item !== null;
   }
 
   /**

@@ -72,12 +72,16 @@ let blocks = {
   ],
 };
 
-let items = [
-  new Item("spell_mystic_superior", "Livre de sort supérieur", "A utiliser avec précaution !", new Properties(10, 0, 3)),
-  new Item("spell_sword_major", "Livre d'arme majeur", "A utiliser avec précaution !", new Properties(5, 5, 2)),
-  new Item("spell_fire_superior", "Livre de pyromancie supérieur", "A utiliser avec précaution !", new Properties(15, -5, 3)),
-  new Item("spell_bones_minor", "Livre de nécromancie mineur", "A utiliser avec précaution !", new Properties(0, 10, 1)),
-]
+let items = {
+  books: [
+    new Item("spell_mystic_superior", "Livre de sort supérieur", "A utiliser avec précaution !", new Properties(10, 0, 3)),
+    new Item("spell_sword_major", "Livre d'arme majeur", "A utiliser avec précaution !", new Properties(5, 5, 2)),
+    new Item("spell_fire_superior", "Livre de pyromancie supérieur", "A utiliser avec précaution !", new Properties(15, -5, 3)),
+    new Item("spell_bones_minor", "Livre de nécromancie mineur", "A utiliser avec précaution !", new Properties(0, 10, 1)),
+    new Item("spell_fire_superior", "Livre de pyromancie supérieur", "A utiliser avec précaution !", new Properties(15, -5, 3)),
+    new Item("spell_bones_minor", "Livre de nécromancie mineur", "A utiliser avec précaution !", new Properties(0, 10, 1)),
+  ],
+}
 
 let pattern = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -115,8 +119,9 @@ let composition = {
   water_block_1: 0
 };
 
-let environnement = new Environnement(map, blocks);
+let environnement = new Environnement(map, blocks, items);
 environnement.createComposition(composition);
+// environnement.chooseItems(number, list);
 environnement.buildMap();
 
 let lack = [
@@ -150,17 +155,7 @@ let riverBlocks = [
 let lackPattern = new Pattern(lack, lackBlocks);
 let riverPattern = new Pattern(river, riverBlocks);
 
-environnement.placeBlockPattern(map.getRandomRow(), 0, riverPattern);
+environnement.placeBlockPattern(map.getRandomRow(1, (map._size - 7)), 0, riverPattern);
+environnement.placeItems(5);
 
 console.table(map.getVirtualMap());
-
-/*randomItems(virtualGrid, 4, 30, arrayComposition({
-  backpack: 0, 
-  belt: 1, 
-  bomb: 1, 
-  book: 1, 
-  bronze_coin: 0, 
-  ring: 1, 
-  scroll: 0, 
-  sword: 0
-}));*/
