@@ -11,6 +11,11 @@ export class Environnement {
     this._blocks = blocks;
     this._items = items;
     this._composition = [];
+    /**
+     * @review : ça me fait un peu tiquer ton truc là.
+     * D'un côté, tu initialses ta propriété à un array vide puis ensuite tu le recomplètes avec ta méthode flattenItems.
+     * Tu ne peux pas directement lui dire que this._itemsFlatten = this.flattentItems ?
+     */
     this._itemsFlatten = [];
     this.flattenItems();
   }
@@ -38,6 +43,7 @@ export class Environnement {
    */
   flattenItems() {
     let keys = Object.keys(this._items);
+    // Étant donné que tu construits un tableau ici, tu ne peux pas passer par un .map plutôt que de t'embêter avec une double boucle for et un .push ?
     for (let i = 0; i < keys.length; i++) {
       for (let x = 0; x < this._items[keys[i]].length; x++) {
         this._itemsFlatten.push(this._items[keys[i]][x]);
@@ -49,6 +55,7 @@ export class Environnement {
    * Shuffle flatten items.
    */
   shuffleItems() {
+    // Quitte à utiliser de l'ES6, tu peux passer ça en arrow function, non ?
     this._itemsFlatten.sort(function() {
       return 0.5 - Math.random();
     });
@@ -61,6 +68,7 @@ export class Environnement {
    * @param {object} pattern - The pattern.
    */
   placeBlockPattern(row, col, pattern) {
+    // Alors là pour le coup, j'ai pas essayé mais tu fais un un .map().map().filter() ? Tu vas pouvoir chainer tes éléments et gagner en visibilité.
     for (let x = 0; x < pattern._xSize; x++) {
       for (let y = 0; y < pattern._ySize; y++) {
         if (pattern.getBlockInCell(x, y)) {
@@ -79,6 +87,7 @@ export class Environnement {
    * @param {object} block - The block present in this cell.
    */
   addBlockToCell(row, col, block) {
+    // Tu peux faire un const et tu peux utiliser un template literal plutôt que de concatener
     let currentItem = document.querySelector(
       "#gamegrid__item-" + row + "-" + col + " .gamegrid__item__content--block"
     );
@@ -129,6 +138,11 @@ export class Environnement {
    * @param {integer} number - Number of items placed.
    */
   placeItems(number) {
+    /**
+     * ah tiens, j'en profite ici pour te faire un retour un peu général.
+     * tu peux utiliser des getter et des setter dans tes classes. Ça t'évitera de passer par des underscores et ça peut être assez utile pour accéder à des propriétés deep (genre this._map._size._exemple).
+     * Au lieu de ça, tu pourras faire this.map || this.map.size
+     */
     const mapSize = this._map._size - 1;
     const halfSize = this._map._size / 2 - 1;
     const mapParts = [
@@ -141,8 +155,14 @@ export class Environnement {
 
     this.shuffleItems();
 
+    /**
+     * Je pense que tu as gagné le droit de mettre des commentaires là dessus ;)
+     */
     let numberCount = number;
     while (numberCount > 0) {
+      /**
+       * Si tu fais un .filter().map, est-ce que ce serait pas mieux ?
+       */
       if (numberCount - 4 >= 0) {
         for (var x = 0; x < 4; x++) {
           let cell;

@@ -7,6 +7,9 @@ export class Pattern {
    */
   constructor(pattern, blocks) {
     this._virtualMap = [];
+    /**
+     * @review : du coup, pattern, c'est un array simple ou multidimensionel ?
+     */
     this._xSize = pattern.length;
     this._ySize = pattern[0].length;
     for (let i = 0; i < this._xSize; i++) {

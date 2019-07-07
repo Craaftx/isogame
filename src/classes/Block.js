@@ -9,4 +9,16 @@ export class Block {
         this._name = name;
         this._reachable = reachable;
     }
+
+    /**
+     * Exemple avec des getter
+     */
+    get name() {
+        return this._name
+    }
 }
+
+/**
+ * const block = new Block('test', false)
+ * console.log(block.name) au lieu de block._name (alors ok, toutes les propriétés restent publiques en JS mais c'est un peu plus propre)
+ */

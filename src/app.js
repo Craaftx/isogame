@@ -1,4 +1,11 @@
 import "./main.scss";
+/**
+ * @code review: en fait, tu peux faire des export default pour tes classes.
+ * Tu pourras aussi les mettres dans le propre dossier avec un barrer.
+ * (je t'ai fait un dossier d'exemple)
+ */
+import Blop from './classes/Blop'
+
 import { Block } from "./classes/Block.js";
 import { Item } from "./classes/Item.js";
 import { Properties } from "./classes/Properties.js";
@@ -6,6 +13,10 @@ import { Map } from "./classes/Map.js";
 import { Pattern } from "./classes/Pattern.js";
 import { Environnement } from "./classes/Environnement.js";
 
+/**
+ * En fait, toute cette partie où tu instancies tes classes, tu peux le faire dans un fichier à part (genre blocksData.js).
+ * De cette façon, ton fichier app.js ne contiendra que l'initialisation de ton jeu
+ */
 let blocks = {
   air: [
     new Block("air_block_1", false),

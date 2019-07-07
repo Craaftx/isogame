@@ -7,6 +7,9 @@ export class Map {
   constructor(size) {
     this._size = size;
     this._virtualMap = [];
+    /**
+     * quitte à initialiser virtualMap à 0 puis à le remplir autant le remplir directement
+     */
     for (let i = 0; i < size; i++) {
       this._virtualMap[i] = [];
       for (let x = 0; x < size; x++) {
@@ -26,6 +29,13 @@ export class Map {
   getVirtualMap() {
     return this._virtualMap;
   }
+
+  /**
+   * C'est mieux ça ;)
+   */
+  // get virtualMap() {
+  //   return this._virtualMap
+  // }
 
   /**
    * Generate the FrontEnd structure for the grid.
