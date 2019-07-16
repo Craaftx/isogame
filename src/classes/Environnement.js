@@ -11,8 +11,7 @@ export class Environnement {
     this._blocks = blocks;
     this._items = items;
     this._composition = [];
-    this._itemsFlatten = [];
-    this.flattenItems();
+    this._itemsFlatten = this.flattenItems();
   }
 
   /**
@@ -37,12 +36,14 @@ export class Environnement {
    * Flat the map items's to remove object names.
    */
   flattenItems() {
+    let items = [];
     let keys = Object.keys(this._items);
     for (let i = 0; i < keys.length; i++) {
       for (let x = 0; x < this._items[keys[i]].length; x++) {
-        this._itemsFlatten.push(this._items[keys[i]][x]);
+        items.push(this._items[keys[i]][x]);
       }
     }
+    return items;
   }
 
   /**
@@ -80,7 +81,7 @@ export class Environnement {
    */
   addBlockToCell(row, col, block) {
     let currentItem = document.querySelector(
-      "#gamegrid__item-" + row + "-" + col + " .gamegrid__item__content--block"
+      "#gamegrid__cell-" + row + "-" + col + " .gamegrid__cell__content--block"
     );
     currentItem.setAttribute(
       "src",
@@ -99,11 +100,11 @@ export class Environnement {
     for (let row = 0; row < this._map._size; row++) {
       for (let col = 0; col < this._map._size; col++) {
         let currentItem = document.getElementById(
-          "gamegrid__item-" + row + "-" + col
+          "gamegrid__cell-" + row + "-" + col
         );
 
         let newDiv = document.createElement("div");
-        newDiv.setAttribute("class", "gamegrid__item__content");
+        newDiv.setAttribute("class", "gamegrid__cell__content");
 
         let block =
           usableBlocks[
@@ -116,7 +117,7 @@ export class Environnement {
           "src",
           "game_assets/ground-blocks/" + block._name + ".png"
         );
-        newBlock.setAttribute("class", "gamegrid__item__content--block");
+        newBlock.setAttribute("class", "gamegrid__cell__content--block");
 
         newDiv.appendChild(newBlock);
         currentItem.appendChild(newDiv);
@@ -222,17 +223,17 @@ export class Environnement {
    */
   generateItem(item, row, col, delay = 2000) {
     let currentBlock = document.getElementById(
-      "gamegrid__item-" + row + "-" + col
+      "gamegrid__cell-" + row + "-" + col
     );
     var currentContent = currentBlock.getElementsByClassName(
-      "gamegrid__item__content"
+      "gamegrid__cell__content"
     )[0];
     var newItem = document.createElement("img");
     newItem.setAttribute(
       "src",
       "game_assets/ground-items/" + item._name + ".png"
     );
-    newItem.setAttribute("class", "gamegrid__item__content--gameitem");
+    newItem.setAttribute("class", "gamegrid__cell__content--gameitem");
     newItem.setAttribute(
       "style",
       "animation-delay:" +

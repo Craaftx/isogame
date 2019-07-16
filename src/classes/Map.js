@@ -43,9 +43,9 @@ export class Map {
       for (let x = 0; x < this._size; x++) {
         let newColDiv = document.createElement("div");
         if (!empty) {
-          newColDiv.setAttribute("id", "gamegrid__item-" + i + "-" + x);
+          newColDiv.setAttribute("id", "gamegrid__cell-" + i + "-" + x);
         }
-        newColDiv.setAttribute("class", "gamegrid__item");
+        newColDiv.setAttribute("class", "gamegrid__cell");
         newRowDiv.appendChild(newColDiv);
       }
       currentDiv.appendChild(newRowDiv);
