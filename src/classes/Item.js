@@ -1,4 +1,4 @@
-export class Item {
+export default class Item {
     /**
      * Represents an Item.
      * @constructor

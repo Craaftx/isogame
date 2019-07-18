@@ -1,4 +1,4 @@
-export class Map {
+export default class Map {
   /**
    * Represents a Map.
    * @constructor
@@ -6,6 +6,7 @@ export class Map {
    */
   constructor(size) {
     this._size = size;
+    this._blocks = [];
     this._virtualMap = [];
     for (let i = 0; i < size; i++) {
       this._virtualMap[i] = [];
@@ -36,14 +37,14 @@ export class Map {
     for (let i = 0; i < this._size; i++) {
       let newRowDiv = document.createElement("div");
       if (!empty) {
-        newRowDiv.setAttribute("id", "gamegrid__row-" + i);
+        newRowDiv.setAttribute("id", `gamegrid__row-${i}`);
       }
       newRowDiv.setAttribute("class", "gamegrid__row");
       let currentDiv = document.getElementById(parentId);
       for (let x = 0; x < this._size; x++) {
         let newColDiv = document.createElement("div");
         if (!empty) {
-          newColDiv.setAttribute("id", "gamegrid__cell-" + i + "-" + x);
+          newColDiv.setAttribute("id", `gamegrid__cell-${i}-${x}`);
         }
         newColDiv.setAttribute("class", "gamegrid__cell");
         newRowDiv.appendChild(newColDiv);

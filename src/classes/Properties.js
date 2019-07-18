@@ -1,4 +1,4 @@
-export class Properties {
+export default class Properties {
     /**
      * Represents properties of Item or Character. Value can be negative.
      * @constructor

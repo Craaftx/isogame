@@ -1,8 +1,8 @@
-export class Pattern {
+export default class Pattern {
   /**
    * Represents a Pattern.
    * @constructor
-   * @param {array} pattern - The pattern who applies to the map.
+   * @param {array} pattern - (Multidimensional array) The pattern who applies to the map.
    * @param {array} blocks - Blocks used in the pattern.
    */
   constructor(pattern, blocks) {

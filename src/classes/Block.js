@@ -1,4 +1,4 @@
-export class Block {
+export default class Block {
     /**
      * Represents a Block.
      * @constructor

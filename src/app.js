@@ -1,10 +1,15 @@
 import "./main.scss";
-import { Block } from "./classes/Block.js";
-import { Item } from "./classes/Item.js";
-import { Properties } from "./classes/Properties.js";
-import { Map } from "./classes/Map.js";
-import { Pattern } from "./classes/Pattern.js";
-import { Environnement } from "./classes/Environnement.js";
+import Block from "./classes/Block";
+import Item from "./classes/Item";
+import Properties from "./classes/Properties";
+import Map from "./classes/Map";
+import Pattern from "./classes/Pattern";
+import Environnement from "./classes/Environnement";
+import Sprite from "./classes/Sprite";
+
+let level_1_idle_001 = new Sprite("level_1_idle_001", 1, 200, 214, 0.8, 24, "/001/level_1/idle.png");
+let level_2_walk_001 = new Sprite("level_2_walk_001", 2, 202, 210, 0.8, 24, "/001/level_2/walk.png");
+let level_3_walk_001 = new Sprite("level_3_walk_001", 3, 293, 556, 1.4, 24, "/001/level_3/walk.png");
 
 let blocks = {
   air: [
@@ -39,12 +44,12 @@ let blocks = {
 
 let items = {
   books: [
-    new Item("spell_mystic_superior", "Livre de sort supérieur", "A utiliser avec précaution !", new Properties(10, 0, 3)),
-    new Item("spell_sword_major", "Livre d'arme majeur", "A utiliser avec précaution !", new Properties(5, 5, 2)),
-    new Item("spell_fire_superior", "Livre de pyromancie supérieur", "A utiliser avec précaution !", new Properties(15, -5, 3)),
-    new Item("spell_bones_minor", "Livre de nécromancie mineur", "A utiliser avec précaution !", new Properties(0, 10, 1)),
-    new Item("spell_fire_superior", "Livre de pyromancie supérieur", "A utiliser avec précaution !", new Properties(15, -5, 3)),
-    new Item("spell_bones_minor", "Livre de nécromancie mineur", "A utiliser avec précaution !", new Properties(0, 10, 1)),
+    new Item("spell_mystic_superior", "Livre de sort supérieur", "A utiliser avec précaution !", new Properties(10, 0, 0, 3)),
+    new Item("spell_sword_major", "Livre d'arme majeur", "A utiliser avec précaution !", new Properties(5, 5, 0, 2)),
+    new Item("spell_fire_superior", "Livre de pyromancie supérieur", "A utiliser avec précaution !", new Properties(15, -5, 0, 3)),
+    new Item("spell_bones_minor", "Livre de nécromancie mineur", "A utiliser avec précaution !", new Properties(0, 10, 0, 1)),
+    new Item("spell_fire_superior", "Livre de pyromancie supérieur", "A utiliser avec précaution !", new Properties(15, -5, 0, 3)),
+    new Item("spell_bones_minor", "Livre de nécromancie mineur", "A utiliser avec précaution !", new Properties(0, 10, 0, 1)),
   ],
 }
 
@@ -127,8 +132,9 @@ let mapPattern = new Pattern(pattern, patternBlocks);
 let environnement = new Environnement(map, blocks, items);
 environnement.createComposition(composition);
 environnement.buildMap();
-environnement.placeBlockPattern(0, 0, mapPattern);
+environnement.placeBlockPattern(map.getRandomRow(1, (map._size - 7)), 0, riverPattern);
+environnement.placeItems(4);
 
-
-// environnement.placeBlockPattern(map.getRandomRow(1, (map._size - 7)), 0, riverPattern);
-environnement.placeItems(5);
+level_1_idle_001.buildSprite('players');
+level_2_walk_001.buildSprite('players');
+level_3_walk_001.buildSprite('players');

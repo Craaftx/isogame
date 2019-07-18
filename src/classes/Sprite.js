@@ -1,4 +1,4 @@
-export class Sprite {
+export default class Sprite {
     /**
      * Represents a sprite.
      * @constructor
@@ -22,12 +22,16 @@ export class Sprite {
         this._inverse = inverse;
     }
 
+    /**
+     * Build a sprite and add it to the DOM.
+     * @param {string} parentId - The DOM parent.
+     */
     buildSprite($parentId) {
       let $parent = document.querySelector(`#${$parentId}`);
       let $newSpriteContainer = document.createElement("div");
       $newSpriteContainer.setAttribute("class", "players__player");
       let $newSprite = document.createElement("div");
-      $newSprite.setAttribute("id", "players__player__sprite-" + this._name);
+      $newSprite.setAttribute("id", `players__player__sprite-${this._name}`);
       $newSprite.setAttribute("class", 
       `players__player__sprite 
         ${this._inverse ? "--sprite-inverse" : ""} 
