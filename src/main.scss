@@ -20,10 +20,20 @@ $grid-tile-size: $tile-size + 0px;
 $grid-tile-block-size: (($tile-size * 2) + $tile-spacing) + 0px;
 $grid-tile-gameitem-size: (($tile-size * 1) + $tile-spacing) + 0px;
 
+$grid-max-size: $max-size + 0px;
 $grid-shadow-size: ($max-size * 1.1) + 0px;
 $grid-shadow-position: ($max-size / 3.5) + 0px;
 $grid-shadow-length: (($max-size / 2) / 4) + 0px;
 $grid-shadow-blur: (($max-size / 2) / 6) + 0px;
+
+$monster-one-size: 0.7;
+$monster-one-position: -($tile-size * 2.8) + 0px;
+
+$monster-two-size: 0.7;
+$monster-two-position: -($tile-size * 2.4) + 0px;
+
+$monster-three-size: 0.7;
+$monster-three-position: -($tile-size * 6.3) + 0px;
 
 html {
   font-size: 10px;
@@ -56,7 +66,7 @@ body {
   font-size: 0;
 }
 
-.floor .gamegrid__item {
+.floor .gamegrid__cell {
   position: relative;
   box-sizing: border-box;
   display: inline-block;
@@ -66,6 +76,14 @@ body {
   text-align: center;
   vertical-align: top;
   margin: 0;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; height: 100%;
+    background-color: rgba(255, 166, 0, 0.5);
+  }
 }
 
 #gamegrid_shadow {
@@ -94,10 +112,11 @@ body {
   animation: grid_placement 2s ease-out forwards;
 }
 
-.gamegrid__item__content {
+.gamegrid__cell__content {
+  pointer-events: none;
   transform: rotateZ(-45deg) rotateX(0deg) scaleX(0.6);
-  width: 48px;
-  height: 48px;
+  width: $grid-tile-size;
+  height: $grid-tile-size;
   &--block {
     position: absolute;
     top: -10px; left: 50%;
@@ -114,28 +133,38 @@ body {
   }
 }
 
-.floor .player {
+.floor #players {
   position: absolute;
-  z-index: 1;
-  width: 48px;
-  height: 48px;
-  border-radius: 3px;
-  transform-style: preserve-3d;
-  transition: all 250ms;
-  opacity: 1;
-  transform-style: flat;
-  border-radius: 3px;
-  box-sizing: border-box;
-  border: 2px solid red;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: $grid-max-size;
+  height: $grid-max-size;
 }
-
-.floor .player div {
-  position: absolute;
-  width: 48px;
-  height: 48px;
-  transform-style: preserve-3d;
-  background: rgba(255, 255, 255, 0.5);
-  z-index: 100;
+.players {
+  &__player {
+    pointer-events: none;
+    transform: rotateZ(-45deg) rotateX(0deg) scaleX(0.6);
+    width: $grid-tile-size;
+    height: $grid-tile-size;
+    &__sprite {
+      position: absolute;
+      top: $monster-one-position; left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+    }
+    .--sprite-level-1 {
+      top: $monster-one-position;
+      transform: translateX(-50%) scale($monster-one-size);
+    }
+    .--sprite-level-2 {
+      top: $monster-two-position;
+      transform: translateX(-50%) scale($monster-two-size);
+    }
+    .--sprite-level-3 {
+      top: $monster-three-position;
+      transform: translateX(-50%) scale($monster-three-size);
+    }
+  }
 }
 
 @keyframes block_placement {
@@ -190,3 +219,25 @@ body {
     opacity: 1;
   }
 }
+
+/**
+  Sprites Animations
+*/
+@keyframes animate_sprite_24_level_1 {
+  to {
+    background-position: -4800px 0;
+  }
+}
+
+@keyframes animate_sprite_24_level_2 {
+  to {
+    background-position: -4848px 0;
+  }
+}
+
+@keyframes animate_sprite_24_level_3 {
+  to {
+    background-position: -7032px 0;
+  }
+}
+
