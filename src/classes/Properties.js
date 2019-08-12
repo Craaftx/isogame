@@ -13,4 +13,36 @@ export default class Properties {
         this._life = life;
         this._level = level;
     }
+
+    get attack() {
+        return this._attack;
+    }
+
+    get defense() {
+        return this._defense;
+    }
+
+    get life() {
+        return this._life; 
+    }
+
+    get level() {
+        return this._level;
+    }
+
+    set attack(newAttack) {
+        return this._attack = newAttack;
+    }
+
+    set defense(newDefense) {
+        return this._defense = newDefense;
+    }
+
+    set life(newLife) {
+        this._life = newLife; 
+    }
+
+    set level(newLevel) {
+        this._level = newLevel;
+    }
 }

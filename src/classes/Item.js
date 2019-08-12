@@ -13,4 +13,8 @@ export default class Item {
         this._description = description;
         this._properties = properties;
     }
+
+    get properties() {
+        return this._properties;
+    }
 }
