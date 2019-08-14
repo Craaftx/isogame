@@ -65,6 +65,7 @@ export default class Character {
 
         this._$player = `players__player-${this.name}`;
         this.updatePlayerPosition(this.xAxis, this.yAxis);
+        this.character.spriteList[0].drawSprite(this.$player);
     }
     
     /**
