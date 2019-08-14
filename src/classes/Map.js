@@ -14,6 +14,7 @@ export default class Map {
         this._virtualMap[i][x] = {
           block: null,
           item: null,
+          player: null,
           reachable: null,
         };
       }
@@ -62,6 +63,17 @@ export default class Map {
   addBlockToCell(row, col, block) {
     this._virtualMap[row][col].block = block;
     this._virtualMap[row][col].reachable = block._reachable;
+  }
+
+  /**
+   * Add a player to a cell present in the virtual map.
+   * @param {integer} row - The row of the cell.
+   * @param {integer} col - The column of the cell.
+   * @param {object} player - The block present in this cell.
+   */
+  addPlayerToCell(player) {
+    this._virtualMap[player.xAxis][player.yAxis].player = player;
+    this._virtualMap[player.xAxis][player.yAxis].reachable = false;
   }
 
   /**
@@ -146,6 +158,16 @@ export default class Map {
    */
   containItem(row, col) {
     return this._virtualMap[row][col].item !== null;
+  }
+
+  /**
+   * Define if a cell contain an item.
+   * @param {integer} row - The row of the cell.
+   * @param {integer} col - The column of the cell.
+   * @return {bool} If contain an item return true instead return false.
+   */
+  containPlayer(row, col) {
+    return this._virtualMap[row][col].player !== null;
   }
 
   /**

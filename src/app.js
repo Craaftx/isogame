@@ -145,7 +145,11 @@ let character2 = new Character("monster2", "Big Tooth", "Monstre très méchant"
 let player2 = new Player("player2", "Bot", character2, map.getRandomRow(), map.getRandomCol());
 
 player1.initPlayer();
+map.addPlayerToCell(player1);
+console.log(map.getVirtualMap()[player1.xAxis][player1.yAxis]);
 player2.initPlayer();
+map.addPlayerToCell(player2);
+console.log(map.getVirtualMap()[player2.xAxis][player2.yAxis]);
 
 console.log(player1.character.defensePower());
 console.log(player1.character.item);
