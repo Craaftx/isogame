@@ -2,6 +2,7 @@ import "./main.scss";
 import Block from "./classes/Block";
 import Item from "./classes/Item";
 import Character from "./classes/Character";
+import Player from "./classes/Player";
 import Properties from "./classes/Properties";
 import Map from "./classes/Map";
 import Pattern from "./classes/Pattern";
@@ -135,17 +136,15 @@ environnement.buildMap();
 environnement.placeBlockPattern(map.getRandomRow(1, (map._size - 7)), 0, riverPattern);
 environnement.placeItems(4);
 
-level_1_idle_001.buildSprite('players');
-level_2_walk_001.buildSprite('players');
-level_3_walk_001.buildSprite('players');
+let character1 = new Character("monster1", "Big Tooth", "Monstre très méchant", new Properties(10, 5, 20, 1), [level_1_idle_001]);
+let player1 = new Player("player1", "Craaftx", character1, 10, 10);
+player1.initPlayer();
 
-let player1 = new Character("monster1", "Big Tooth", "Monstre très méchant", new Properties(10, 5, 20, 1), [level_1_idle_001]);
-
-console.log(player1.defensePower());
-console.log(player1.item);
+console.log(player1.character.defensePower());
+console.log(player1.character.item);
 console.log('----------------------------------');
 
-player1.item = items.books[5];
+player1.character.item = items.books[5];
 
-console.log(player1.defensePower());
-console.log(player1.item);
+console.log(player1.character.defensePower());
+console.log(player1.character.item);

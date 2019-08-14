@@ -149,6 +149,8 @@ body {
 }
 .players {
   &__player {
+    position: absolute;
+    top: 0; left: 0;
     pointer-events: none;
     transform: rotateZ(-45deg) rotateX(0deg) scaleX(0.6);
     width: $grid-tile-size;

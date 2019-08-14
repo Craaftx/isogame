@@ -23,13 +23,12 @@ export default class Sprite {
     }
 
     /**
-     * Build a sprite and add it to the DOM.
+     * Draw a sprite and add it to the DOM.
      * @param {string} parentId - The DOM parent.
      */
-    buildSprite($parentId) {
+    drawSprite($parentId) {
       let $parent = document.querySelector(`#${$parentId}`);
-      let $newSpriteContainer = document.createElement("div");
-      $newSpriteContainer.setAttribute("class", "players__player");
+
       let $newSprite = document.createElement("div");
       $newSprite.setAttribute("id", `players__player__sprite-${this._name}`);
       $newSprite.setAttribute("class", 
@@ -42,7 +41,7 @@ export default class Sprite {
         height: ${this._spriteHeight}px; 
         animation: animate_sprite_${this._frameNumber}_level_${this._level} ${this._frameSpeed}s steps(${this._frameNumber}, end) infinite;
       `;
-      $newSpriteContainer.appendChild($newSprite);
-      $parent.appendChild($newSpriteContainer);
+      
+      $parent.appendChild($newSprite);
     }
 }

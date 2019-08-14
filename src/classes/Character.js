@@ -1,10 +1,8 @@
-import Item from "./Item";
-
 export default class Character {
     /**
-     * Represents Character.
+     * Represents a Character.
      * @constructor
-     * @param {string} name - Player name like slug, used in URL.
+     * @param {string} name - Monster slug, used in URL.
      * @param {string} displayName - Display name, used in interface.
      * @param {string} description - Description of the Character
      * @param {object} properties - The Character properties.
