@@ -146,6 +146,8 @@ body {
   transform: translate(-50%, -50%);
   width: $grid-max-size;
   height: $grid-max-size;
+  opacity: 0;
+  animation: player_placement 1.4s 2s ease-out forwards;
 }
 .players {
   &__player {
@@ -155,6 +157,9 @@ body {
     transform: rotateZ(-45deg) rotateX(0deg) scaleX(0.6);
     width: $grid-tile-size;
     height: $grid-tile-size;
+    &--inverted {
+      transform: rotateZ(-45deg) rotateX(0deg) scaleX(0.6) scaleX(-1);
+    }
     &__sprite {
       position: absolute;
       top: $monster-one-position; left: 50%;
@@ -201,6 +206,14 @@ body {
   }
 }
 
+@keyframes player_placement {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 @keyframes grid_placement {
   0% {
     transform: translateY(-100%) translateX(-100%);

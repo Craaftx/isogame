@@ -13,6 +13,8 @@ let level_1_idle_001 = new Sprite("level_1_idle_001", 1, 200, 214, 0.8, 24, "/00
 let level_2_walk_001 = new Sprite("level_2_walk_001", 2, 202, 210, 0.8, 24, "/001/level_2/walk.png");
 let level_3_walk_001 = new Sprite("level_3_walk_001", 3, 293, 556, 1.4, 24, "/001/level_3/walk.png");
 
+let level_1_idle_001_inverse = new Sprite("level_1_idle_001", 1, 200, 214, 0.8, 24, "/001/level_1/idle.png");
+
 let blocks = {
   air: [
     new Block("air_block_1", false),
@@ -136,9 +138,14 @@ environnement.buildMap();
 environnement.placeBlockPattern(map.getRandomRow(1, (map._size - 7)), 0, riverPattern);
 environnement.placeItems(4);
 
-let character1 = new Character("monster1", "Big Tooth", "Monstre très méchant", new Properties(10, 5, 20, 1), [level_1_idle_001]);
-let player1 = new Player("player1", "Craaftx", character1, 10, 10);
+let character1 = new Character("monster1", "Big Tooth", "Monstre très méchant", new Properties(10, 5, 20, 1), [level_1_idle_001, level_2_walk_001, level_3_walk_001]);
+let player1 = new Player("player1", "Craaftx", character1, map.getRandomRow(), map.getRandomCol());
+
+let character2 = new Character("monster2", "Big Tooth", "Monstre très méchant", new Properties(10, 5, 20, 1), [level_1_idle_001_inverse, level_2_walk_001, level_3_walk_001]);
+let player2 = new Player("player2", "Bot", character2, map.getRandomRow(), map.getRandomCol());
+
 player1.initPlayer();
+player2.initPlayer();
 
 console.log(player1.character.defensePower());
 console.log(player1.character.item);
@@ -148,3 +155,14 @@ player1.character.item = items.books[5];
 
 console.log(player1.character.defensePower());
 console.log(player1.character.item);
+
+player1.changeOrientation();
+setTimeout(function(){ 
+  player1.resetOrientation();
+}, 4000);
+ setTimeout(function(){ 
+  player1.changeOrientation();
+}, 6000);
+setTimeout(function(){ 
+ player1.resetOrientation();
+}, 8000);

@@ -77,6 +77,9 @@ export default class Character {
         // TODO
         // - Change Sprite
         // - Animate Movement
+        // - Select Orientation
+        if(yAxis > this.yAxis) {
+        }
         this.updatePlayerPosition(xAxis, yAxis);
     }
 
@@ -88,12 +91,27 @@ export default class Character {
     updatePlayerPosition(xAxis, yAxis) {
         const xValue = xAxis * this._tileSize;
         const yValue = yAxis * this._tileSize;
-
         this.xAxis = xAxis;
         this.yAxis = yAxis;
 
-        let $player = document.getElementById(this.$player);
-        $player.style.left = `${xValue}px`;
-        $player.style.top = `${yValue}px`;
+        let $aPlayer = document.getElementById(this.$player);
+        $aPlayer.style.left = `${xValue}px`;
+        $aPlayer.style.top = `${yValue}px`;
+    }
+
+    /**
+     * Change the character orientation on X axis.
+     */
+    changeOrientation() {
+        let $aPlayer = document.getElementById(this.$player);
+        $aPlayer.classList.add("players__player--inverted");
+    }
+
+    /**
+     * Rest the character orientation on X axis.
+     */
+    resetOrientation() {
+        let $aPlayer = document.getElementById(this.$player);
+        $aPlayer.classList.remove("players__player--inverted");
     }
 }

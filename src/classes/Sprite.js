@@ -8,18 +8,15 @@ export default class Sprite {
      * @param {integer} frameSpeed - Frame speed in seconds for animation speed
      * @param {integer} frameNumber - Number of frame for the animation
      * @param {string} frameMapUrl - URL of the frameMap.
-     * @param {bool} [inverse=false] - Set to true to inverse the sprite on the X axe.
      */
-    constructor(name, level, spriteWidth, spriteHeight, frameSpeed, frameNumber, frameMapUrl, inverse = false) {
+    constructor(name, level, spriteWidth, spriteHeight, frameSpeed, frameNumber, frameMapUrl) {
         this._name = name;
         this._level = level;
-        this._inverse = inverse;
         this._spriteWidth = spriteWidth;
         this._spriteHeight = spriteHeight;
         this._frameSpeed = frameSpeed;
         this._frameNumber = frameNumber;
         this._frameMapUrl = frameMapUrl;
-        this._inverse = inverse;
     }
 
     /**
@@ -32,9 +29,7 @@ export default class Sprite {
       let $newSprite = document.createElement("div");
       $newSprite.setAttribute("id", `players__player__sprite-${this._name}`);
       $newSprite.setAttribute("class", 
-      `players__player__sprite 
-        ${this._inverse ? "--sprite-inverse" : ""} 
-        --sprite-level-${this._level}`);
+      `players__player__sprite --sprite-level-${this._level}`);
       $newSprite.style.cssText = `
         background: url('game_assets/monsters/${this._frameMapUrl}') no-repeat top left; 
         width: ${this._spriteWidth}px;
