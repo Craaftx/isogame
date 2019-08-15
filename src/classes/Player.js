@@ -1,4 +1,4 @@
-export default class Character {
+export default class Player {
     /**
      * Represents a Player.
      * @constructor
@@ -65,7 +65,7 @@ export default class Character {
 
         this._$player = `players__player-${this.name}`;
         this.updatePlayerPosition(this.xAxis, this.yAxis);
-        this.character.spriteList[0].drawSprite(this.$player);
+        this.character.spriteList["idle"][0].drawSprite(this.$player);
     }
     
     /**

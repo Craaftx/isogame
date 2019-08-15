@@ -1,21 +1,26 @@
+import Sprite from "./Sprite";
+
 export default class Character {
     /**
      * Represents a Character.
      * @constructor
-     * @param {string} name - Monster slug, used in URL.
+     * @param {string} slug - Monster slug, used in URL (ex 001).
      * @param {string} displayName - Display name, used in interface.
      * @param {string} description - Description of the Character
      * @param {object} properties - The Character properties.
-     * @param {array} spriteList - Array of sprites used for animation.
      * @param {object} [item=null] - The Character item.
      */
-    constructor(name, displayName, description, properties, spriteList, item = null) {
-        this._name = name;
+    constructor(slug, displayName, description, properties, item = null) {
+        this._slug = slug;
         this._displayName = displayName;
         this._description = description;
         this._properties = properties;
-        this._spriteList = spriteList;
         this._item = item;
+        this._spriteList = this.initSpriteList();
+    }
+
+    get slug() {
+        return this._slug;
     }
 
     get displayName() {
@@ -48,6 +53,31 @@ export default class Character {
     
     set item(newItem) {
         this._item = newItem;
+    }
+
+    initSpriteList() {
+        const maxLevel = 3;
+        const positionNames = ['idle', 'walk'];
+        let characterSpriteList = {};
+        for (var i = 0; i < positionNames.length; i++) {
+            characterSpriteList[positionNames[i]] = [];
+            for (var y = 0; y < maxLevel; y++) {
+                let values;
+                if (y === 0) {
+                    values = [1, 200, 214, 0.8, 24];
+                } else {
+                    if (y === 1) {
+                        values = [2, 202, 210, 0.8, 24];
+                    } else {
+                        values = [3, 293, 556, 1.4, 24];
+                    }
+                }
+                characterSpriteList[positionNames[i]].push(
+                    new Sprite(`level_${y + 1}_${positionNames[i]}_${this._slug}`, values[0], values[1], values[2], values[3], values[4], `/${this._slug}/level_${y + 1}/${positionNames[i]}.png`)
+                );
+            }
+        }
+        return characterSpriteList;
     }
 
     /**

@@ -21,6 +21,10 @@ export default class Map {
     }
   }
 
+  get size() {
+    return this._size;
+  }
+
   /**
    * Return an Array of the map.
    * @return {array} Map Array with rows and columns.
