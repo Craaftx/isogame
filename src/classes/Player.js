@@ -68,8 +68,7 @@ export default class Player {
         do {
             xAxis = map.getRandomRow();
             yAxis = map.getRandomCol();
-        } while (!map.isReachable(xAxis, yAxis) && !map.isNearPlayers(xAxis, yAxis))
-
+        } while (!map.isReachable(xAxis, yAxis) || map.isNearPlayers(xAxis, yAxis))
         this.updatePlayerPosition(xAxis, yAxis);
     }
 
@@ -98,8 +97,8 @@ export default class Player {
         this.yAxis = yAxis;
 
         let $aPlayer = document.getElementById(this.$player);
-        $aPlayer.style.left = `${xValue}px`;
-        $aPlayer.style.top = `${yValue}px`;
+        $aPlayer.style.left = `${yValue}px`;
+        $aPlayer.style.top = `${xValue}px`;
     }
 
     /**

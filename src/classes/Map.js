@@ -36,21 +36,16 @@ export default class Map {
   /**
    * Generate the FrontEnd structure for the grid.
    * @param {integer} size - The size of the map.
-   * @param {bool} [empty=false] - Generate a map without html id.
    */
-  generateGrid(parentId, empty = false) {
+  generateGrid(parentId) {
     for (let i = 0; i < this._size; i++) {
       let newRowDiv = document.createElement("div");
-      if (!empty) {
-        newRowDiv.setAttribute("id", `gamegrid__row-${i}`);
-      }
+      newRowDiv.setAttribute("id", `gamegrid__row-${i}`);
       newRowDiv.setAttribute("class", "gamegrid__row");
       let currentDiv = document.getElementById(parentId);
       for (let x = 0; x < this._size; x++) {
         let newColDiv = document.createElement("div");
-        if (!empty) {
-          newColDiv.setAttribute("id", `gamegrid__cell-${i}-${x}`);
-        }
+        newColDiv.setAttribute("id", `gamegrid__cell-${i}-${x}`);
         newColDiv.setAttribute("class", "gamegrid__cell");
         newRowDiv.appendChild(newColDiv);
       }
