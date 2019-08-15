@@ -5,15 +5,13 @@ export default class Player {
      * @param {string} name - Player slug.
      * @param {string} displayName - Display name, used in interface.
      * @param {object} character - His character.
-     * @param {int} xAxis - The xAxis.
-     * @param {int} yAxis - The yAxis.
      */
-    constructor(name, displayName, character, xAxis, yAxis) {
+    constructor(name, displayName, character) {
         this._name = name;
         this._displayName = displayName;
         this._character = character;
-        this._xAxis = xAxis;
-        this._yAxis = yAxis;
+        this._xAxis;
+        this._yAxis;
 
         this._tileSize = 48;
         this._$player = null;
@@ -54,20 +52,20 @@ export default class Player {
     /**
      * Init the player and add it to the DOM at the right position.
      */
-    initPlayer() {
+    initPlayer(map) {
         let $parent = document.getElementById("players");
         let $newPlayer = document.createElement("div");
 
         $newPlayer.setAttribute("class", "players__player");
         $newPlayer.setAttribute("id", `players__player-${this.name}`);
-
+        
         $parent.appendChild($newPlayer);
 
         this._$player = `players__player-${this.name}`;
-        this.updatePlayerPosition(this.xAxis, this.yAxis);
         this.character.spriteList["idle"][0].drawSprite(this.$player);
+        this.updatePlayerPosition(2, Math.floor(Math.random() * Math.floor(10)));
     }
-    
+
     /**
      * Move the player to the right position with animation.
      * @param {int} xAxis - The xAxis.
@@ -78,8 +76,6 @@ export default class Player {
         // - Change Sprite
         // - Animate Movement
         // - Select Orientation
-        if(yAxis > this.yAxis) {
-        }
         this.updatePlayerPosition(xAxis, yAxis);
     }
 
