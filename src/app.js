@@ -10,4 +10,4 @@ const players = [
   ["Player2", gameData.characters[0]],
 ];
 
-game.newGame("grass_field", "river", 4, players);
+game.newGame("grass_field", "lack", 4, players);

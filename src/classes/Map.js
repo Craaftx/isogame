@@ -15,7 +15,7 @@ export default class Map {
           block: null,
           item: null,
           player: null,
-          reachable: null,
+          reachable: null
         };
       }
     }
@@ -107,10 +107,10 @@ export default class Map {
    * @return {integer} The row index.
    */
   getRandomRow(min = 0, max = this._size - 1) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      const res = Math.floor(Math.random() * (max - min + 1)) + min;
-      return res > this._size || res < 0 ? this._size - 1 : res;
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    const res = Math.floor(Math.random() * (max - min + 1)) + min;
+    return res > this._size || res < 0 ? this._size - 1 : res;
   }
 
   /**
@@ -119,11 +119,11 @@ export default class Map {
    * @param {integer} [max=mapSize] - Max value.
    * @return {integer} The col index.
    */
-  getRandomCol(min = 0, max = this._size - 1) { 
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      const res = Math.floor(Math.random() * (max - min + 1)) + min;
-      return res > this._size || res < 0 ? this._size - 1 : res;
+  getRandomCol(min = 0, max = this._size - 1) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    const res = Math.floor(Math.random() * (max - min + 1)) + min;
+    return res > this._size || res < 0 ? this._size - 1 : res;
   }
 
   /**
@@ -133,10 +133,10 @@ export default class Map {
    * @return {bool} If exist return true instead return false.
    */
   cellExist(row, col) {
-    if(typeof this._virtualMap[row] == 'undefined') {
+    if (typeof this._virtualMap[row] == "undefined") {
       return false;
     } else {
-      if(typeof this._virtualMap[row][col] == 'undefined') {
+      if (typeof this._virtualMap[row][col] == "undefined") {
         return false;
       } else {
         return true;
@@ -151,7 +151,31 @@ export default class Map {
    * @return {bool} If is reachable return true instead return false.
    */
   isReachable(row, col) {
-    return this._virtualMap[row][col].reachable;
+    if(this.cellExist(row, col)) {
+      return this._virtualMap[row][col].reachable;
+    }
+    return false;
+  }
+
+  /**
+   * Define if a cell is reachable (Is not an air_block or water-block).
+   * @param {integer} row - The row of the cell.
+   * @param {integer} col - The column of the cell.
+   * @return {bool} If is reachable return true instead return false.
+   */
+  isNearPlayers(row, col) {
+    if(this.cellExist(row, col)) {
+      if (
+        this.containPlayer((row + 1), col) ||
+        this.containPlayer(row, (col + 1)) ||
+        this.containPlayer(row, (col - 1)) ||
+        this.containPlayer((row - 1), col)
+      ) {
+        return true;
+      }
+      return false;
+    }
+    return false;
   }
 
   /**
@@ -161,7 +185,10 @@ export default class Map {
    * @return {bool} If contain an item return true instead return false.
    */
   containItem(row, col) {
-    return this._virtualMap[row][col].item !== null;
+    if(this.cellExist(row, col)) {
+      return this._virtualMap[row][col].item !== null;
+    }
+    return false;
   }
 
   /**
@@ -171,7 +198,10 @@ export default class Map {
    * @return {bool} If contain an item return true instead return false.
    */
   containPlayer(row, col) {
-    return this._virtualMap[row][col].player !== null;
+    if(this.cellExist(row, col)) {
+      return this._virtualMap[row][col].player !== null;
+    }
+    return false;
   }
 
   /**
@@ -181,6 +211,9 @@ export default class Map {
    * @return {bool} If is an air block return true instead return false.
    */
   isAirBlock(row, col) {
-    return this._virtualMap[row][col].block._name === "air_block_1";
+    if(this.cellExist(row, col)) {
+      return this._virtualMap[row][col].block._name === "air_block_1";
+    }
+    return false;
   }
 }

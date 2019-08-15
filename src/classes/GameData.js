@@ -161,11 +161,13 @@ export default class GameData {
     ];
 
     let lack = [
-      [0, 1, 1, 1, 0],
-      [0, 1, 1, 1, 1],
-      [0, 1, 1, 1, 1],
-      [0, 0, 1, 1, 1],
-      [0, 0, 1, 1, 0]
+      [0, 1, 1, 1, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 0],
+      [0, 1, 1, 1, 1, 1, 0],
+      [0, 0, 1, 1, 1, 1, 1],
+      [0, 0, 1, 1, 1, 1, 1],
+      [0, 0, 1, 1, 1, 1, 1],
+      [0, 0, 0, 1, 1, 1, 0],
     ];
     let lackBlocks = [null, this.blocks.water[1]];
 
@@ -182,7 +184,7 @@ export default class GameData {
     const data = {
       lack: new Pattern(lack, lackBlocks),
       river: new Pattern(river, riverBlocks),
-      map: new Pattern(island, islandBlocks)
+      island: new Pattern(island, islandBlocks)
     };
     return data;
   }

@@ -63,7 +63,14 @@ export default class Player {
 
         this._$player = `players__player-${this.name}`;
         this.character.spriteList["idle"][0].drawSprite(this.$player);
-        this.updatePlayerPosition(2, Math.floor(Math.random() * Math.floor(10)));
+
+        let xAxis, yAxis;
+        do {
+            xAxis = map.getRandomRow();
+            yAxis = map.getRandomCol();
+        } while (!map.isReachable(xAxis, yAxis) && !map.isNearPlayers(xAxis, yAxis))
+
+        this.updatePlayerPosition(xAxis, yAxis);
     }
 
     /**
