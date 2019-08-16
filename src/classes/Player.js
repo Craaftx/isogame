@@ -62,7 +62,13 @@ export default class Player {
         $parent.appendChild($newPlayer);
 
         this._$player = `players__player-${this.name}`;
-        this.character.spriteList["idle"][0].drawSprite(this.$player);
+        console.log(this.character.spriteList);
+        let random = Math.random() * (2 - 1) + 1;
+        if(this.displayName === "Craaftx") {
+            this.character.spriteList["walk"][1].drawSprite(this.$player);
+        } else {
+            this.character.spriteList["walk"][2].drawSprite(this.$player);
+        }
 
         let xAxis, yAxis;
         do {
@@ -116,4 +122,13 @@ export default class Player {
         let $aPlayer = document.getElementById(this.$player);
         $aPlayer.classList.remove("players__player--inverted");
     }
+
+    /**
+     * Check if player is dead (life <= 0).
+     * @return {bool} Response.
+     */
+    isDead() {
+        return this.character.properties.life <= 0;
+    }
+
 }

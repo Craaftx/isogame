@@ -92,11 +92,21 @@ export default class Character {
 
     /**
      * Calculate the defense power of the Character.
-     * @return {int} The attackPower.
+     * @return {int} The defensePower.
      */
     defensePower() {
         if(this._item) 
             return this._properties.defense + this._item.properties.defense;
         return this._properties.defense;
+    }
+
+    /**
+     * Calculate movement point of the Character.
+     * @return {int} The movement point amout.
+     */
+    movementPointAmout() {
+        if(this._item) 
+            return this._properties.movementPoint + this._item.properties.movementPoint;
+        return this._properties.movementPoint;
     }
 }

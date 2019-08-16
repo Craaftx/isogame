@@ -1,6 +1,7 @@
 import GameData from "./GameData";
 import Player from "./Player";
 import Map from "./Map";
+import Turn from "./Turn";
 import Environnement from "./Environnement";
 
 export default class Game {
@@ -13,6 +14,8 @@ export default class Game {
         this._map;
         this._environnement;
         this._players = [];
+        this._turn = new Turn();
+        this._activePlayerMovementCounter = -1;
     }
 
     get gameData() {
@@ -47,6 +50,10 @@ export default class Game {
         this._environnement = newEnvironnement;
     }
 
+    get turn() {
+        return this._turn;
+    }
+
     initMap() {
         let size = 12;
         this.map = new Map(size);
@@ -78,6 +85,37 @@ export default class Game {
         });
     }
 
+    roundManager() {
+        if(this.players[0].isDead() || this.players[1].isDead()) {
+            console.log("Match terminé");
+        } else {
+            let activePlayer = this.getActivePlayer();
+            if(this._activePlayerMovementCounter < 0 ) {
+                this._activePlayerMovementCounter = activePlayer.character.movementPointAmout();
+                console.log(`C'est au tour de ${this.getActivePlayer().displayName}`);
+            }
+            console.log(`ActivePlayer : ${activePlayer.displayName}, ${this._activePlayerMovementCounter}`);
+            if(this._activePlayerMovementCounter > 0) {
+                this.map.generateMovementGrid(this._activePlayerMovementCounter, activePlayer, this);
+            } else { 
+                this.turn.next();
+                this._activePlayerMovementCounter = this.getActivePlayer().character.movementPointAmout();
+                console.log('');
+                console.log(`C'est au tour de ${this.getActivePlayer().displayName}`);
+                this.roundManager();
+            }
+        }
+    }
+
+    playerMovementEnd(pointsUsed) {
+        this._activePlayerMovementCounter = this._activePlayerMovementCounter - Math.abs(pointsUsed);
+        this.roundManager();
+    }
+
+    getActivePlayer() {
+        return this.turn.getActivePlayer(this.players);
+    }
+
     newGame(environnementName, patternName, itemsNumber, players) {
         this.initMap();
         this.addMapEnvironnement(environnementName);
@@ -86,8 +124,8 @@ export default class Game {
         players.forEach((player) => {
             this.addPlayer(player[0], player[1])
         });
-        this.placePlayers();       
-        this.map.generateMovementGrid(this.players[0].xAxis, this.players[0].yAxis, this.players[0].character.properties.movementPoint);
-        console.log(this.map);
+        this.placePlayers();     
+        this.roundManager();  
+        console.log(this.map.getVirtualMap());
     }
 }

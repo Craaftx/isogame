@@ -102,7 +102,7 @@ export default class GameData {
         "Big Tooth",
         "Monstre très méchant",
         new Properties(10, 5, 3, 20, 1)
-      )
+      ),
     ];
     return data;
   }

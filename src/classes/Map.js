@@ -53,27 +53,28 @@ export default class Map {
     }
   }
 
-  generateMovementGrid(row, col, movementPoint) {
-    const currentPlayer = this._virtualMap[row][col].player;
+  generateMovementGrid(movementPoint, player, currentGame) {
+    let row = player.xAxis;
+    let col = player.yAxis;
     for (let y = 0; y < 4; y++) {
       for (let x = 1; x < (movementPoint + 1); x++) {
         if(y == 0) {
-          if(this.addMovementEventToCell(row + x, col, currentPlayer)) {
+          if(this.addMovementEventToCell(row + x, col, player, currentGame)) {
             x = (movementPoint + 1);
           }
         }
         if(y == 1) {
-          if(this.addMovementEventToCell(row, col + x, currentPlayer)) {
+          if(this.addMovementEventToCell(row, col + x, player, currentGame)) {
             x = (movementPoint + 1);
           }
         }
         if(y == 2) {
-          if(this.addMovementEventToCell(row - x, col, currentPlayer)) {
+          if(this.addMovementEventToCell(row - x, col, player, currentGame)) {
             x = (movementPoint + 1);
           }
         }
         if(y == 3) {
-          if(this.addMovementEventToCell(row, col - x, currentPlayer)) {
+          if(this.addMovementEventToCell(row, col - x, player, currentGame)) {
             x = (movementPoint + 1);
           }
         }
@@ -81,40 +82,59 @@ export default class Map {
     }
   }
 
-  addMovementEventToCell(row, col, player) {
+  addMovementEventToCell(row, col, player, currentGame) {
     if(this.isReachable(row, col)) {
       let cell = document.getElementById(`gamegrid__cell-${row}-${col}`);
       cell.classList.add("gamegrid__cell--reachable");
-      cell.addEventListener('click', function() { this.triggerMovementEvent(row, col, player) }.bind(this));
+      cell.addEventListener('click', function() { this.triggerMovementEvent(row, col, player, player.xAxis, player.yAxis, currentGame) }.bind(this));
       return false;
     }
     return true;
   }
 
-  triggerMovementEvent(row, col, player) {
-    this.removePlayerFromCellCell(player.xAxis, player.yAxis);
+  triggerMovementEvent(row, col, player, playerX, playerY, currentGame) {
+    let xAxisMovement = playerX - row;
+    let yAxisMovement = playerY - col;
+    this.removePlayerFromCell(playerX, playerY,);
     this.movementEventReset(player);
     player.movePlayer(row, col);
-    this.addPlayerToCell(player);
-    setTimeout(function(){ this.generateMovementGrid(row, col, 3); }.bind(this), 2000);
+    this.addPlayerToCell(player); 
+    currentGame.playerMovementEnd(xAxisMovement !== 0 ? xAxisMovement : yAxisMovement);
   }
 
+  /**
+   * Reset all Event Listener and the movement cell display.
+   * See https://stackoverflow.com/questions/19469881/remove-all-event-listeners-of-specific-type
+   * @param {object} player - The actual player.
+   */
   movementEventReset(player) {
     let row = player.xAxis;
     let col = player.yAxis;
     for (let y = 0; y < 4; y++) {
       for (let x = 1; x < (player.character.properties.movementPoint + 1); x++) {
         if(this.cellExist(row + x, col) && y == 0) {
-          document.getElementById(`gamegrid__cell-${row + x}-${col}`).classList.remove("gamegrid__cell--reachable");
+          let cell = document.getElementById(`gamegrid__cell-${row + x}-${col}`);
+          cell.classList.remove("gamegrid__cell--reachable");
+          let cellClone = cell.cloneNode(true);
+          cell.parentNode.replaceChild(cellClone, cell);
         }
         if(this.cellExist(row, col + x) && y == 1) {
-          document.getElementById(`gamegrid__cell-${row}-${col + x}`).classList.remove("gamegrid__cell--reachable");
+          let cell = document.getElementById(`gamegrid__cell-${row}-${col + x}`);
+          cell.classList.remove("gamegrid__cell--reachable");
+          let cellClone = cell.cloneNode(true);
+          cell.parentNode.replaceChild(cellClone, cell);
         }
         if(this.cellExist(row - x, col) && y == 2) {
-          document.getElementById(`gamegrid__cell-${row - x}-${col}`).classList.remove("gamegrid__cell--reachable");
+          let cell = document.getElementById(`gamegrid__cell-${row - x}-${col}`);
+          cell.classList.remove("gamegrid__cell--reachable");
+          let cellClone = cell.cloneNode(true);
+          cell.parentNode.replaceChild(cellClone, cell);
         }
         if(this.cellExist(row, col - x) && y == 3) {
-          document.getElementById(`gamegrid__cell-${row}-${col - x}`).classList.remove("gamegrid__cell--reachable");
+          let cell = document.getElementById(`gamegrid__cell-${row}-${col - x}`);
+          cell.classList.remove("gamegrid__cell--reachable");
+          let cellClone = cell.cloneNode(true);
+          cell.parentNode.replaceChild(cellClone, cell);
         }
       }
     }
@@ -146,7 +166,7 @@ export default class Map {
    * @param {integer} col - The column of the cell.
    * @param {object} player - The block present in this cell.
    */
-  removePlayerFromCellCell(row, col) {
+  removePlayerFromCell(row, col) {
     this._virtualMap[row][col].player = null;
     this._virtualMap[row][col].reachable = true;
   }
