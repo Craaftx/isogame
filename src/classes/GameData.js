@@ -63,13 +63,18 @@ export default class GameData {
 
   blocksData() {
     const data = {
-      air: [new Block("air_block_1", false)],
+      air: [
+        new Block("air_block_1", false)
+      ],
       water: [
         new Block("water_block_1", false),
         new Block("water_block_2", false),
         new Block("water_block_3", false)
       ],
-      wood: [new Block("wood_block_1"), new Block("wood_block_2")],
+      wood: [
+        new Block("wood_block_1"), 
+        new Block("wood_block_2")
+      ],
       grass: [
         new Block("grass_block_1"),
         new Block("grass_block_2"),
@@ -96,7 +101,7 @@ export default class GameData {
         "001",
         "Big Tooth",
         "Monstre très méchant",
-        new Properties(10, 5, 20, 1)
+        new Properties(10, 5, 3, 20, 1)
       )
     ];
     return data;
@@ -169,12 +174,12 @@ export default class GameData {
       [0, 0, 1, 1, 1, 1, 1],
       [0, 0, 0, 1, 1, 1, 0],
     ];
-    let lackBlocks = [null, this.blocks.water[1]];
+    let lackBlocks = [null, this.blocks.water[0]];
 
     let river = [
-      [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+      [1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 1, 1, 1, 1, 2, 1, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]
