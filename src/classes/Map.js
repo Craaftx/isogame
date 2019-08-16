@@ -53,6 +53,73 @@ export default class Map {
     }
   }
 
+  generateMovementGrid(row, col, movementPoint) {
+    const currentPlayer = this._virtualMap[row][col].player;
+    for (let y = 0; y < 4; y++) {
+      for (let x = 1; x < (movementPoint + 1); x++) {
+        if(y == 0) {
+          if(this.addMovementEventToCell(row + x, col, currentPlayer)) {
+            x = (movementPoint + 1);
+          }
+        }
+        if(y == 1) {
+          if(this.addMovementEventToCell(row, col + x, currentPlayer)) {
+            x = (movementPoint + 1);
+          }
+        }
+        if(y == 2) {
+          if(this.addMovementEventToCell(row - x, col, currentPlayer)) {
+            x = (movementPoint + 1);
+          }
+        }
+        if(y == 3) {
+          if(this.addMovementEventToCell(row, col - x, currentPlayer)) {
+            x = (movementPoint + 1);
+          }
+        }
+      }
+    }
+  }
+
+  addMovementEventToCell(row, col, player) {
+    if(this.isReachable(row, col)) {
+      let cell = document.getElementById(`gamegrid__cell-${row}-${col}`);
+      cell.classList.add("gamegrid__cell--reachable");
+      cell.addEventListener('click', function() { this.triggerMovementEvent(row, col, player) }.bind(this));
+      return false;
+    }
+    return true;
+  }
+
+  triggerMovementEvent(row, col, player) {
+    this.removePlayerFromCellCell(player.xAxis, player.yAxis);
+    this.movementEventReset(player);
+    player.movePlayer(row, col);
+    this.addPlayerToCell(player);
+    setTimeout(function(){ this.generateMovementGrid(row, col, 3); }.bind(this), 2000);
+  }
+
+  movementEventReset(player) {
+    let row = player.xAxis;
+    let col = player.yAxis;
+    for (let y = 0; y < 4; y++) {
+      for (let x = 1; x < (player.character.properties.movementPoint + 1); x++) {
+        if(this.cellExist(row + x, col) && y == 0) {
+          document.getElementById(`gamegrid__cell-${row + x}-${col}`).classList.remove("gamegrid__cell--reachable");
+        }
+        if(this.cellExist(row, col + x) && y == 1) {
+          document.getElementById(`gamegrid__cell-${row}-${col + x}`).classList.remove("gamegrid__cell--reachable");
+        }
+        if(this.cellExist(row - x, col) && y == 2) {
+          document.getElementById(`gamegrid__cell-${row - x}-${col}`).classList.remove("gamegrid__cell--reachable");
+        }
+        if(this.cellExist(row, col - x) && y == 3) {
+          document.getElementById(`gamegrid__cell-${row}-${col - x}`).classList.remove("gamegrid__cell--reachable");
+        }
+      }
+    }
+  }
+
   /**
    * Add a block to a cell present in the virtual map.
    * @param {integer} row - The row of the cell.
@@ -66,13 +133,22 @@ export default class Map {
 
   /**
    * Add a player to a cell present in the virtual map.
-   * @param {integer} row - The row of the cell.
-   * @param {integer} col - The column of the cell.
    * @param {object} player - The block present in this cell.
    */
   addPlayerToCell(player) {
     this._virtualMap[player.xAxis][player.yAxis].player = player;
     this._virtualMap[player.xAxis][player.yAxis].reachable = false;
+  }
+
+  /**
+   * Remove a player to a cell present in the virtual map.
+   * @param {integer} row - The row of the cell.
+   * @param {integer} col - The column of the cell.
+   * @param {object} player - The block present in this cell.
+   */
+  removePlayerFromCellCell(row, col) {
+    this._virtualMap[row][col].player = null;
+    this._virtualMap[row][col].reachable = true;
   }
 
   /**

@@ -86,6 +86,8 @@ export default class Game {
         players.forEach((player) => {
             this.addPlayer(player[0], player[1])
         });
-        this.placePlayers();
+        this.placePlayers();       
+        this.map.generateMovementGrid(this.players[0].xAxis, this.players[0].yAxis, this.players[0].character.properties.movementPoint);
+        console.log(this.map);
     }
 }
