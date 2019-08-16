@@ -4,15 +4,15 @@ export default class Properties {
      * @constructor
      * @param {integer} attack - Attack power.
      * @param {integer} defense - Defense power.
-     * @param {integer} motion - Motion points amout (1 motion = 1 cell).
+     * @param {integer} movementPoint - Movement points amout (1 movement = 1 cell).
      * @param {integer} life - Life amout.
      * @param {integer} level - Level power.
      */
-    constructor(attack, defense, motion, life, level) {
+    constructor(attack, defense, movementPoint, life, level) {
         this._attack = attack;
         this._defense = defense;
         this._life = life;
-        this._motion = motion;
+        this._movementPoint = movementPoint;
         this._level = level;
     }
 
@@ -24,8 +24,8 @@ export default class Properties {
         return this._defense;
     }
 
-    get motion() {
-        return this._motion;
+    get movementPoint() {
+        return this._movementPoint;
     }
 
     get life() {
@@ -44,8 +44,8 @@ export default class Properties {
         this._defense = newDefense;
     }
 
-    set motion(newMotion) {
-        this._motion = newMotion;
+    set movementPoint(newMovementPoint) {
+        this._movementPoint = newMovementPoint;
     }
 
     set life(newLife) {
