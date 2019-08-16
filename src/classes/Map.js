@@ -53,7 +53,23 @@ export default class Map {
     }
   }
 
-  generateMovementGrid(movementPoint, player, currentGame) {
+  initMovementGrid() {
+    for (let i = 0; i < this._size; i++) {
+      let newRowDiv = document.createElement("div");
+      newRowDiv.setAttribute("id", `gamegrid__row-${i}`);
+      newRowDiv.setAttribute("class", "gamegrid__row");
+      let currentDiv = document.getElementById("movementgrid");
+      for (let x = 0; x < this._size; x++) {
+        let newColDiv = document.createElement("div");
+        newColDiv.setAttribute("id", `movementgrid__cell-${i}-${x}`);
+        newColDiv.setAttribute("class", "gamegrid__cell");
+        newRowDiv.appendChild(newColDiv);
+      }
+      currentDiv.appendChild(newRowDiv);
+    }
+  }
+
+  playerMovementGrid(movementPoint, player, currentGame) {
     let row = player.xAxis;
     let col = player.yAxis;
     for (let y = 0; y < 4; y++) {
@@ -84,7 +100,7 @@ export default class Map {
 
   addMovementEventToCell(row, col, player, currentGame) {
     if(this.isReachable(row, col)) {
-      let cell = document.getElementById(`gamegrid__cell-${row}-${col}`);
+      let cell = document.getElementById(`movementgrid__cell-${row}-${col}`);
       cell.classList.add("gamegrid__cell--reachable");
       cell.addEventListener('click', function() { this.triggerMovementEvent(row, col, player, player.xAxis, player.yAxis, currentGame) }.bind(this));
       return false;
@@ -113,25 +129,25 @@ export default class Map {
     for (let y = 0; y < 4; y++) {
       for (let x = 1; x < (player.character.properties.movementPoint + 1); x++) {
         if(this.cellExist(row + x, col) && y == 0) {
-          let cell = document.getElementById(`gamegrid__cell-${row + x}-${col}`);
+          let cell = document.getElementById(`movementgrid__cell-${row + x}-${col}`);
           cell.classList.remove("gamegrid__cell--reachable");
           let cellClone = cell.cloneNode(true);
           cell.parentNode.replaceChild(cellClone, cell);
         }
         if(this.cellExist(row, col + x) && y == 1) {
-          let cell = document.getElementById(`gamegrid__cell-${row}-${col + x}`);
+          let cell = document.getElementById(`movementgrid__cell-${row}-${col + x}`);
           cell.classList.remove("gamegrid__cell--reachable");
           let cellClone = cell.cloneNode(true);
           cell.parentNode.replaceChild(cellClone, cell);
         }
         if(this.cellExist(row - x, col) && y == 2) {
-          let cell = document.getElementById(`gamegrid__cell-${row - x}-${col}`);
+          let cell = document.getElementById(`movementgrid__cell-${row - x}-${col}`);
           cell.classList.remove("gamegrid__cell--reachable");
           let cellClone = cell.cloneNode(true);
           cell.parentNode.replaceChild(cellClone, cell);
         }
         if(this.cellExist(row, col - x) && y == 3) {
-          let cell = document.getElementById(`gamegrid__cell-${row}-${col - x}`);
+          let cell = document.getElementById(`movementgrid__cell-${row}-${col - x}`);
           cell.classList.remove("gamegrid__cell--reachable");
           let cellClone = cell.cloneNode(true);
           cell.parentNode.replaceChild(cellClone, cell);

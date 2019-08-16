@@ -115,8 +115,17 @@ body {
 }
 
 #gamegrid {
+  pointer-events: none;
   opacity: 0;
   animation: grid_placement 2s ease-out forwards;
+}
+
+#movementgrid {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: $grid-max-size;
+  height: $grid-max-size;
 }
 
 .gamegrid__cell__content {

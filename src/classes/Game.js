@@ -58,6 +58,7 @@ export default class Game {
         let size = 12;
         this.map = new Map(size);
         this.map.generateGrid("gamegrid");
+        this.map.initMovementGrid();
     }
 
     addMapEnvironnement(environnementName) {
@@ -96,7 +97,7 @@ export default class Game {
             }
             console.log(`ActivePlayer : ${activePlayer.displayName}, ${this._activePlayerMovementCounter}`);
             if(this._activePlayerMovementCounter > 0) {
-                this.map.generateMovementGrid(this._activePlayerMovementCounter, activePlayer, this);
+                this.map.playerMovementGrid(this._activePlayerMovementCounter, activePlayer, this);
             } else { 
                 this.turn.next();
                 this._activePlayerMovementCounter = this.getActivePlayer().character.movementPointAmout();
