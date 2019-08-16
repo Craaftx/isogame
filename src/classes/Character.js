@@ -8,14 +8,12 @@ export default class Character {
      * @param {string} displayName - Display name, used in interface.
      * @param {string} description - Description of the Character
      * @param {object} properties - The Character properties.
-     * @param {object} [item=null] - The Character item.
      */
-    constructor(slug, displayName, description, properties, item = null) {
+    constructor(slug, displayName, description, properties) {
         this._slug = slug;
         this._displayName = displayName;
         this._description = description;
         this._properties = properties;
-        this._item = item;
         this._spriteList = this.initSpriteList();
     }
 
@@ -38,10 +36,6 @@ export default class Character {
     get spriteList() {
         return this._spriteList;
     }
-    
-    get item() {
-        return this._item;
-    }
 
     set properties(newProperties) {
         return this._properties = newProperties;
@@ -49,10 +43,6 @@ export default class Character {
 
     set spriteList(list) {
         this._spriteList = list;
-    }
-    
-    set item(newItem) {
-        this._item = newItem;
     }
 
     initSpriteList() {
@@ -78,35 +68,5 @@ export default class Character {
             }
         }
         return characterSpriteList;
-    }
-
-    /**
-     * Calculate the attack power of the Character.
-     * @return {int} The attackPower.
-     */
-    attackPower() {
-        if(this._item) 
-            return this._properties.attack + this._item.properties.attack;
-        return this._properties.attack;
-    }
-
-    /**
-     * Calculate the defense power of the Character.
-     * @return {int} The defensePower.
-     */
-    defensePower() {
-        if(this._item) 
-            return this._properties.defense + this._item.properties.defense;
-        return this._properties.defense;
-    }
-
-    /**
-     * Calculate movement point of the Character.
-     * @return {int} The movement point amout.
-     */
-    movementPointAmout() {
-        if(this._item) 
-            return this._properties.movementPoint + this._item.properties.movementPoint;
-        return this._properties.movementPoint;
     }
 }

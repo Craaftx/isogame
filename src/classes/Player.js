@@ -5,11 +5,13 @@ export default class Player {
      * @param {string} name - Player slug.
      * @param {string} displayName - Display name, used in interface.
      * @param {object} character - His character.
+     * @param {object} [item=null] - Player item.
      */
-    constructor(name, displayName, character) {
+    constructor(name, displayName, character, item = null) {
         this._name = name;
         this._displayName = displayName;
         this._character = character;
+        this._item = item;
         this._xAxis;
         this._yAxis;
 
@@ -47,6 +49,14 @@ export default class Player {
 
     set yAxis(newAxis) {
         this._yAxis = newAxis;
+    }
+    
+    get item() {
+        return this._item;
+    }
+    
+    set item(newItem) {
+        this._item = newItem;
     }
 
     /**
@@ -129,6 +139,36 @@ export default class Player {
      */
     isDead() {
         return this.character.properties.life <= 0;
+    }
+
+    /**
+     * Calculate the attack power of the Character.
+     * @return {int} The attackPower.
+     */
+    attackPower() {
+        if(this.item) 
+            return this.character.properties.attack + this.item.properties.attack;
+        return this.character.properties.attack;
+    }
+
+    /**
+     * Calculate the defense power of the Character.
+     * @return {int} The defensePower.
+     */
+    defensePower() {
+        if(this.item) 
+            return this.character.properties.defense + this.item.properties.defense;
+        return this.character.properties.defense;
+    }
+
+    /**
+     * Calculate movement point of the Character.
+     * @return {int} The movement point amout.
+     */
+    movementPointAmout() {
+        if(this.item) 
+            return this.character.properties.movementPoint + this.item.properties.movementPoint;
+        return this.character.properties.movementPoint;
     }
 
 }

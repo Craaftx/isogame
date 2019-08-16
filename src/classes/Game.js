@@ -92,7 +92,7 @@ export default class Game {
         } else {
             let activePlayer = this.getActivePlayer();
             if(this._activePlayerMovementCounter < 0 ) {
-                this._activePlayerMovementCounter = activePlayer.character.movementPointAmout();
+                this._activePlayerMovementCounter = activePlayer.movementPointAmout();
                 console.log(`C'est au tour de ${this.getActivePlayer().displayName}`);
             }
             console.log(`ActivePlayer : ${activePlayer.displayName}, ${this._activePlayerMovementCounter}`);
@@ -100,7 +100,7 @@ export default class Game {
                 this.map.playerMovementGrid(this._activePlayerMovementCounter, activePlayer, this);
             } else { 
                 this.turn.next();
-                this._activePlayerMovementCounter = this.getActivePlayer().character.movementPointAmout();
+                this._activePlayerMovementCounter = this.getActivePlayer().movementPointAmout();
                 console.log('');
                 console.log(`C'est au tour de ${this.getActivePlayer().displayName}`);
                 this.roundManager();
