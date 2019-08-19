@@ -45,9 +45,19 @@ export default class Character {
         this._spriteList = list;
     }
 
+    getSpriteStyle(level) {
+        let initialSprite = this.spriteList.idle[level - 1];
+        return `
+        background: url('game_assets/monsters${initialSprite._frameMapUrl}') no-repeat top left; 
+        width: ${initialSprite._spriteWidth}px;
+        height: ${initialSprite._spriteHeight}px; 
+        animation: animate_sprite_${initialSprite._frameNumber}_level_${initialSprite._level}${this.slug === '004' || this.slug === '005' ? '_modified' : ''} ${initialSprite._frameSpeed}s steps(${initialSprite._frameNumber}, end) infinite;
+      `;
+    }
+
     initSpriteList() {
         const maxLevel = 3;
-        const positionNames = ['idle', 'walk'];
+        const positionNames = ['idle', 'walk', 'attack', 'death'];
         let characterSpriteList = {};
         for (var i = 0; i < positionNames.length; i++) {
             characterSpriteList[positionNames[i]] = [];
@@ -59,7 +69,11 @@ export default class Character {
                     if (y === 1) {
                         values = [2, 202, 210, 0.8, 24];
                     } else {
-                        values = [3, 293, 556, 1.4, 24];
+                        if(this.slug === '004' || this.slug === '005') {
+                            values = [3, 294, 556, 1.4, 24];
+                        } else {
+                            values = [3, 293, 556, 1.4, 24];
+                        }
                     }
                 }
                 characterSpriteList[positionNames[i]].push(

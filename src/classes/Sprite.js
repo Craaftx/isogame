@@ -24,17 +24,22 @@ export default class Sprite {
      * @param {string} parentId - The DOM parent.
      */
     drawSprite($parentId) {
+      let characterSlug = this._name.slice(-3);
+
       let $parent = document.querySelector(`#${$parentId}`);
 
       let $newSprite = document.createElement("div");
       $newSprite.setAttribute("id", `players__player__sprite-${this._name}`);
-      $newSprite.setAttribute("class", 
-      `players__player__sprite --sprite-level-${this._level}`);
+      if(characterSlug !== '001') {
+        $newSprite.setAttribute("class", `players__player__sprite players__player__sprite--level-${this._level}  players__player__sprite--level-${this._level}--modified`);
+      } else {
+        $newSprite.setAttribute("class", `players__player__sprite players__player__sprite--level-${this._level}`);
+      }
       $newSprite.style.cssText = `
         background: url('game_assets/monsters/${this._frameMapUrl}') no-repeat top left; 
         width: ${this._spriteWidth}px;
         height: ${this._spriteHeight}px; 
-        animation: animate_sprite_${this._frameNumber}_level_${this._level} ${this._frameSpeed}s steps(${this._frameNumber}, end) infinite;
+        animation: animate_sprite_${this._frameNumber}_level_${this._level}${characterSlug === '004' || characterSlug === '005' ? '_modified' : ''} ${this._frameSpeed}s steps(${this._frameNumber}, end) infinite;
       `;
       
       $parent.appendChild($newSprite);

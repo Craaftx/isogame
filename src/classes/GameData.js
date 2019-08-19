@@ -24,7 +24,7 @@ export default class GameData {
           "spell_mystic_superior",
           "Livre de sort supérieur",
           "A utiliser avec précaution !",
-          new Properties(10, 0, 0, 0, 3)
+          new Properties(10, -5, 0, 0, 3)
         ),
         new Item(
           "spell_sword_major",
@@ -99,9 +99,33 @@ export default class GameData {
     const data = [
       new Character(
         "001",
-        "Big Tooth",
-        "Monstre très méchant",
-        new Properties(10, 5, 3, 20, 1)
+        "Pike",
+        "Équipé de piques tranchantes, il est vif et très rapide",
+        new Properties(5, 5, 4, 100, 3)
+      ),
+      new Character(
+        "002",
+        "Sharp",
+        "Tranchant comme une lame, il ne laisse rien de ses victimes",
+        new Properties(10, 10, 3, 100, 3)
+      ),
+      new Character(
+        "003",
+        "Feeler",
+        "Doté d'une force de constriction incroyable, il peut tout broyer",
+        new Properties(10, 5, 3, 100, 3)
+      ),
+      new Character(
+        "004",
+        "Frozen",
+        "Solide comme la glace il tue avec des pieux de glace",
+        new Properties(5, 20, 2, 100, 3)
+      ),
+      new Character(
+        "005",
+        "Sunlight",
+        "Aussi brulant qu'un soleil, ne vous fiez pas à sa beauté",
+        new Properties(20, 0, 3, 100, 3)
       ),
     ];
     return data;
