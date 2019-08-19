@@ -14,7 +14,23 @@ export default class Item {
     this._properties = properties;
   }
 
+  get name() {
+    return this._name;
+  }
+
+  get displayName() {
+    return this._displayName;
+  }
+
+  get description() {
+    return this._description;
+  }
+
   get properties() {
     return this._properties;
+  }
+
+  getImageUrl() {
+    return `game_assets/ground-items/${this.name}.png`;
   }
 }

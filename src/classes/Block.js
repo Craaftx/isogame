@@ -9,4 +9,16 @@ export default class Block {
         this._name = name;
         this._reachable = reachable;
     }
+
+    get name() {
+        return this._name;
+    }
+
+    get reachable() {
+        return this._reachable;
+    }
+
+    getImageUrl() {
+        return `game_assets/ground-blocks/${this.name}.png`;
+    }
 }
