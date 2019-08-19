@@ -7,7 +7,7 @@ const game = new Game();
 
 const players = [
   ["Craaftx", gameData.characters[0]],
-  ["Player2", gameData.characters[0]],
+  ["Player2", gameData.characters[3]],
 ];
 
-game.newGame("grass_field", "lack", 4, players);
+// game.newGame("grass_field", "lack", 4, players);

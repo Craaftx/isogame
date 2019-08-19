@@ -3,6 +3,7 @@ import Player from "./Player";
 import Map from "./Map";
 import Turn from "./Turn";
 import Environnement from "./Environnement";
+import Interface from "./Interface";
 
 export default class Game {
     /**
@@ -11,19 +12,23 @@ export default class Game {
      */
     constructor() {
         this._gameData = new GameData();
+        this._interface = new Interface();
         this._map;
         this._environnement;
-        this._players = [];
+        this._players = [null, null];
         this._turn = new Turn();
         this._activePlayerMovementCounter = -1;
+        document.getElementById('homemenu-interface-validation').addEventListener('click', () => {
+            this.startGame();
+        });
     }
 
     get gameData() {
         return this._gameData;
     }
 
-    set gameData(newGameData) {
-        this._gameData = newGameData;
+    get interface() {
+        return this._interface;
     }
 
     get map() {
@@ -75,8 +80,12 @@ export default class Game {
         this.environnement.placeItems(number);
     }
 
-    addPlayer(playerName, playerCharacter) {
-        this.players.push(new Player(`player-${(this.players.length) + 1}`, playerName, playerCharacter));
+    addPlayer(playerSlug, playerName, playerCharacter) {
+        this.players[playerSlug] = new Player(`player-${playerSlug + 1}`, playerName, this.gameData.characters[playerCharacter - 1]);
+    }
+
+    removePlayer(playerSlug) {
+        this.players[playerSlug] = null;
     }
 
     placePlayers() {
@@ -93,16 +102,12 @@ export default class Game {
             let activePlayer = this.getActivePlayer();
             if(this._activePlayerMovementCounter < 0 ) {
                 this._activePlayerMovementCounter = activePlayer.movementPointAmout();
-                console.log(`C'est au tour de ${this.getActivePlayer().displayName}`);
             }
-            console.log(`ActivePlayer : ${activePlayer.displayName}, ${this._activePlayerMovementCounter}`);
             if(this._activePlayerMovementCounter > 0) {
                 this.map.playerMovementGrid(this._activePlayerMovementCounter, activePlayer, this);
             } else { 
                 this.turn.next();
                 this._activePlayerMovementCounter = this.getActivePlayer().movementPointAmout();
-                console.log('');
-                console.log(`C'est au tour de ${this.getActivePlayer().displayName}`);
                 this.roundManager();
             }
         }
@@ -129,4 +134,58 @@ export default class Game {
         this.roundManager();  
         console.log(this.map.getVirtualMap());
     }
+
+    characterChoice() {
+        const $wrapper = document.querySelector(`#character-selection-interface-wrapper`);
+        const $validation = document.querySelector('#character-selection-interface-validation');
+        $validation.addEventListener("click", function(){
+            if(this.players[0] && this.players[1]) {
+                this.players[0].item = this.gameData.items.books[0];
+                // TODO : Map Selection
+                // TODO : Item number Selection
+                document.getElementById('character-selection-interface').style.display = 'none';
+                document.getElementById('game-interface').style.display = 'block';
+                this.newGame("grass_field", "lack", 4, this.players);
+            }
+        }.bind(this), false);
+
+        const characters = this.gameData.characters;
+        for (var i = 0; i < characters.length; i++) {
+            let character = characters[i];
+            const $player1Btn = document.querySelector(`#character-choice-card-${character.slug}-1`);
+            $player1Btn.addEventListener("click", function(){
+                if(this.players[0]) {
+                    this.removePlayer(0);
+                    $wrapper.querySelector(".character-choice-cards__card__choices__choice--player1--selected").classList.remove('character-choice-cards__card__choices__choice--player1--selected');
+                    
+                    this.addPlayer(0, 'Joueur 1', character.slug.slice(-1));
+                    $player1Btn.classList.add('character-choice-cards__card__choices__choice--player1--selected');        
+                } else {
+                    this.addPlayer(0, 'Joueur 1', character.slug.slice(-1));
+                    $player1Btn.classList.add('character-choice-cards__card__choices__choice--player1--selected');                
+                }
+            }.bind(this), false);
+            const $player2Btn = document.querySelector(`#character-choice-card-${character.slug}-2`);
+            $player2Btn.addEventListener("click", function(){
+                if(this.players[1]) {
+                    this.removePlayer(1);
+                    document.querySelector(".character-choice-cards__card__choices__choice--player2--selected").classList.remove('character-choice-cards__card__choices__choice--player2--selected');
+                
+                    this.addPlayer(1, 'Joueur 2', character.slug.slice(-1));
+                    $player2Btn.classList.add('character-choice-cards__card__choices__choice--player2--selected');
+                } else {
+                    this.addPlayer(1, 'Joueur 2', character.slug.slice(-1));    
+                    $player2Btn.classList.add('character-choice-cards__card__choices__choice--player2--selected');
+                }
+            }.bind(this), false);
+        }
+    }
+
+    startGame() {
+        document.getElementById('homemenu-interface').style.display = 'none';
+        document.getElementById('character-selection-interface').style.display = 'block';
+        this.interface.displayCharacterChoice();
+        this.characterChoice();
+    }
+
 }
