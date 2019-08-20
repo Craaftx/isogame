@@ -133,7 +133,7 @@ export default class GameData {
 
   mapCompositionsData() {
     const data = {
-      grass_field: {
+      grass: {
         grass_block_1: 4,
         grass_block_2: 2,
         grass_block_3: 0,
@@ -148,7 +148,7 @@ export default class GameData {
         stone_block_6: 0,
         water_block_1: 0
       },
-      burned_grass_field: {
+      burned: {
         grass_block_1: 0,
         grass_block_2: 0,
         grass_block_3: 0,
@@ -162,33 +162,72 @@ export default class GameData {
         stone_block_5: 0,
         stone_block_6: 0,
         water_block_1: 0
-      }
+      },
+      stone: {
+        grass_block_1: 5,
+        grass_block_2: 3,
+        grass_block_3: 0,
+        grass_block_4: 0,
+        grass_block_5: 0,
+        grass_block_6: 0,
+        stone_block_1: 2,
+        stone_block_2: 0,
+        stone_block_3: 0,
+        stone_block_4: 0,
+        stone_block_5: 1,
+        stone_block_6: 0,
+        water_block_1: 0
+      },
+      random_grass: {
+        grass_block_1: 4,
+        grass_block_2: 2,
+        grass_block_3: 0,
+        grass_block_4: 0,
+        grass_block_5: 0,
+        grass_block_6: 0,
+        stone_block_1: 0,
+        stone_block_2: 0,
+        stone_block_3: 0,
+        stone_block_4: 0,
+        stone_block_5: 0,
+        stone_block_6: 0,
+        water_block_1: 1
+      },
+      random_burned: {
+        grass_block_1: 0,
+        grass_block_2: 0,
+        grass_block_3: 0,
+        grass_block_4: 4,
+        grass_block_5: 2,
+        grass_block_6: 0,
+        stone_block_1: 0,
+        stone_block_2: 0,
+        stone_block_3: 0,
+        stone_block_4: 0,
+        stone_block_5: 0,
+        stone_block_6: 0,
+        water_block_1: 1
+      },
+      random_stone: {
+        grass_block_1: 5,
+        grass_block_2: 3,
+        grass_block_3: 0,
+        grass_block_4: 0,
+        grass_block_5: 0,
+        grass_block_6: 0,
+        stone_block_1: 2,
+        stone_block_2: 0,
+        stone_block_3: 0,
+        stone_block_4: 0,
+        stone_block_5: 1,
+        stone_block_6: 0,
+        water_block_1: 1
+      },
     };
     return data;
   }
 
   mapPatternsData() {
-    let island = [
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1],
-      [1, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1],
-      [1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-      [1, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 1],
-      [1, 2, 2, 2, 3, 3, 3, 3, 2, 2, 1, 1],
-      [1, 2, 2, 3, 3, 3, 3, 3, 2, 2, 1, 1],
-      [1, 2, 2, 2, 3, 3, 3, 2, 2, 1, 1, 1],
-      [1, 1, 2, 2, 2, 3, 2, 2, 2, 1, 1, 1],
-      [1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1],
-      [1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-    ];
-    let islandBlocks = [
-      null,
-      this.blocks.water[0],
-      this.blocks.grass[0],
-      this.blocks.grass[1]
-    ];
-
     let lack = [
       [0, 1, 1, 1, 0, 0, 0],
       [0, 1, 1, 1, 1, 1, 0],
@@ -210,10 +249,22 @@ export default class GameData {
     ];
     let riverBlocks = [null, this.blocks.water[0], this.blocks.wood[0]];
 
+    let island = [
+      [1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+      [1, 1, 2, 1, 1, 1, 0, 0, 0, 1, 1, 1],
+      [1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+      [0, 0, 0, 1, 1, 1, 1, 1, 2, 1, 0, 0],
+      [0, 0, 0, 0, 1, 1, 1, 1, 2, 1, 1, 0],
+      [0, 0, 0, 0, 0, 1, 0, 1, 2, 1, 1, 1],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]
+    ];
+    let islandBlocks = [null, this.blocks.air[0], this.blocks.stone[3]];
+
     const data = {
-      lack: new Pattern(lack, lackBlocks),
-      river: new Pattern(river, riverBlocks),
-      island: new Pattern(island, islandBlocks)
+      island: new Pattern("island", "Iles Flotantes", "Deux iles suspendues dans les cieux tel un purgatoire céleste", island, islandBlocks),
+      river: new Pattern("river", "Rivière", "Une rivière qui déchire avec beauté la terre en deux", river, riverBlocks),
+      lack: new Pattern("lack", "Lac", "Un petit lac de montagne et une prairie pour une partie reposante", lack, lackBlocks),
+      random: new Pattern("random", "Terres lointaines", "Un monde avec des paysages dirigés uniquement par la chance", lack, lackBlocks),
     };
     return data;
   }

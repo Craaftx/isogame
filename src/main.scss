@@ -161,7 +161,7 @@ i {
     height: 98%;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    border: 10px solid $color-back;
+    border: 50px solid $color-back;
   }
 }
 
@@ -247,13 +247,44 @@ i {
   }
 }
 
+/* --- Game interface --- */
+
 .character-choice-wrapper {
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
+  top: 100px; left: 50%;
+  transform: translateX(-50%);
+  .character-choice-cards-title {
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    padding: 20px;
+    margin: 0;
+    text-transform: uppercase;
+    text-align: center;
+    color: $color-back;
+    background-color: #333;
+    width: 100vw;
+  }
 }
 
-/* --- Game interface --- */
+.pattern-choice-wrapper {
+  position: absolute;
+  top: 100px; left: 50%;
+  transform: translateX(-50%);
+  .pattern-choice-cards-title {
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    padding: 20px;
+    margin: 0;
+    text-transform: uppercase;
+    text-align: center;
+    color: $color-back;
+    background-color: #333;
+    width: 100vw;
+  }
+}
+
 .character-choice-cards {
   display: flex;
   justify-content: space-between;
@@ -382,6 +413,107 @@ i {
 }
 
 .character-choice-validation {
+  margin-top: 40px;
+  position: relative;
+  left: 50%; transform: translateX(-50%);
+  width: fit-content;
+  padding: 20px 30px;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  background-color: $color-back;
+  color: #333;
+  border: 4px solid #333;
+  cursor: pointer;
+  &:hover {
+    color: $color-back;
+    background-color: #333;
+  }
+}
+
+.pattern-choice-cards {
+  display: flex;
+  justify-content: space-between;
+  &__card {
+    margin: 20px 20px 0 20px;
+    width: 300px;
+    background-color: #eee;
+    &__background {
+      position: relative;
+      height: 300px;
+      width: 300px;
+      overflow: hidden;
+      background-color: #e2e1e0;
+      box-sizing: border-box;
+      &__pattern {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%; 
+      }
+    }
+    &__title {
+      margin: 40px 0 20px 0;
+      text-transform: uppercase;
+      text-align: center;
+      color: #333;
+    }
+    &__description {
+      margin: 0 0 20px 0;
+      padding: 0 10px;
+      text-align: center;
+      color: #333;
+    }
+    &__blocks-title {
+      margin: 20px 0;
+      font-weight: 400;
+      font-size: 1rem;
+      text-transform: uppercase;
+      text-align: center;
+      color: #333;
+    }
+    &__blocks {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 10% 20px 10%;
+      padding: 0;
+      list-style: none;
+      &__block {
+        position: relative;
+        margin: 5px;
+        text-align: center;
+        cursor: pointer;
+        &::before {
+          content: "";
+          position: absolute;
+          top: calc(50% - 4px); left: 50%;
+          transform: translate(-50%, -50%);
+          width: 70px; height: 70px;
+          border: 2px solid transparent;
+          border-radius: 50%;
+          transition: 400ms;
+        }
+        &:hover { 
+          &::before {
+            border-color: #555;
+            border-radius: 5px;
+          }
+        }
+        &--selected {
+          &::before {
+            border-color: #555;
+            border-radius: 5px;
+          }
+        }
+        img {
+          width: 50px;
+        }
+      }
+    }
+  }
+}
+
+.pattern-choice-validation {
   margin-top: 40px;
   position: relative;
   left: 50%; transform: translateX(-50%);

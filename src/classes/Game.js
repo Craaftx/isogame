@@ -16,6 +16,8 @@ export default class Game {
         this._map;
         this._environnement;
         this._players = [null, null];
+        this._pattern = null;
+        this._composition = null;
         this._turn = new Turn();
         this._activePlayerMovementCounter = -1;
         document.getElementById('homemenu-interface-validation').addEventListener('click', () => {
@@ -47,6 +49,22 @@ export default class Game {
         this._players = newPlayers;
     }
 
+    get pattern() {
+        return this._pattern;
+    }
+
+    set pattern(newPattern) {
+        this._pattern = newPattern;
+    }
+
+    get composition() {
+        return this._composition;
+    }
+
+    set composition(newComposition) {
+        this._composition = newComposition;
+    }
+
     get environnement() {
         return this._environnement;
     }
@@ -66,14 +84,23 @@ export default class Game {
         this.map.initMovementGrid();
     }
 
-    addMapEnvironnement(environnementName) {
+    addMapEnvironnement() {
+        console.log('Composition : ' + this.composition);
+        console.log(this.gameData.mapCompositions[this.composition]);
         this.environnement = new Environnement(this.map, this.gameData.blocks, this.gameData.items);
-        this.environnement.createComposition(this.gameData.mapCompositions[environnementName]);
+        this.environnement.createComposition(this.gameData.mapCompositions[this.composition]);
         this.environnement.buildMap();
     }
 
-    addMapPattern(patternName) {
-        this.environnement.placeBlockPattern(this.map.getRandomRow(1, (this.map.size - 7)), 0, this.gameData.mapPatterns[patternName]);
+    addMapPattern() {
+        if(!this.pattern === "random") {
+            if(this.pattern === "lack") {
+                this.environnement.placeBlockPattern(this.map.getRandomRow(), this.map.getRandomCol(), this.gameData.mapPatterns[this.pattern]);
+            }
+            else {
+                this.environnement.placeBlockPattern(this.map.getRandomRow(1, (this.map.size - 7)), 0, this.gameData.mapPatterns[this.pattern]);
+            }
+        }
     }
 
     addMapItems(number) {
@@ -122,17 +149,16 @@ export default class Game {
         return this.turn.getActivePlayer(this.players);
     }
 
-    newGame(environnementName, patternName, itemsNumber, players) {
+    newGame() {
         this.initMap();
-        this.addMapEnvironnement(environnementName);
-        this.addMapPattern(patternName);
-        this.addMapItems(itemsNumber);
-        players.forEach((player) => {
+        this.addMapEnvironnement();
+        this.addMapPattern();
+        this.addMapItems(4);
+        this.players.forEach((player) => {
             this.addPlayer(player[0], player[1])
         });
         this.placePlayers();     
         this.roundManager();  
-        console.log(this.map.getVirtualMap());
     }
 
     characterChoice() {
@@ -141,11 +167,11 @@ export default class Game {
         $validation.addEventListener("click", function(){
             if(this.players[0] && this.players[1]) {
                 this.players[0].item = this.gameData.items.books[0];
-                // TODO : Map Selection
-                // TODO : Item number Selection
+                this.players[1].item = this.gameData.items.books[0];
                 document.getElementById('character-selection-interface').style.display = 'none';
-                document.getElementById('game-interface').style.display = 'block';
-                this.newGame("grass_field", "lack", 4, this.players);
+                document.getElementById('pattern-selection-interface').style.display = 'block';
+                this.interface.displayPatternChoice();
+                this.patternChoice();
             }
         }.bind(this), false);
 
@@ -176,6 +202,73 @@ export default class Game {
                 } else {
                     this.addPlayer(1, 'Joueur 2', character.slug.slice(-1));    
                     $player2Btn.classList.add('character-choice-cards__card__choices__choice--player2--selected');
+                }
+            }.bind(this), false);
+        }
+    }
+
+    patternChoice() {
+        const $wrapper = document.querySelector(`#pattern-selection-interface-wrapper`);
+        const $validation = document.querySelector('#pattern-selection-interface-validation');
+        $validation.addEventListener("click", function(){
+            if(this.pattern && this.composition) {
+                document.getElementById('pattern-selection-interface').style.display = 'none';
+                document.getElementById('game-interface').style.display = 'block';
+                this.newGame();
+            }
+        }.bind(this), false);
+
+        const patterns = this.gameData.mapPatterns;
+        for (var i = 0; i < Object.keys(patterns).length; i++) {
+            let pattern = patterns[Object.keys(patterns)[i]];
+            const $firstBtn = document.querySelector(`#pattern-choice-card-${pattern.slug}-grass`);
+            const $secondBtn = document.querySelector(`#pattern-choice-card-${pattern.slug}-burned`);
+            const $thirdBtn = document.querySelector(`#pattern-choice-card-${pattern.slug}-stone`);
+            $firstBtn.addEventListener("click", function(){
+                if(this.pattern) {
+                    this.pattern = null;
+                    this.composition = null;
+                    $wrapper.querySelector(".pattern-choice-cards__card__blocks__block--selected").classList.remove('pattern-choice-cards__card__blocks__block--selected');
+                    
+                    this.pattern = pattern.slug;
+                    this.composition = this.pattern === 'random' ? 'random_grass' : 'grass';
+                    $firstBtn.classList.add('pattern-choice-cards__card__blocks__block--selected');        
+                } else {
+                    this.pattern = pattern.slug;
+                    this.composition = this.pattern === 'random' ? 'random_grass' : 'grass';
+                    $firstBtn.classList.add('pattern-choice-cards__card__blocks__block--selected');               
+                }
+            }.bind(this), false);
+
+            $secondBtn.addEventListener("click", function(){
+                if(this.pattern) {
+                    this.pattern = null;
+                    this.composition = null;
+                    $wrapper.querySelector(".pattern-choice-cards__card__blocks__block--selected").classList.remove('pattern-choice-cards__card__blocks__block--selected');
+                    
+                    this.pattern = pattern.slug;
+                    this.composition = this.pattern === 'random' ? 'random_burned' : 'burned';
+                    $secondBtn.classList.add('pattern-choice-cards__card__blocks__block--selected');        
+                } else {
+                    this.pattern = pattern.slug;
+                    this.composition = this.pattern === 'random' ? 'random_burned' : 'burned';
+                    $secondBtn.classList.add('pattern-choice-cards__card__blocks__block--selected');               
+                }
+            }.bind(this), false);
+
+            $thirdBtn.addEventListener("click", function(){
+                if(this.pattern) {
+                    this.pattern = null;
+                    this.composition = 'null';
+                    $wrapper.querySelector(".pattern-choice-cards__card__blocks__block--selected").classList.remove('pattern-choice-cards__card__blocks__block--selected');
+                    
+                    this.pattern = pattern.slug;
+                    this.composition = this.pattern === 'random' ? 'random_stone' : 'stone';
+                    $thirdBtn.classList.add('pattern-choice-cards__card__blocks__block--selected');        
+                } else {
+                    this.pattern = pattern.slug;
+                    this.composition = this.pattern === 'random' ? 'random_stone' : 'stone';
+                    $thirdBtn.classList.add('pattern-choice-cards__card__blocks__block--selected');               
                 }
             }.bind(this), false);
         }

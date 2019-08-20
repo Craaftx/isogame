@@ -2,10 +2,16 @@ export default class Pattern {
   /**
    * Represents a Pattern.
    * @constructor
+   * @param {string} slug - Monster slug, used in URL (ex 001).
+   * @param {string} displayName - Display name, used in interface.
+   * @param {string} description - Description of the Pattern.
    * @param {array} pattern - (Multidimensional array) The pattern who applies to the map.
    * @param {array} blocks - Blocks used in the pattern.
    */
-  constructor(pattern, blocks) {
+  constructor(slug, displayName, description, pattern, blocks) {
+    this._slug = slug;
+    this._displayName = displayName;
+    this._description = description;
     this._virtualMap = [];
     this._xSize = pattern.length;
     this._ySize = pattern[0].length;
@@ -17,6 +23,22 @@ export default class Pattern {
         }
       }
     }
+  }
+
+  get slug() {
+      return this._slug;
+  }
+
+  get displayName() {
+      return this._displayName;
+  }
+
+  get description() {
+      return this._description;
+  }
+
+  getImageUrl() {
+    return `game_assets/map-set/${this.slug}.png`;
   }
 
   /**

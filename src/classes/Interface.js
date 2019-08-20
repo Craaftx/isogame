@@ -14,6 +14,7 @@ export default class Interface {
     }
 
     displayCharacterChoice() {
+        const wrapper = document.querySelector('#character-selection-interface-wrapper');
         const template = (character, item, standingBlock) => {
             return `
                 <div class="character-choice-cards__card" id="character-choice-cards__card-${character.slug}">
@@ -71,14 +72,53 @@ export default class Interface {
                 </div>
             `;
         }
-        let buildedTemplate = ``;
-        const wrapper = document.querySelector('#character-selection-interface-wrapper');
         const starterItem = this.gameData.items.books[0];
         const characters = this.gameData.characters;
         const blocks = this.gameData.blocks;
 
+        let buildedTemplate = ``;
         for (var i = 0; i < characters.length; i++) {
             buildedTemplate += template(characters[i], starterItem, blocks.stone[0]);
+        }
+
+        wrapper.innerHTML = buildedTemplate;
+    }
+
+    displayPatternChoice() {
+        const wrapper = document.querySelector('#pattern-selection-interface-wrapper');
+        const template = (pattern, blocks) => {
+            return `
+                <div class="pattern-choice-cards__card" id="pattern-choice-cards__card-${pattern.slug}">
+                    <div class="pattern-choice-cards__card__background">
+                        <img class="pattern-choice-cards__card__background__pattern" src="${pattern.getImageUrl()}" />
+                    </div>
+                    <h2 class="pattern-choice-cards__card__title">${pattern.displayName}</h2>
+                    <p class="pattern-choice-cards__card__description">${pattern.description}</p>
+                    <h3 class="pattern-choice-cards__card__blocks-title">Séléctionnez un type de sol</h3>
+                    <ul class="pattern-choice-cards__card__blocks">
+                        <li class="pattern-choice-cards__card__blocks__block" id="pattern-choice-card-${pattern.slug}-grass">
+                            <img src="${blocks[0].getImageUrl()}" />
+                        </li>
+                        <li class="pattern-choice-cards__card__blocks__block" id="pattern-choice-card-${pattern.slug}-burned">
+                            <img src="${blocks[1].getImageUrl()}" />
+                        </li>
+                        <li class="pattern-choice-cards__card__blocks__block" id="pattern-choice-card-${pattern.slug}-stone">
+                            <img src="${blocks[2].getImageUrl()}" />
+                        </li>
+                    </ul>
+                </div>
+            `;
+        }
+        const blocks = [
+            this.gameData.blocks.grass[0],
+            this.gameData.blocks.grass[3],
+            this.gameData.blocks.stone[0],
+        ];
+        const patterns = this.gameData.mapPatterns;
+
+        let buildedTemplate = ``;
+        for (var i = 0; i < Object.keys(patterns).length; i++) {
+            buildedTemplate += template(patterns[Object.keys(patterns)[i]], blocks);
         }
 
         wrapper.innerHTML = buildedTemplate;
