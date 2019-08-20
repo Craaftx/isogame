@@ -93,9 +93,9 @@ export default class Game {
     }
 
     addMapPattern() {
-        if(!this.pattern === "random") {
+        if(this.pattern !== "random") {
             if(this.pattern === "lack") {
-                this.environnement.placeBlockPattern(this.map.getRandomRow(), this.map.getRandomCol(), this.gameData.mapPatterns[this.pattern]);
+                this.environnement.placeBlockPattern(this.map.getRandomRow(1, (this.map.size - 7)), this.map.getRandomCol(1, (this.map.size - 7)), this.gameData.mapPatterns[this.pattern]);
             }
             else {
                 this.environnement.placeBlockPattern(this.map.getRandomRow(1, (this.map.size - 7)), 0, this.gameData.mapPatterns[this.pattern]);
