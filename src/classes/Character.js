@@ -59,6 +59,10 @@ export default class Character {
         const maxLevel = 3;
         const positionNames = ['idle', 'walk', 'attack', 'death'];
         let characterSpriteList = {};
+
+        /**
+         * REVIEW Tu peux peut-être rajouter un petit commentaire ici pour expliquer ce que tu fais.
+         */
         for (var i = 0; i < positionNames.length; i++) {
             characterSpriteList[positionNames[i]] = [];
             for (var y = 0; y < maxLevel; y++) {

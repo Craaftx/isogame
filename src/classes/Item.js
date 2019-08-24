@@ -30,6 +30,9 @@ export default class Item {
     return this._properties;
   }
 
+  /**
+   * REVIEW : idem ici (init dans construtor et getter)
+   */
   getImageUrl() {
     return `game_assets/ground-items/${this.name}.png`;
   }

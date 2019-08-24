@@ -13,6 +13,9 @@ export default class Interface {
         return this._gameData;
     }
 
+    /**
+     * REVIEW : ce gros paté de l'espace
+     */
     displayCharacterChoice() {
         const wrapper = document.querySelector('#character-selection-interface-wrapper');
         const template = (character, item, standingBlock) => {

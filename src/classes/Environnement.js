@@ -20,6 +20,9 @@ export default class Environnement {
    */
   createComposition(composition) {
     let keys = Object.keys(this._blocks);
+    /**
+     * REVIEW : bon, je suis pas méga fan de cette triple boucle for qui va ajouter mais t'embete pas à la refaire ^^.
+     */
     for (let wantedBlock in composition) {
       for (let i = 0; i < keys.length; i++) {
         for (let x = 0; x < composition[wantedBlock]; x++) {
@@ -29,6 +32,11 @@ export default class Environnement {
         }
       }
     }
+    /**
+     * REVIEW : c'est pas forcément une bonne pratique de faire ça parce que tu prends la référence de la variable pour la modifier.
+     * C'est souvent la porte d'entrée pour avoir des erreurs de référence et de copie de variables.
+     * T'embête pas à modifier mais garde en tête que c'est pas forcément à reproduire :).
+     */
     this._composition = this._composition.flat();
   }
 
@@ -38,6 +46,10 @@ export default class Environnement {
   flattenItems() {
     let items = [];
     let keys = Object.keys(this._items);
+    /**
+     * REVIEW : je note qu'il faut que je te fasse pas mal pratiquer les maps dans le prochain projet ;).
+     * D'ailleurs, pour ce qui est du nommage de la méthode, tu es plus en train de parser (transformer) un objet (this._items) en array non ?
+     */
     for (let i = 0; i < keys.length; i++) {
       for (let x = 0; x < this._items[keys[i]].length; x++) {
         items.push(this._items[keys[i]][x]);
@@ -78,6 +90,9 @@ export default class Environnement {
    * @param {object} block - The block present in this cell.
    */
   addBlockToCell(row, col, block) {
+    /**
+     * REVIEW : le petit $ est oublié ;)
+     */
     const currentItem = document.querySelector(`#gamegrid__cell-${row}-${col} .gamegrid__cell__content--block`);
     currentItem.setAttribute(
       "src",
@@ -95,6 +110,9 @@ export default class Environnement {
       this._composition.length == 0 ? this._blocks : this._composition;
     for (let row = 0; row < this._map._size; row++) {
       for (let col = 0; col < this._map._size; col++) {
+        /**
+         * REVIEW : idem ici  -> $currentItem
+         */
         let currentItem = document.getElementById(
           `gamegrid__cell-${row}-${col}`
         );

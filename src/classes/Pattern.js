@@ -15,6 +15,7 @@ export default class Pattern {
     this._virtualMap = [];
     this._xSize = pattern.length;
     this._ySize = pattern[0].length;
+
     for (let i = 0; i < this._xSize; i++) {
       this._virtualMap[i] = [];
       for (let x = 0; x < this._ySize; x++) {
@@ -37,6 +38,9 @@ export default class Pattern {
       return this._description;
   }
 
+  /**
+   * REVIEW: idem ici (le mettre dans le constructor)
+   */
   getImageUrl() {
     return `game_assets/map-set/${this.slug}.png`;
   }

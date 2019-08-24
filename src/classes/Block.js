@@ -18,6 +18,9 @@ export default class Block {
         return this._reachable;
     }
 
+    /**
+     * REVIEW : init cette propriété dans le constructor et fait juste une geter get imageUrl à la place
+     */
     getImageUrl() {
         return `game_assets/ground-blocks/${this.name}.png`;
     }

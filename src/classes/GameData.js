@@ -4,6 +4,12 @@ import Pattern from "./Pattern";
 import Character from "./Character";
 import Properties from "./Properties";
 
+/**
+ * REVIEW: comme on s'était dit durant le call, tu peux faire un objet ici au lieu d'une classe
+ * Typiquement : 
+ * export default  Object.freeze({ })
+ */
+
 export default class GameData {
   /**
    * Represents all the Game data.
