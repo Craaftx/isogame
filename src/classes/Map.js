@@ -24,6 +24,10 @@ export default class Map {
   get size() {
     return this._size;
   }
+  
+  get virtualMap() {
+    return this._virtualMap;
+  }
 
   /**
    * Return an Array of the map.

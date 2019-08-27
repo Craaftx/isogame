@@ -14,6 +14,7 @@ export default class Game {
         this._gameData = new GameData();
         this._interface = new Interface();
         this._map;
+        this._virtualMap;
         this._environnement;
         this._players = [null, null];
         this._pattern = null;
@@ -39,6 +40,14 @@ export default class Game {
 
     set map(newMap) {
         this._map = newMap;
+    }
+
+    get virtualMap() {
+        return this._virtualMap;
+    }
+
+    set virtualMap(newVirtualMap) {
+        this._virtualMap = newVirtualMap;
     }
 
     get players() {
@@ -82,6 +91,7 @@ export default class Game {
         this.map = new Map(size);
         this.map.generateGrid("gamegrid");
         this.map.initMovementGrid();
+        this.virtualMap = this.map.virtualMap;
     }
 
     addMapEnvironnement() {
@@ -123,13 +133,22 @@ export default class Game {
     }
 
     roundManager() {
-        if(this.players[0].isDead() || this.players[1].isDead()) {
-            console.log("Match terminé");
+        let activePlayer = this.getActivePlayer();
+        if(this.map.isNearPlayers(activePlayer.xAxis, activePlayer.yAxis)) {
+            console.log("Joueur proche");
         } else {
-            let activePlayer = this.getActivePlayer();
             if(this._activePlayerMovementCounter < 0 ) {
                 this._activePlayerMovementCounter = activePlayer.movementPointAmout();
+            } else {
+                if(this.map.containItem(activePlayer.xAxis, activePlayer.yAxis)) {
+                    let playerItem = activePlayer.item;
+                    activePlayer.item = this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item;
+                    this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item = playerItem;
+                    console.log(`Changement d'item pour ${activePlayer.displayName}`);
+                    console.log(`${this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item.displayName} --> ${activePlayer.item.displayName}`);
+                }
             }
+    
             if(this._activePlayerMovementCounter > 0) {
                 this.map.playerMovementGrid(this._activePlayerMovementCounter, activePlayer, this);
             } else { 
@@ -138,6 +157,7 @@ export default class Game {
                 this.roundManager();
             }
         }
+        
     }
 
     playerMovementEnd(pointsUsed) {
