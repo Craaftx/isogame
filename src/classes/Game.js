@@ -139,16 +139,16 @@ export default class Game {
         } else {
             if(this._activePlayerMovementCounter < 0 ) {
                 this._activePlayerMovementCounter = activePlayer.movementPointAmout();
-            } else {
-                if(this.map.containItem(activePlayer.xAxis, activePlayer.yAxis)) {
-                    let playerItem = activePlayer.item;
-                    activePlayer.item = this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item;
-                    this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item = playerItem;
-                    console.log(`Changement d'item pour ${activePlayer.displayName}`);
-                    console.log(`${this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item.displayName} --> ${activePlayer.item.displayName}`);
-                }
+            } 
+
+            if(this.map.containItem(activePlayer.xAxis, activePlayer.yAxis) && this._activePlayerMovementCounter !== activePlayer.movementPointAmout()) {
+                let playerItem = activePlayer.item;
+                activePlayer.item = this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item;
+                this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item = playerItem;
+                console.log(`Changement d'item pour ${activePlayer.displayName}`);
+                console.log(`${this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item.displayName} --> ${activePlayer.item.displayName}`);
             }
-    
+
             if(this._activePlayerMovementCounter > 0) {
                 this.map.playerMovementGrid(this._activePlayerMovementCounter, activePlayer, this);
             } else { 
