@@ -125,33 +125,40 @@ export default class Interface {
     }
 
     displayPlayersStatus(players) {
-        const wrapper = document.querySelector('#character-selection-interface-wrapper');
-        const template = (character, item, standingBlock) => {
+        const wrapper = document.querySelector('#game-players-cards');    
+        const template = (player, character, item) => {
             return `
-                <div class="character-choice-cards__card" id="character-choice-cards__card-${character.slug}">
-                    <div class="character-choice-cards__card__background" style="
-                    background-image: url(${standingBlock.getImageUrl()});">
-                        <div class="character-choice-cards__card__background__sprite" style="${character.getSpriteStyle(3)}"></div>
+                <div class="players-cards__card" id="player-status-${player.slug}">
+                    <div class="players-cards__card__background">
+                        <div class="players-cards__card__background__sprite" style="${character.getSpriteStyle(3)}"></div>
                     </div>
-                    <h2 class="character-choice-cards__card__title">${character.displayName}</h2>
-                    <p class="character-choice-cards__card__description">${character.description}</p>
+                    <h2 class="players-cards__card__title">${player.displayName}</h2>
                     <ul class="properties">
                         <li>
                             <i class="fas fa-heart fa-fw"></i><span>${character.properties.life}</span>
                         </li>
                         <li>
-                            <i class="fas fa-bolt fa-fw"></i><span>${character.properties.attack}</span>
+                            <i class="fas fa-bolt fa-fw"></i>
+                            <span>
+                                ${ player.attackPower() === character.properties.attack ? player.attackPower() : `<b>${player.attackPower()}</b>` }
+                            </span>
                         </li>
                         <li>
-                            <i class="fas fa-shield-alt fa-fw"></i><span>${character.properties.defense}</span>
+                            <i class="fas fa-shield-alt fa-fw"></i>
+                            <span>
+                                ${ player.defensePower() === character.properties.defense ? player.defensePower() : `<b>${player.defensePower()}</b>` }
+                            </span>
                         </li>
                         <li>
-                            <i class="fas fa-shoe-prints fa-fw"></i><span>${character.properties.movementPoint}</span>
+                            <i class="fas fa-shoe-prints fa-fw"></i>
+                            <span>
+                                ${ player.movementPointAmout() === character.properties.movementPoint ? player.movementPointAmout() : `<b>${player.movementPointAmout()}</b>` }
+                            </span>
                         </li>
                     </ul>
-                    <div class="character-choice-cards__card__item">
-                        <div class="character-choice-cards__card__item__image"><img src="${item.getImageUrl()}" /></div>
-                        <div class="character-choice-cards__card__item__content">
+                    <div class="players-cards__card__item">
+                        <div class="players-cards__card__item__image"><img src="${item.getImageUrl()}" /></div>
+                        <div class="players-cards__card__item__content">
                             <h4>${item.displayName}</h4>
                             <ul class="properties">
                                 ${item.properties.attack !== 0 ? 
@@ -172,23 +179,20 @@ export default class Interface {
                             </ul>
                         </div>
                     </div>
-                    <div class="character-choice-cards__card__choices">
-                        <div class="character-choice-cards__card__choices__choice character-choice-cards__card__choices__choice--player1" id="character-choice-card-${character.slug}-1">
-                            Joueur 1
-                        </div>
-                        <div class="character-choice-cards__card__choices__choice character-choice-cards__card__choices__choice--player2" id="character-choice-card-${character.slug}-2">
-                            Joueur 2
-                        </div>
-                    </div>
                 </div>
             `;
         }
 
         let buildedTemplate = ``;
         for (var i = 0; i < players.length; i++) {
-            buildedTemplate += template(players[i].character, players[i].item);
+            buildedTemplate += template(players[i], players[i].character, players[i].item);
         }
 
         wrapper.innerHTML = buildedTemplate;
+    }
+
+    displayFightIndicator() {
+        const $indicator = document.querySelector('#game-fight-indicator');    
+        $indicator.classList.add('animate');
     }
 }

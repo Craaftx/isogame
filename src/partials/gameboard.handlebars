@@ -1,7 +1,5 @@
 
 <div class="view" id="game-interface">
-    <div id="game-status-players"></div>
-    <div id="game-bar-activeplayer"></div>
     <div class="grid-wrapper">
         <div class="floor">
             <div id="gamegrid_shadow"></div>
@@ -9,6 +7,23 @@
             <div id="movementgrid"></div>
             <div id="players"></div>
         </div>
+    </div>
+    
+    <div class="players-cards" id="game-players-cards"></div>
+    
+    <div class="game-bar" id="game-bar">
+        <div class="game-bar__player-name" id="game-bar__player-name">
+            Player Name
+        </div>
+        <div class="game-bar__controls">
+            <span class="game-bar__controls__button" id="game-bar__controls__button--attack"><i class="fas fa-bolt fa-fw"></i> Attaquer</span>
+            <span class="game-bar__controls__button" id="game-bar__controls__button--defense"><i class="fas fa-shield-alt fa-fw"></i> Se défendre</span>
+            <span class="game-bar__controls__button" id="game-bar__controls__button--turn"><i class="fas fa-redo-alt fa-fw"></i> Passer mon tour</span>
+        </div>
+    </div>
+
+    <div id="game-fight-indicator">
+        Duel
     </div>
 </div>
 

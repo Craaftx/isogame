@@ -532,6 +532,96 @@ i {
   }
 }
 
+.players-cards {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  &__card {
+    padding-top: 20px;
+    margin: 20px;
+    width: 300px;
+    background-color: #eee;
+    &__background {
+      position: relative;
+      height: 100px;
+      width: 300px;
+      &__sprite {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%) scale(0.5);
+        border: none;
+        animation-play-state: paused !important;
+        &:hover {
+          animation-play-state: running !important;
+        }
+      }
+    }
+    &__title {
+      margin: 20px 0;
+      letter-spacing: 0.1rem;
+      text-transform: uppercase;
+      text-align: center;
+      color: #333;
+    }
+    .properties {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 10% 20px 10%;
+      padding: 0;
+      list-style: none;
+      li {
+        font-size: 20px;
+        margin: 5px;
+        text-align: center;
+        i {
+          font-size: 22px;
+        }
+        span {
+          display: block;
+          padding: 5px 0;
+          font-weight: 500;
+        }
+      }
+    }
+    &__item {
+      display: flex;
+      background-color: #494949;
+      color: #fff;
+      &__image {
+        padding: 0 0 0 10px;
+        img {
+          width: 90px;
+        }
+      }
+      &__content {
+        margin: 20px 0px;
+        h4 {
+          margin: 0px 0 10px 0;
+          font-weight: 400;
+        }
+        ul.properties {
+          justify-content: left;
+          margin: 0;
+          li {
+            margin: 0 5px 0 0;
+            i {
+              margin: 0 0 0 5px;
+              display: inline-block;
+            }
+            span {
+              font-size: 18px;
+              display: inline-block;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 .homemenu {
   position: relative;
   width: 100vw; height: 100vh;
@@ -564,6 +654,99 @@ i {
       background-color: $color-back;
       color: #333;
     }
+  }
+}
+
+#game-fight-indicator {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0;
+  pointer-events: none;
+  text-transform: uppercase;
+  margin: 0; padding: 0;
+  font-size: 200px;
+  font-weight: 700;
+  letter-spacing: 10px;
+  &.animate {
+    animation: fight_indicator 2s ease-out;
+  }
+}
+
+.game-bar {
+  position: absolute;
+  bottom: 0%; left: 50%;
+  transform: translateX(-50%);
+  width: 50%; padding: 30px 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #333333;
+  color: #FFFFFF;
+  &__player-name {
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  &__controls {
+    &__button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      border: 2px solid #333;
+      font-weight: 500;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: #dddddd;
+      &:nth-child(1) {
+        border-color: #ff9800;
+        &:hover {
+          i {
+            color: #FFFFFF !important;
+          }
+          color: #FFFFFF !important;
+          background-color: #ff9800;
+        }
+      }
+      &:nth-child(2) {
+        border-color: #1e88e5;
+        &:hover {
+          i {
+            color: #FFFFFF !important;
+          }
+          color: #FFFFFF !important;
+          background-color: #1e88e5;
+        }
+      }
+      &:nth-child(3) {
+        i {
+          color: $color-primary;
+        }
+        border-color: $color-primary;
+        &:hover {
+          i {
+            color: #FFFFFF !important;
+          }
+          color: #FFFFFF !important;
+          background-color: $color-primary;
+        }
+      }
+    }
+  }
+}
+
+@keyframes fight_indicator {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0;
   }
 }
 

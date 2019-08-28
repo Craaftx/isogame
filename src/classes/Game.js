@@ -135,7 +135,7 @@ export default class Game {
     roundManager() {
         let activePlayer = this.getActivePlayer();
         if(this.map.isNearPlayers(activePlayer.xAxis, activePlayer.yAxis)) {
-            fightManager();
+            this.fightManager();
         } else {
             if(this._activePlayerMovementCounter < 0 ) {
                 this._activePlayerMovementCounter = activePlayer.movementPointAmout();
@@ -145,6 +145,7 @@ export default class Game {
                 let playerItem = activePlayer.item;
                 activePlayer.item = this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item;
                 this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item = playerItem;
+                this.interface.displayPlayersStatus(this.players);
                 console.log(`Changement d'item pour ${activePlayer.displayName}`);
                 console.log(`${this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item.displayName} --> ${activePlayer.item.displayName}`);
             }
@@ -157,6 +158,11 @@ export default class Game {
                 this.roundManager();
             }
         }
+    }
+
+    fightManager() {
+        let activePlayer = this.getActivePlayer();
+        this.interface.displayFightIndicator();
     }
 
     playerMovementEnd(pointsUsed) {
@@ -176,7 +182,8 @@ export default class Game {
         this.players.forEach((player) => {
             this.addPlayer(player[0], player[1])
         });
-        this.placePlayers();     
+        this.interface.displayPlayersStatus(this.players);
+        this.placePlayers();    
         this.roundManager();  
     }
 
