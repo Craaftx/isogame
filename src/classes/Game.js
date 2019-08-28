@@ -135,7 +135,7 @@ export default class Game {
     roundManager() {
         let activePlayer = this.getActivePlayer();
         if(this.map.isNearPlayers(activePlayer.xAxis, activePlayer.yAxis)) {
-            console.log("Joueur proche");
+            fightManager();
         } else {
             if(this._activePlayerMovementCounter < 0 ) {
                 this._activePlayerMovementCounter = activePlayer.movementPointAmout();
@@ -157,7 +157,6 @@ export default class Game {
                 this.roundManager();
             }
         }
-        
     }
 
     playerMovementEnd(pointsUsed) {
