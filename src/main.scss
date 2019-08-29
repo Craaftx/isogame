@@ -539,6 +539,7 @@ i {
   width: 100vw;
   display: flex;
   justify-content: space-between;
+  pointer-events: none;
   &__card {
     padding-top: 20px;
     margin: 20px;
