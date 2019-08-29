@@ -195,4 +195,9 @@ export default class Interface {
         const $indicator = document.querySelector('#game-fight-indicator');    
         $indicator.classList.add('animate');
     }
+
+    updatePlayerBar(activePlayer) {
+        const $playerName = document.querySelector('#game-bar__player-name');
+        $playerName.innerHTML = activePlayer.displayName;
+    }
 }

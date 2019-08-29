@@ -20,6 +20,7 @@ export default class Game {
         this._pattern = null;
         this._composition = null;
         this._turn = new Turn();
+        this._fightMode = false;
         this._activePlayerMovementCounter = -1;
         document.getElementById('homemenu-interface-validation').addEventListener('click', () => {
             this.startGame();
@@ -86,6 +87,14 @@ export default class Game {
         return this._turn;
     }
 
+    get fightMode() {
+        return this._fightMode;
+    }
+
+    set fightMode(newValue) {
+        this._fightMode = newValue;
+    }
+
     initMap() {
         let size = 12;
         this.map = new Map(size);
@@ -135,6 +144,7 @@ export default class Game {
     roundManager() {
         let activePlayer = this.getActivePlayer();
         if(this.map.isNearPlayers(activePlayer.xAxis, activePlayer.yAxis)) {
+            this.fightMode = true;
             this.fightManager();
         } else {
             if(this._activePlayerMovementCounter < 0 ) {
@@ -144,10 +154,8 @@ export default class Game {
             if(this.map.containItem(activePlayer.xAxis, activePlayer.yAxis) && this._activePlayerMovementCounter !== activePlayer.movementPointAmout()) {
                 let playerItem = activePlayer.item;
                 activePlayer.item = this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item;
-                this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item = playerItem;
+                this.environnement.generateItem(playerItem, activePlayer.xAxis, activePlayer.yAxis);
                 this.interface.displayPlayersStatus(this.players);
-                console.log(`Changement d'item pour ${activePlayer.displayName}`);
-                console.log(`${this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item.displayName} --> ${activePlayer.item.displayName}`);
             }
 
             if(this._activePlayerMovementCounter > 0) {
