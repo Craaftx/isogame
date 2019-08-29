@@ -143,6 +143,7 @@ export default class Game {
 
     roundManager() {
         let activePlayer = this.getActivePlayer();
+        this.interface.updatePlayerBar(activePlayer);
         if(this.map.isNearPlayers(activePlayer.xAxis, activePlayer.yAxis)) {
             this.fightMode = true;
             this.fightManager();
