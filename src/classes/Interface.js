@@ -1,3 +1,4 @@
+import $ from "jquery";
 import GameData from "./GameData";
 
 export default class Interface {
@@ -186,7 +187,10 @@ export default class Interface {
 
         let buildedTemplate = ``;
         for (var i = 0; i < players.length; i++) {
-            buildedTemplate += template(players[i], players[i].character, players[i].item);
+            buildedTemplate += template(players[i], players[i].character, players[i].item);        
+            console.log(`#players__player-${players[i].name}`); 
+            console.log($(`#players__player-${players[i].name}`).children);
+            $(`#players__player-${players[i].name}`).append( `<div class='players__player__damage-indicator' id="players__player__damage-indicator-${players[i].name}"></div>` );
         }
 
         wrapper.innerHTML = buildedTemplate;
@@ -200,6 +204,7 @@ export default class Interface {
     displayFightButtons() {
         document.getElementById("game-bar__controls__button--attack").style.display = "initial";
         document.getElementById("game-bar__controls__button--defense").style.display = "initial";
+        document.getElementById("game-bar__controls__button--turn").style.display = "none";
     }
 
     updatePlayerBar(activePlayer) {
