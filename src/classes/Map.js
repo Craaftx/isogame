@@ -39,7 +39,7 @@ export default class Map {
 
   /**
    * Generate the FrontEnd structure for the grid.
-   * @param {integer} size - The size of the map.
+   * @param {string} parentId - The id of the grid HTML parent.
    */
   generateGrid(parentId) {
     for (let i = 0; i < this._size; i++) {

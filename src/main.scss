@@ -63,7 +63,7 @@ i {
     color: #f44336;
   }
   &.fa-shoe-prints {
-    color: #67bb6b;
+    color: #66bb6a;
   }
   &.fa-bolt {
     color: #ff9800;
@@ -134,11 +134,11 @@ i {
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 100%; height: 100%;
-      background-color: rgba(102, 187, 0, 0.4);
+      background-color: rgba(255, 166, 0, 0.4);
     }
     &:hover {
       &::after {
-        background-color: rgba(102, 187, 0, 0.9);
+        background-color: rgba(255, 166, 0, 0.8);
       }
     }
   }

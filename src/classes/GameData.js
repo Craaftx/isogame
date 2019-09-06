@@ -260,11 +260,14 @@ export default class GameData {
     ];
     let islandBlocks = [null, this.blocks.air[0], this.blocks.stone[3]];
 
+    let random = [0]
+    let randomBlocks = [null, this.blocks.air[0]];
+    
     const data = {
       island: new Pattern("island", "Iles Flotantes", "Deux iles suspendues dans les cieux tel un purgatoire céleste", island, islandBlocks),
       river: new Pattern("river", "Rivière", "Une rivière qui déchire avec beauté la terre en deux", river, riverBlocks),
       lack: new Pattern("lack", "Lac", "Un petit lac de montagne et une prairie pour une partie reposante", lack, lackBlocks),
-      random: new Pattern("random", "Terres lointaines", "Un monde avec des paysages dirigés uniquement par la chance", lack, lackBlocks),
+      random: new Pattern("random", "Terres lointaines", "Un monde avec des paysages dirigés uniquement par la chance", random, randomBlocks),
     };
     return data;
   }

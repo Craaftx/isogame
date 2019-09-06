@@ -179,6 +179,7 @@ export default class Game {
     fightManager() {
         let activePlayer = this.getActivePlayer();
         this.interface.displayFightIndicator();
+        this.interface.displayFightButtons();
     }
 
     playerMovementEnd(pointsUsed) {

@@ -128,7 +128,7 @@ export default class Interface {
         const wrapper = document.querySelector('#game-players-cards');    
         const template = (player, character, item) => {
             return `
-                <div class="players-cards__card" id="player-status-${player.slug}">
+                <div class="players-cards__card" id="player-status-${player.name}">
                     <div class="players-cards__card__background">
                         <div class="players-cards__card__background__sprite" style="${character.getSpriteStyle(3)}"></div>
                     </div>
@@ -179,6 +179,7 @@ export default class Interface {
                             </ul>
                         </div>
                     </div>
+                    <div class="players-cards__card__fightstatus" class="player-fight-status-${player.name}"></div>
                 </div>
             `;
         }
@@ -196,8 +197,21 @@ export default class Interface {
         $indicator.classList.add('animate');
     }
 
+    displayFightButtons() {
+        document.getElementById("game-bar__controls__button--attack").style.display = "initial";
+        document.getElementById("game-bar__controls__button--defense").style.display = "initial";
+    }
+
     updatePlayerBar(activePlayer) {
         const $playerName = document.querySelector('#game-bar__player-name');
         $playerName.innerHTML = `C'est au tour de <b>${activePlayer.displayName}</b>`;
     }
+
+    updatePlayerFightStatus(player, realDamageTaken, damageTaken, actualDefense) {
+        $( `#player-fight-status-${player.name}` ).append( `<p class='players-cards__fight__info'><b>-${realDamageTaken}</b> (<i class="fas fa-bolt fa-fw"></i>${damageTaken} - <i class="fas fa-shield-alt fa-fw"></i>${actualDefense})</p>` );
+    }
+
+    // popUpDamagePlayer(player, value) {
+    //     $( `#players__player-${player.name}` ).append( "<p class='players-cards__fight__info'></p>" );
+    // }
 }
