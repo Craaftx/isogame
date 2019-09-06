@@ -198,6 +198,6 @@ export default class Interface {
 
     updatePlayerBar(activePlayer) {
         const $playerName = document.querySelector('#game-bar__player-name');
-        $playerName.innerHTML = activePlayer.displayName;
+        $playerName.innerHTML = `C'est au tour de <b>${activePlayer.displayName}</b>`;
     }
 }

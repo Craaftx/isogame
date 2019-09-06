@@ -141,30 +141,37 @@ export default class Game {
         });
     }
 
-    roundManager() {
+    roundManager(isSkiped) {
         let activePlayer = this.getActivePlayer();
         this.interface.updatePlayerBar(activePlayer);
-        if(this.map.isNearPlayers(activePlayer.xAxis, activePlayer.yAxis)) {
-            this.fightMode = true;
-            this.fightManager();
+        if(isSkiped) {
+            this.map.movementEventReset(activePlayer);
+            this.turn.next();
+            this._activePlayerMovementCounter = this.getActivePlayer().movementPointAmout();
+            this.roundManager();
         } else {
-            if(this._activePlayerMovementCounter < 0 ) {
-                this._activePlayerMovementCounter = activePlayer.movementPointAmout();
-            } 
-
-            if(this.map.containItem(activePlayer.xAxis, activePlayer.yAxis) && this._activePlayerMovementCounter !== activePlayer.movementPointAmout()) {
-                let playerItem = activePlayer.item;
-                activePlayer.item = this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item;
-                this.environnement.generateItem(playerItem, activePlayer.xAxis, activePlayer.yAxis);
-                this.interface.displayPlayersStatus(this.players);
-            }
-
-            if(this._activePlayerMovementCounter > 0) {
-                this.map.playerMovementGrid(this._activePlayerMovementCounter, activePlayer, this);
-            } else { 
-                this.turn.next();
-                this._activePlayerMovementCounter = this.getActivePlayer().movementPointAmout();
-                this.roundManager();
+            if(this.map.isNearPlayers(activePlayer.xAxis, activePlayer.yAxis)) {
+                this.fightMode = true;
+                this.fightManager();
+            } else {
+                if(this._activePlayerMovementCounter < 0 ) {
+                    this._activePlayerMovementCounter = activePlayer.movementPointAmout();
+                } 
+    
+                if(this.map.containItem(activePlayer.xAxis, activePlayer.yAxis) && this._activePlayerMovementCounter !== activePlayer.movementPointAmout()) {
+                    let playerItem = activePlayer.item;
+                    activePlayer.item = this.virtualMap[activePlayer.xAxis][activePlayer.yAxis].item;
+                    this.environnement.generateItem(playerItem, activePlayer.xAxis, activePlayer.yAxis);
+                    this.interface.displayPlayersStatus(this.players);
+                }
+    
+                if(this._activePlayerMovementCounter > 0) {
+                    this.map.playerMovementGrid(this._activePlayerMovementCounter, activePlayer, this);
+                } else { 
+                    this.turn.next();
+                    this._activePlayerMovementCounter = this.getActivePlayer().movementPointAmout();
+                    this.roundManager();
+                }
             }
         }
     }
@@ -192,7 +199,8 @@ export default class Game {
             this.addPlayer(player[0], player[1])
         });
         this.interface.displayPlayersStatus(this.players);
-        this.placePlayers();    
+        this.placePlayers();  
+        this.initializePlayerControlEvents();  
         this.roundManager();  
     }
 
@@ -314,6 +322,20 @@ export default class Game {
         document.getElementById('character-selection-interface').style.display = 'block';
         this.interface.displayCharacterChoice();
         this.characterChoice();
+    }
+
+    initializePlayerControlEvents() {
+        document.getElementById("game-bar__controls__button--turn").addEventListener("click", function() {
+            this.roundManager(true);
+        }.bind(this), false);
+        
+        document.getElementById("game-bar__controls__button--attack").addEventListener("click", function() {
+            this.fightManager('attack');
+        }.bind(this), false);
+        
+        document.getElementById("game-bar__controls__button--defense").addEventListener("click", function() {
+            this.fightManager('defense');
+        }.bind(this), false);
     }
 
 }

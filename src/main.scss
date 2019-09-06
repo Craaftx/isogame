@@ -63,7 +63,7 @@ i {
     color: #f44336;
   }
   &.fa-shoe-prints {
-    color: #66bb6a;
+    color: #67bb6b;
   }
   &.fa-bolt {
     color: #ff9800;
@@ -134,11 +134,11 @@ i {
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 100%; height: 100%;
-      background-color: rgba(255, 166, 0, 0.4);
+      background-color: rgba(102, 187, 0, 0.4);
     }
     &:hover {
       &::after {
-        background-color: rgba(255, 166, 0, 0.8);
+        background-color: rgba(102, 187, 0, 0.9);
       }
     }
   }
@@ -177,6 +177,8 @@ i {
   transform: translate(-50%, -50%);
   width: $grid-max-size;
   height: $grid-max-size;
+  opacity: 0;
+  animation: movement_grid_placement 1.4s 2s ease-out forwards;
 }
 
 .gamegrid__cell__content {
@@ -210,6 +212,7 @@ i {
   opacity: 0;
   animation: player_placement 1.4s 2s ease-out forwards;
 }
+
 .players {
   &__player {
     position: absolute;
@@ -697,6 +700,7 @@ i {
       cursor: pointer;
       color: #dddddd;
       &:nth-child(1) {
+        display: none;
         border-color: #ff9800;
         &:hover {
           i {
@@ -707,6 +711,7 @@ i {
         }
       }
       &:nth-child(2) {
+        display: none;
         border-color: #1e88e5;
         &:hover {
           i {
@@ -784,6 +789,16 @@ i {
     opacity: 1;
   }
 }
+
+@keyframes movement_grid_placement {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 @keyframes grid_placement {
   0% {
     transform: translateY(-100%) translateX(-100%);
