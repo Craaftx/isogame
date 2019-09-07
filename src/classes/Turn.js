@@ -19,6 +19,14 @@ export default class Turns {
         return players[ (this.counter + 1) % 2 ];
     }
 
+    getActivePlayerValue() {
+        return this.counter % 2;
+    }
+
+    getInactivePlayerValue() {
+        return (this.counter + 1) % 2;
+    }
+
     next() {
         this._counter++;
     }

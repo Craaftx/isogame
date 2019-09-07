@@ -14,7 +14,7 @@ export default class Player {
         this._item = item;
         this._xAxis;
         this._yAxis;
-
+        this._life;
         this._tileSize = 48;
         this._$player = null;
     }
@@ -59,6 +59,14 @@ export default class Player {
         this._item = newItem;
     }
 
+    get life() {
+        return this._life;
+    }
+    
+    set life(newValue) {
+        this._life = newValue;
+    }
+
     /**
      * Init the player and add it to the DOM at the right position.
      */
@@ -84,6 +92,7 @@ export default class Player {
             yAxis = map.getRandomCol();
         } while (!map.isReachable(xAxis, yAxis) || map.isNearPlayers(xAxis, yAxis))
         this.updatePlayerPosition(xAxis, yAxis);
+        this.initLifePoints();
     }
 
     /**
@@ -137,6 +146,15 @@ export default class Player {
      */
     isDead() {
         return this.character.properties.life <= 0;
+    }
+
+    /**
+     * Initialize player life point.
+     * @return {int} The movement point amout.
+     */
+    initLifePoints() {
+        if(this.character)
+            this.life = this.character.properties.life;
     }
 
     /**

@@ -136,7 +136,7 @@ export default class Interface {
                     <h2 class="players-cards__card__title">${player.displayName}</h2>
                     <ul class="properties">
                         <li>
-                            <i class="fas fa-heart fa-fw"></i><span>${character.properties.life}</span>
+                            <i class="fas fa-heart fa-fw"></i><span>${player.life}</span>
                         </li>
                         <li>
                             <i class="fas fa-bolt fa-fw"></i>
@@ -180,17 +180,15 @@ export default class Interface {
                             </ul>
                         </div>
                     </div>
-                    <div class="players-cards__card__fightstatus" class="player-fight-status-${player.name}"></div>
+                    <div class="players-cards__card__fightstatus" id="player-fight-status-${player.name}"></div>
                 </div>
             `;
         }
 
         let buildedTemplate = ``;
         for (var i = 0; i < players.length; i++) {
-            buildedTemplate += template(players[i], players[i].character, players[i].item);        
-            console.log(`#players__player-${players[i].name}`); 
-            console.log($(`#players__player-${players[i].name}`).children);
-            $(`#players__player-${players[i].name}`).append( `<div class='players__player__damage-indicator' id="players__player__damage-indicator-${players[i].name}"></div>` );
+            buildedTemplate += template(players[i], players[i].character, players[i].item);
+            $(`#players__player-${players[i].name}`).append(`<div class="players__player__damage-indicator" id="players__player__damage-indicator-${players[i].name}"></div>`);
         }
 
         wrapper.innerHTML = buildedTemplate;
@@ -216,7 +214,22 @@ export default class Interface {
         $( `#player-fight-status-${player.name}` ).append( `<p class='players-cards__fight__info'><b>-${realDamageTaken}</b> (<i class="fas fa-bolt fa-fw"></i>${damageTaken} - <i class="fas fa-shield-alt fa-fw"></i>${actualDefense})</p>` );
     }
 
-    // popUpDamagePlayer(player, value) {
-    //     $( `#players__player-${player.name}` ).append( "<p class='players-cards__fight__info'></p>" );
-    // }
+    popUpDamagePlayer(player, value) {
+        console.log(`In : ${player.name} - ${value}`);
+        let popUp = document.getElementById(`players__player__damage-indicator-${player.name}`);
+        let newpopUp = popUp.cloneNode(true);
+        newpopUp.innerHTML = `-${value}`;
+        popUp.parentNode.replaceChild(newpopUp, popUp);
+    }
+
+    displayEndGame(winnerPlayer) {
+        document.getElementById('game-interface').style.display = "none";
+        document.getElementById('gameend-interface').style.display = "block";
+
+        const $playerName = document.querySelector('#gameend-player-name');
+        const $playerSprite = document.querySelector('#gameend-player-sprite');
+
+        $playerName.innerHTML = `${winnerPlayer.displayName}`;
+        $playerSprite.style = winnerPlayer.character.getSpriteStyle(3, 'attack');
+    }
 }

@@ -94,6 +94,9 @@ i {
   &#character-selection-interface {
     display: none;
   }
+  &#gameend-interface {
+    display: none;
+  }
 }
 
 .wrapper {
@@ -246,6 +249,18 @@ i {
         top: $monster-three-position--modified;
         transform: translateX(-50%) scale($monster-three-size);
       }
+    }
+    &__damage-indicator {
+      position: absolute;
+      top: -100%; left: 0%;
+      width: 100px; height: 60px;
+      animation: move_player_damage-indicator 3s ease-out forwards;
+      pointer-events: none;
+      z-index: 100;
+      font-size: 50px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #f44336;
     }
   }
 }
@@ -738,6 +753,47 @@ i {
   }
 }
 
+.gameend {
+  &__status {
+    position: absolute;
+    top: -50px; right: 50px;
+    text-transform: uppercase;
+    margin: 0; padding: 0;
+    font-size: 300px;
+    letter-spacing: 0px;
+    font-weight: 900;
+    color: #c0c0c0;
+  }
+  &__title {
+    position: absolute;
+    bottom: 5%; left: 5%;
+    text-transform: uppercase;
+    margin: 0; padding: 0;
+    font-size: 100px;
+    letter-spacing: 8px;
+  }
+  &__sprite {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &__restart {
+    position: absolute;
+    bottom: 5%; right: 5%;
+    text-transform: uppercase;
+    margin: 0; padding: 20px 40px;
+    border: 5px solid #333;
+    color: $color-back;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    &:hover {
+      background-color: #333;
+      color:  $color-back;
+    }
+  }
+}
+
 @keyframes fight_indicator {
   0% {
     transform: translate(-50%, -50%) scale(1);
@@ -826,6 +882,24 @@ i {
     opacity: 1;
   }
 }
+
+@keyframes move_player_damage-indicator {
+  0% {
+    opacity: 0; 
+    top: -100%; left: 0%;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    top: -400%; left: 70%;
+  }
+}
+
 
 /**
   Sprites Animations

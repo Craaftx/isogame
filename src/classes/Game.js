@@ -22,8 +22,13 @@ export default class Game {
         this._turn = new Turn();
         this._fightMode = false;
         this._activePlayerMovementCounter = -1;
+        this._fightStatus = -1;
+        this._fightPlayerAction = [null, null];
         document.getElementById('homemenu-interface-validation').addEventListener('click', () => {
             this.startGame();
+        });
+        document.getElementById('gameend-newgame').addEventListener('click', () => {
+            this.restartGame();
         });
     }
 
@@ -87,12 +92,32 @@ export default class Game {
         return this._turn;
     }
 
+    set turn(newValue) {
+        this._turn = newValue;
+    }
+
     get fightMode() {
         return this._fightMode;
     }
 
     set fightMode(newValue) {
         this._fightMode = newValue;
+    }
+
+    get fightStatus() {
+        return this._fightStatus;
+    }
+
+    set fightStatus(newFightStatus) {
+        this._fightStatus = newFightStatus;
+    }
+
+    get fightPlayerAction() {
+        return this._fightPlayerAction;
+    }
+
+    set fightPlayerAction(newValue) {
+        this._fightPlayerAction = newValue;
     }
 
     initMap() {
@@ -104,8 +129,6 @@ export default class Game {
     }
 
     addMapEnvironnement() {
-        console.log('Composition : ' + this.composition);
-        console.log(this.gameData.mapCompositions[this.composition]);
         this.environnement = new Environnement(this.map, this.gameData.blocks, this.gameData.items);
         this.environnement.createComposition(this.gameData.mapCompositions[this.composition]);
         this.environnement.buildMap();
@@ -156,7 +179,7 @@ export default class Game {
             } else {
                 if(this._activePlayerMovementCounter < 0 ) {
                     this._activePlayerMovementCounter = activePlayer.movementPointAmout();
-                } 
+                }
     
                 if(this.map.containItem(activePlayer.xAxis, activePlayer.yAxis) && this._activePlayerMovementCounter !== activePlayer.movementPointAmout()) {
                     let playerItem = activePlayer.item;
@@ -176,10 +199,49 @@ export default class Game {
         }
     }
 
-    fightManager() {
-        let activePlayer = this.getActivePlayer();
-        this.interface.displayFightIndicator();
-        this.interface.displayFightButtons();
+    fightManager(action) {
+        if(this.fightStatus === -1) {
+            this.interface.displayFightIndicator();
+            this.interface.displayFightButtons();
+        }
+        let activePlayer = this.turn.getActivePlayerValue();
+        let inactivePlayer = this.turn.getInactivePlayerValue();
+        this.interface.updatePlayerBar(this.players[activePlayer]);
+
+        // Add player action
+        if(action) {
+            this.fightPlayerAction[activePlayer] = action; 
+            // Calculate Damages, applies it and pass turn
+            if(this.fightPlayerAction[activePlayer] && this.fightPlayerAction[inactivePlayer]) {
+                this.calculateDamage(this.players[activePlayer], this.players[inactivePlayer], this.fightPlayerAction[activePlayer], this.fightPlayerAction[inactivePlayer]);
+                this.calculateDamage(this.players[inactivePlayer], this.players[activePlayer], this.fightPlayerAction[inactivePlayer], this.fightPlayerAction[activePlayer]);
+                this.fightPlayerAction[activePlayer] = null;
+                this.fightPlayerAction[inactivePlayer] = null;
+                this.fightStatus = 0;
+                this.interface.displayPlayersStatus(this.players);
+            }
+            if(this.players[activePlayer].life <= 0 || this.players[inactivePlayer].life <= 0) {
+                this.interface.displayEndGame(this.players[activePlayer].life <= 0 ? this.players[inactivePlayer] : this.players[activePlayer]);
+            } else {
+                this.turn.next();
+            }
+        }
+    }
+
+    calculateDamage(attacker, defender, attackerAction, defenderAction) {
+        if(attackerAction == 'attack') {
+            if(defenderAction == 'attack') {
+                const damage = attacker.attackPower() - defender.defensePower();
+                defender.life = Math.sign(damage) === 1 ? defender.life - damage : defender.life;
+                this.interface.popUpDamagePlayer(defender, Math.sign(damage) === 1 ? damage : 0);
+                this.interface.updatePlayerFightStatus(defender, Math.sign(damage) === 1 ? damage : 0, attacker.attackPower(), defender.defensePower());
+            } else {
+                const damage = attacker.attackPower() - (defender.defensePower() * 2);
+                defender.life = Math.sign(damage) === 1 ? defender.life - damage : defender.life;
+                this.interface.popUpDamagePlayer(defender, Math.sign(damage) === 1 ? damage : 0)
+                this.interface.updatePlayerFightStatus(defender, Math.sign(damage) === 1 ? damage : 0, attacker.attackPower(), (defender.defensePower() * 2));
+            }
+        }
     }
 
     playerMovementEnd(pointsUsed) {
@@ -199,8 +261,8 @@ export default class Game {
         this.players.forEach((player) => {
             this.addPlayer(player[0], player[1])
         });
-        this.interface.displayPlayersStatus(this.players);
         this.placePlayers();  
+        this.interface.displayPlayersStatus(this.players);
         this.initializePlayerControlEvents();  
         this.roundManager();  
     }
@@ -339,4 +401,20 @@ export default class Game {
         }.bind(this), false);
     }
 
+    restartGame() {
+        document.getElementById('gameend-interface').style.display = 'none';
+        document.getElementById('homemenu-interface').style.display = 'block';
+        this.map = null;
+        this.virtualMap = null;
+        this.environnement = null;
+        this.players = [null, null];
+        this.pattern = null;
+        this.composition = null;
+        this.turn = new Turn();
+        this.fightMode = false;
+        this.activePlayerMovementCounter = -1;
+        this.fightStatus = -1;
+        this.fightPlayerAction = [null, null];
+        this.newGame();
+    }
 }

@@ -45,8 +45,13 @@ export default class Character {
         this._spriteList = list;
     }
 
-    getSpriteStyle(level) {
-        let initialSprite = this.spriteList.idle[level - 1];
+    getSpriteStyle(level, style) {
+        let initialSprite;
+        if(style) {
+            initialSprite = this.spriteList[style][level - 1];
+        } else {
+            initialSprite = this.spriteList.idle[level - 1];
+        }
         return `
         background: url('game_assets/monsters${initialSprite._frameMapUrl}') no-repeat top left; 
         width: ${initialSprite._spriteWidth}px;
