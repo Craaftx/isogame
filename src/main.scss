@@ -638,6 +638,17 @@ i {
         }
       }
     }
+    &__fightstatus {
+      padding: 0 20px;
+      span {
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        line-height: 1rem;
+        vertical-align: middle;
+        font-weight: 600;
+        color: #222222;
+      }
+    }
   }
 }
 

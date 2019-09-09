@@ -8,10 +8,23 @@ export default class Interface {
      */
     constructor() {
         this._gameData = new GameData();
+        this._fightLogs = [[], []];
     }
 
     get gameData() {
         return this._gameData;
+    }
+
+    get fightLogs() {
+        return this._fightLogs;
+    }
+
+    setFightLogs(index, content) {
+        this._fightLogs[index - 1].push(content);
+    }
+
+    resetFightLogs() {
+        this._fightLogs = [[], []];
     }
 
     displayCharacterChoice() {
@@ -127,7 +140,7 @@ export default class Interface {
 
     displayPlayersStatus(players) {
         const wrapper = document.querySelector('#game-players-cards');    
-        const template = (player, character, item) => {
+        const template = (player, character, item, index) => {
             return `
                 <div class="players-cards__card" id="player-status-${player.name}">
                     <div class="players-cards__card__background">
@@ -180,14 +193,16 @@ export default class Interface {
                             </ul>
                         </div>
                     </div>
-                    <div class="players-cards__card__fightstatus" id="player-fight-status-${player.name}"></div>
+                    <div class="players-cards__card__fightstatus" id="player-fight-status-${player.name}">
+                        ${this.fightLogs[index].join("")}
+                    </div>
                 </div>
             `;
         }
 
         let buildedTemplate = ``;
         for (var i = 0; i < players.length; i++) {
-            buildedTemplate += template(players[i], players[i].character, players[i].item);
+            buildedTemplate += template(players[i], players[i].character, players[i].item, i);
             $(`#players__player-${players[i].name}`).append(`<div class="players__player__damage-indicator" id="players__player__damage-indicator-${players[i].name}"></div>`);
         }
 
@@ -200,7 +215,7 @@ export default class Interface {
     }
 
     displayFightButtons() {
-        document.getElementById("game-bar__controls__button--attack").style.display = "initial";
+        document.getElementById("game-bar__controls__button--attaque").style.display = "initial";
         document.getElementById("game-bar__controls__button--defense").style.display = "initial";
         document.getElementById("game-bar__controls__button--turn").style.display = "none";
     }
@@ -210,12 +225,12 @@ export default class Interface {
         $playerName.innerHTML = `C'est au tour de <b>${activePlayer.displayName}</b>`;
     }
 
-    updatePlayerFightStatus(player, realDamageTaken, damageTaken, actualDefense) {
-        $( `#player-fight-status-${player.name}` ).append( `<p class='players-cards__fight__info'><b>-${realDamageTaken}</b> (<i class="fas fa-bolt fa-fw"></i>${damageTaken} - <i class="fas fa-shield-alt fa-fw"></i>${actualDefense})</p>` );
+    updatePlayerFightStatus(player, status, realDamageTaken, damageTaken, actualDefense) {
+        const content = `<p class='players-cards__fight__info'><span>${status}</span> : <i class="fas fa-heart fa-fw"></i> <b>-${realDamageTaken}</b> (<i class="fas fa-bolt fa-fw"></i>${damageTaken} - <i class="fas fa-shield-alt fa-fw"></i>${actualDefense})</p>`;
+        this.setFightLogs((player.name.substr(player.name.length - 1)), content)
     }
 
     popUpDamagePlayer(player, value) {
-        console.log(`In : ${player.name} - ${value}`);
         let popUp = document.getElementById(`players__player__damage-indicator-${player.name}`);
         let newpopUp = popUp.cloneNode(true);
         newpopUp.innerHTML = `-${value}`;

@@ -204,12 +204,11 @@ export default class Game {
             this.interface.displayFightIndicator();
             this.interface.displayFightButtons();
         }
-        let activePlayer = this.turn.getActivePlayerValue();
-        let inactivePlayer = this.turn.getInactivePlayerValue();
-        this.interface.updatePlayerBar(this.players[activePlayer]);
-
         // Add player action
         if(action) {
+            let activePlayer = this.turn.getActivePlayerValue();
+            let inactivePlayer = this.turn.getInactivePlayerValue();
+            this.interface.updatePlayerBar(this.players[inactivePlayer]);
             this.fightPlayerAction[activePlayer] = action; 
             // Calculate Damages, applies it and pass turn
             if(this.fightPlayerAction[activePlayer] && this.fightPlayerAction[inactivePlayer]) {
@@ -229,17 +228,21 @@ export default class Game {
     }
 
     calculateDamage(attacker, defender, attackerAction, defenderAction) {
-        if(attackerAction == 'attack') {
-            if(defenderAction == 'attack') {
+        if(attackerAction == 'attaque') {
+            // Attacker make damage
+            if(defenderAction == 'attaque') {
+                // Defender take damage
                 const damage = attacker.attackPower() - defender.defensePower();
                 defender.life = Math.sign(damage) === 1 ? defender.life - damage : defender.life;
                 this.interface.popUpDamagePlayer(defender, Math.sign(damage) === 1 ? damage : 0);
-                this.interface.updatePlayerFightStatus(defender, Math.sign(damage) === 1 ? damage : 0, attacker.attackPower(), defender.defensePower());
+                this.interface.updatePlayerFightStatus(defender, defenderAction, Math.sign(damage) === 1 ? damage : 0, attacker.attackPower(), defender.defensePower());
             } else {
+                // Defender take damage but reduced
                 const damage = attacker.attackPower() - (defender.defensePower() * 2);
                 defender.life = Math.sign(damage) === 1 ? defender.life - damage : defender.life;
                 this.interface.popUpDamagePlayer(defender, Math.sign(damage) === 1 ? damage : 0)
-                this.interface.updatePlayerFightStatus(defender, Math.sign(damage) === 1 ? damage : 0, attacker.attackPower(), (defender.defensePower() * 2));
+                this.interface.updatePlayerFightStatus(defender, defenderAction, Math.sign(damage) === 1 ? damage : 0, attacker.attackPower(), (defender.defensePower() * 2));
+                this.interface.updatePlayerFightStatus(attacker, attackerAction, 0, attacker.attackPower(), attacker.defensePower());
             }
         }
     }
@@ -392,8 +395,8 @@ export default class Game {
             this.roundManager(true);
         }.bind(this), false);
         
-        document.getElementById("game-bar__controls__button--attack").addEventListener("click", function() {
-            this.fightManager('attack');
+        document.getElementById("game-bar__controls__button--attaque").addEventListener("click", function() {
+            this.fightManager('attaque');
         }.bind(this), false);
         
         document.getElementById("game-bar__controls__button--defense").addEventListener("click", function() {
@@ -402,19 +405,6 @@ export default class Game {
     }
 
     restartGame() {
-        document.getElementById('gameend-interface').style.display = 'none';
-        document.getElementById('homemenu-interface').style.display = 'block';
-        this.map = null;
-        this.virtualMap = null;
-        this.environnement = null;
-        this.players = [null, null];
-        this.pattern = null;
-        this.composition = null;
-        this.turn = new Turn();
-        this.fightMode = false;
-        this.activePlayerMovementCounter = -1;
-        this.fightStatus = -1;
-        this.fightPlayerAction = [null, null];
-        this.newGame();
+        document.location.reload(true);
     }
 }
