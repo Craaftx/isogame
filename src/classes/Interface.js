@@ -7,7 +7,7 @@ export default class Interface {
      * @constructor
      */
     constructor() {
-        this._gameData = new GameData();
+        this._gameData = GameData;
         this._fightLogs = [[], []];
     }
 
@@ -33,7 +33,7 @@ export default class Interface {
             return `
                 <div class="character-choice-cards__card" id="character-choice-cards__card-${character.slug}">
                     <div class="character-choice-cards__card__background" style="
-                    background-image: url(${standingBlock.getImageUrl()});">
+                    background-image: url(${standingBlock.imageUrl});">
                         <div class="character-choice-cards__card__background__sprite" style="${character.getSpriteStyle(3)}"></div>
                     </div>
                     <h2 class="character-choice-cards__card__title">${character.displayName}</h2>
@@ -53,7 +53,7 @@ export default class Interface {
                         </li>
                     </ul>
                     <div class="character-choice-cards__card__item">
-                        <div class="character-choice-cards__card__item__image"><img src="${item.getImageUrl()}" /></div>
+                        <div class="character-choice-cards__card__item__image"><img src="${item.imageUrl}" /></div>
                         <div class="character-choice-cards__card__item__content">
                             <h4>${item.displayName}</h4>
                             <ul class="properties">
@@ -104,20 +104,20 @@ export default class Interface {
             return `
                 <div class="pattern-choice-cards__card" id="pattern-choice-cards__card-${pattern.slug}">
                     <div class="pattern-choice-cards__card__background">
-                        <img class="pattern-choice-cards__card__background__pattern" src="${pattern.getImageUrl()}" />
+                        <img class="pattern-choice-cards__card__background__pattern" src="${pattern.imageUrl}" />
                     </div>
                     <h2 class="pattern-choice-cards__card__title">${pattern.displayName}</h2>
                     <p class="pattern-choice-cards__card__description">${pattern.description}</p>
                     <h3 class="pattern-choice-cards__card__blocks-title">Séléctionnez un type de sol</h3>
                     <ul class="pattern-choice-cards__card__blocks">
                         <li class="pattern-choice-cards__card__blocks__block" id="pattern-choice-card-${pattern.slug}-grass">
-                            <img src="${blocks[0].getImageUrl()}" />
+                            <img src="${blocks[0].imageUrl}" />
                         </li>
                         <li class="pattern-choice-cards__card__blocks__block" id="pattern-choice-card-${pattern.slug}-burned">
-                            <img src="${blocks[1].getImageUrl()}" />
+                            <img src="${blocks[1].imageUrl}" />
                         </li>
                         <li class="pattern-choice-cards__card__blocks__block" id="pattern-choice-card-${pattern.slug}-stone">
-                            <img src="${blocks[2].getImageUrl()}" />
+                            <img src="${blocks[2].imageUrl}" />
                         </li>
                     </ul>
                 </div>
@@ -171,7 +171,7 @@ export default class Interface {
                         </li>
                     </ul>
                     <div class="players-cards__card__item">
-                        <div class="players-cards__card__item__image"><img src="${item.getImageUrl()}" /></div>
+                        <div class="players-cards__card__item__image"><img src="${item.imageUrl}" /></div>
                         <div class="players-cards__card__item__content">
                             <h4>${item.displayName}</h4>
                             <ul class="properties">

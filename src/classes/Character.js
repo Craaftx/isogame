@@ -45,6 +45,11 @@ export default class Character {
         this._spriteList = list;
     }
 
+    /**
+     * Return the style of the sprite
+     * @param {integer} level - The level of the sprite.
+     * @param {string} style - The name of the sprite style.
+     */
     getSpriteStyle(level, style) {
         let initialSprite;
         if(style) {
@@ -60,10 +65,16 @@ export default class Character {
       `;
     }
 
+    /**
+     * Create a CSS sprite list for display sprite on front end
+     * See : https://www.w3schools.com/css/css_image_sprites.asp
+     * @return {object} The sprite list.
+     */
     initSpriteList() {
         const maxLevel = 3;
         const positionNames = ['idle', 'walk', 'attack', 'death'];
         let characterSpriteList = {};
+        
         for (var i = 0; i < positionNames.length; i++) {
             characterSpriteList[positionNames[i]] = [];
             for (var y = 0; y < maxLevel; y++) {

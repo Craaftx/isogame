@@ -8,6 +8,7 @@ export default class Block {
     constructor(name, reachable = true) {
         this._name = name;
         this._reachable = reachable;
+        this._imageUrl = `game_assets/ground-blocks/${this._name}.png`
     }
 
     get name() {
@@ -18,7 +19,7 @@ export default class Block {
         return this._reachable;
     }
 
-    getImageUrl() {
-        return `game_assets/ground-blocks/${this.name}.png`;
+    get imageUrl() {
+        return this._imageUrl;
     }
 }

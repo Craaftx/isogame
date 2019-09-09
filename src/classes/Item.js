@@ -12,6 +12,7 @@ export default class Item {
     this._displayName = displayName;
     this._description = description;
     this._properties = properties;
+    this._imageUrl = `game_assets/ground-items/${this._name}.png`;
   }
 
   get name() {
@@ -30,7 +31,7 @@ export default class Item {
     return this._properties;
   }
 
-  getImageUrl() {
-    return `game_assets/ground-items/${this.name}.png`;
+  get imageUrl() {
+    return this._imageUrl;
   }
 }

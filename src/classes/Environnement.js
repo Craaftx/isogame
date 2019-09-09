@@ -97,12 +97,12 @@ export default class Environnement {
       this._composition.length == 0 ? this._blocks : this._composition;
     for (let row = 0; row < this._map._size; row++) {
       for (let col = 0; col < this._map._size; col++) {
-        let currentItem = document.getElementById(
+        let $currentItem = document.getElementById(
           `gamegrid__cell-${row}-${col}`
         );
 
-        let newDiv = document.createElement("div");
-        newDiv.setAttribute("class", "gamegrid__cell__content");
+        let $newDiv = document.createElement("div");
+        $newDiv.setAttribute("class", "gamegrid__cell__content");
 
         let block =
           usableBlocks[
@@ -110,15 +110,15 @@ export default class Environnement {
           ];
 
         this._map.addBlockToCell(row, col, block);
-        let newBlock = document.createElement("img");
-        newBlock.setAttribute(
+        let $newBlock = document.createElement("img");
+        $newBlock.setAttribute(
           "src",
           `game_assets/ground-blocks/${block._name}.png`
         );
-        newBlock.setAttribute("class", "gamegrid__cell__content--block");
+        $newBlock.setAttribute("class", "gamegrid__cell__content--block");
 
-        newDiv.appendChild(newBlock);
-        currentItem.appendChild(newDiv);
+        $newDiv.appendChild($newBlock);
+        $currentItem.appendChild($newDiv);
       }
     }
   }

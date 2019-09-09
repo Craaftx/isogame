@@ -57,6 +57,9 @@ export default class Map {
     }
   }
 
+  /**
+   * Initialize the movement grid used to move players
+   */
   initMovementGrid() {
     for (let i = 0; i < this._size; i++) {
       let newRowDiv = document.createElement("div");
@@ -73,6 +76,12 @@ export default class Map {
     }
   }
 
+  /**
+   * Display player movement grid
+   * @param {integer} movementPoint - The amout of movement point
+   * @param {integer} player - Current player
+   * @param {integer} currentGame - The actual game
+   */
   playerMovementGrid(movementPoint, player, currentGame) {
     let row = player.xAxis;
     let col = player.yAxis;
@@ -102,6 +111,13 @@ export default class Map {
     }
   }
 
+  /**
+   * Add Events Listeners
+   * @param {integer} row - The row
+   * @param {integer} col - The col
+   * @param {integer} player - Current player
+   * @param {integer} currentGame - The actual game
+   */
   addMovementEventToCell(row, col, player, currentGame) {
     if(this.isReachable(row, col)) {
       let cell = document.getElementById(`movementgrid__cell-${row}-${col}`);
@@ -112,6 +128,15 @@ export default class Map {
     return true;
   }
 
+  /**
+   * The movement logic
+   * @param {integer} row - The row
+   * @param {integer} col - The col
+   * @param {integer} player - Current player
+   * @param {integer} playerX - Player X axis position
+   * @param {integer} playerY - Player Y axis position
+   * @param {integer} currentGame - The actual game
+   */
   triggerMovementEvent(row, col, player, playerX, playerY, currentGame) {
     let xAxisMovement = playerX - row;
     let yAxisMovement = playerY - col;

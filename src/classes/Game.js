@@ -11,7 +11,7 @@ export default class Game {
      * @constructor
      */
     constructor() {
-        this._gameData = new GameData();
+        this._gameData = GameData;
         this._interface = new Interface();
         this._map;
         this._virtualMap;
@@ -120,6 +120,9 @@ export default class Game {
         this._fightPlayerAction = newValue;
     }
 
+    /** 
+     * Init map object
+     */
     initMap() {
         let size = 12;
         this.map = new Map(size);
@@ -128,12 +131,18 @@ export default class Game {
         this.virtualMap = this.map.virtualMap;
     }
 
+    /**
+     * Add an environnement to the game
+     */
     addMapEnvironnement() {
         this.environnement = new Environnement(this.map, this.gameData.blocks, this.gameData.items);
         this.environnement.createComposition(this.gameData.mapCompositions[this.composition]);
         this.environnement.buildMap();
     }
 
+    /**
+     * Add a map pattern
+     */
     addMapPattern() {
         if(this.pattern !== "random") {
             if(this.pattern === "lack") {
@@ -145,18 +154,34 @@ export default class Game {
         }
     }
 
+    /**
+     * Add items to the map
+     */
     addMapItems(number) {
         this.environnement.placeItems(number);
     }
 
+    /**
+     * Create an object player
+     * @param {string} playerSlug - The player slug
+     * @param {string} playerName - The player name
+     * @param {string} playerCharacter - The player Character
+     */
     addPlayer(playerSlug, playerName, playerCharacter) {
         this.players[playerSlug] = new Player(`player-${playerSlug + 1}`, playerName, this.gameData.characters[playerCharacter - 1]);
     }
 
+    /**
+     * Remove a player from the game
+     * @param {string} playerSlug - The player slyug
+     */
     removePlayer(playerSlug) {
         this.players[playerSlug] = null;
     }
 
+    /**
+     * Place Players on the map
+     */
     placePlayers() {
         this.players.forEach((player) => {
             player.initPlayer(this.map);
@@ -164,6 +189,10 @@ export default class Game {
         });
     }
 
+    /**
+     * The round manager is used to manage the game turns logic
+     * @param {bool} isSkiped - Used to skip a turn
+     */
     roundManager(isSkiped) {
         let activePlayer = this.getActivePlayer();
         this.interface.updatePlayerBar(activePlayer);
@@ -198,7 +227,11 @@ export default class Game {
             }
         }
     }
-
+    
+    /**
+     * The round manager is used to manage the game turns logic
+     * @param {string} action - The player action
+     */
     fightManager(action) {
         if(this.fightStatus === -1) {
             this.interface.displayFightIndicator();
@@ -227,6 +260,14 @@ export default class Game {
         }
     }
 
+    /**
+     * Calculate the damage and update the interface
+     * @param {Object} attacker - Player who attack
+     * @param {Object} defender - Player who defense
+     * @param {string} attackerAction - The attacker action
+     * @param {string} defenderAction - The defender action
+     * @return {object} 
+     */
     calculateDamage(attacker, defender, attackerAction, defenderAction) {
         if(attackerAction == 'attaque') {
             // Attacker make damage
@@ -247,6 +288,10 @@ export default class Game {
         }
     }
 
+    /**
+     * Calculate the pointsUsed in movement
+     * @param {integer} pointsUsed - Movement point used
+     */
     playerMovementEnd(pointsUsed) {
         this._activePlayerMovementCounter = this._activePlayerMovementCounter - Math.abs(pointsUsed);
         this.roundManager();
@@ -256,6 +301,9 @@ export default class Game {
         return this.turn.getActivePlayer(this.players);
     }
 
+    /**
+     * Create a new game by initialize object and values
+     */
     newGame() {
         this.initMap();
         this.addMapEnvironnement();
@@ -270,6 +318,9 @@ export default class Game {
         this.roundManager();  
     }
 
+    /**
+     * Character Choice manager
+     */
     characterChoice() {
         const $wrapper = document.querySelector(`#character-selection-interface-wrapper`);
         const $validation = document.querySelector('#character-selection-interface-validation');
@@ -315,7 +366,10 @@ export default class Game {
             }.bind(this), false);
         }
     }
-
+    
+    /**
+     * Pattern choice manager
+     */
     patternChoice() {
         const $wrapper = document.querySelector(`#pattern-selection-interface-wrapper`);
         const $validation = document.querySelector('#pattern-selection-interface-validation');
@@ -383,6 +437,9 @@ export default class Game {
         }
     }
 
+    /**
+     * Used in frontend to start the game
+     */
     startGame() {
         document.getElementById('homemenu-interface').style.display = 'none';
         document.getElementById('character-selection-interface').style.display = 'block';
@@ -390,6 +447,9 @@ export default class Game {
         this.characterChoice();
     }
 
+    /**
+     * Create Event listeners
+     */
     initializePlayerControlEvents() {
         document.getElementById("game-bar__controls__button--turn").addEventListener("click", function() {
             this.roundManager(true);
@@ -404,6 +464,9 @@ export default class Game {
         }.bind(this), false);
     }
 
+    /**
+     * Restart the game
+     */
     restartGame() {
         document.location.reload(true);
     }
